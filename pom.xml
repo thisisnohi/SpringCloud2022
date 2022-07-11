@@ -1,58 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>nohi.ms</groupId>
-	<artifactId>springcloud-2022</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<modules>
-		<module>ms-eureka</module>
-		<module>ms-eureka2</module>
-		<module>sys-user</module>
-		<module>ms-api</module>
-	</modules>
-	<name>springcloud-2022</name>
-	<packaging>pom</packaging>
-	<description>Demo project for Spring Cloud 2022</description>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>nohi.ms</groupId>
+  <artifactId>springcloud-2022</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <modules>
+    <module>ms-eureka</module>
+    <module>ms-eureka2</module>
+    <module>sys-user</module>
+    <module>ms-api</module>
+  </modules>
+  <name>springcloud-2022</name>
+  <packaging>pom</packaging>
+  <description>Demo project for Spring Cloud 2022</description>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.9</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.6.9</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
 
-	<properties>
-		<java.version>8</java.version>
-		<maven.compiler.source>8</maven.compiler.source>
-		<maven.compiler.target>8</maven.compiler.target>
-		<spring.cloud-version>2021.0.3</spring.cloud-version>
-		<junit.version>4.12</junit.version>
-		<log4j.version>1.2.17</log4j.version>
-		<lombok.version>1.16.18</lombok.version>
-	</properties>
-	<dependencyManagement>
-		<dependencies>
-			<!--在主工程中使用 dependencyManagement 声明 Spring Cloud 的版本，
-            这样工程内的 Module 中引入 Spring Cloud 组件依赖时，就不必在声明组件的版本信息
-            保证 Spring Cloud 各个组件一致性-->
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring.cloud-version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+  <properties>
+    <java.version>8</java.version>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <spring.cloud-version>2021.0.3</spring.cloud-version>
+    <junit.version>4.12</junit.version>
+    <log4j.version>1.2.17</log4j.version>
+    <lombok.version>1.16.18</lombok.version>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <!--在主工程中使用 dependencyManagement 声明 Spring Cloud 的版本，
+      这样工程内的 Module 中引入 Spring Cloud 组件依赖时，就不必在声明组件的版本信息
+      保证 Spring Cloud 各个组件一致性-->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring.cloud-version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
+  <build>
+    <finalName>SpringCloud2022</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <delimiters>
+            <delimit>$</delimit>
+          </delimiters>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
