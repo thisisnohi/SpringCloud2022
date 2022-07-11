@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: ms-eureka  # 微服务名称，对外暴漏的微服务名称，十分重要

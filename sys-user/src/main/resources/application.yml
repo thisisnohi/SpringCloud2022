@@ -1,0 +1,32 @@
+info:
+  app.name: ${spring.application.name}
+  company.name: nohi.online
+  build.aetifactId: @project.artifactId@
+  build.version: @project.version@
+server:
+  port: 8001  #该 Module 的端口号
+spring:
+  application:
+    name: sys-user  # 微服务名称，对外暴漏的微服务名称，十分重要
+eureka:
+  instance:
+#    hostname: localhost
+    #eureka服务端的实例名称，
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    register-with-eureka: true #false表示不向注册中心注册自己。
+    fetch-registry: true #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+###################################
+# Spring Boot 2.50对 actuator 监控屏蔽了大多数的节点，只暴露了 heath 节点，本段配置（*）就是为了开启所有的节点
+management:
+  info:
+    env:
+      # Spring Boot 2.6 后 默认为false
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"   # * 在yaml 文件属于关键字，所以需要加引号

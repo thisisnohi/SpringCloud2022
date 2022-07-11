@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: sys-user1  # 微服务名称，对外暴漏的微服务名称，十分重要
