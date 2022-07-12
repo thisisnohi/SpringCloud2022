@@ -47,7 +47,7 @@
   </dependencyManagement>
 
   <build>
-    <finalName>SpringCloud2022</finalName>
+    <finalName>${artifactId}</finalName>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
