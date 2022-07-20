@@ -6,5 +6,8 @@ eureka:
   client:
     register-with-eureka: false #false表示不向注册中心注册自己。
     fetch-registry: false #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
-    service-url:
-      defaultZone: http://127.0.0.1:7002/eureka
+#    service-url:
+#      defaultZone: http://127.0.0.1:7002/eureka
+  server:
+    enable-self-preservation: false  #（设为false，关闭自我保护主要）
+#    eviction-interval-timer-in-ms: 60000 # //清理间隔（单位毫秒，默认是60*1000）
