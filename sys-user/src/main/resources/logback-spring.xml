@@ -6,7 +6,7 @@
 <configuration>
     <jmxConfigurator/>
 
-    <springProperty scope="context" name="logging.path" source="logging.file.path"/>
+    <springProperty scope="context" name="logging.path" source="logging.file.path" defaultValue="${HOME}/logs"/>
     <springProperty scope="context" name="filename" source="spring.application.name"/>
 
     <!-- 文件输出格式 -->
@@ -63,7 +63,10 @@
     </appender>
 
     <logger name="springfox" level="WARN"/>
+    <logger name="io" level="WARN"/>
     <logger name="org" level="WARN"/>
+    <logger name="_org" level="WARN"/>
+    <logger name="com" level="INFO"/>
     <!--
     -->
     <!--<logger name="httpclient.wire.header" level="info"/>
@@ -71,5 +74,7 @@
 
     <root level="debug">>
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
     </root>
 </configuration>

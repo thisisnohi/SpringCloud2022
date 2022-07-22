@@ -42,3 +42,8 @@ management:
 # Swagger3
 swagger:
   enabled: true
+
+# 日志
+logging:
+  file:
+    path: ${HOME}/logs/${spring.application.name}
