@@ -2,6 +2,8 @@ package nohi.ms.sysuser.web;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import nohi.ms.sys.user.dto.userquery.UserDTO;
 import nohi.ms.sys.user.dto.userquery.UserQueryReq;
@@ -18,11 +20,12 @@ import java.util.List;
  * @author NOHI
  * 2022-07-11 13:46
  **/
+@Api(tags = "User")
 @RestController
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-
+    @ApiOperation(value = "lists", notes = "用户列表")
     @GetMapping(value = "/lists")
     public List<UserDTO> lists() {
         List<UserDTO> list = Lists.newArrayList();

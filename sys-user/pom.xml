@@ -30,13 +30,13 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <!--devtools 和 lombok 均为开发辅助模块，根据需求适当选择-->
+    <!--&lt;!&ndash;devtools 和 lombok 均为开发辅助模块，根据需求适当选择&ndash;&gt;
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <scope>runtime</scope>
       <optional>true</optional>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -73,10 +73,30 @@
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
+    <!--feign依赖-->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>2.0.8</version>
+    </dependency>
+
+    <!-- swagger-ui Knife4j，只需要导入这一个依赖就好了，无需在添加spring-fox的依赖
+      20220721 knife4j 启动异常，改为 swagger3
+    -->
+<!--    <dependency>-->
+<!--      <groupId>com.github.xiaoymin</groupId>-->
+<!--      <artifactId>knife4j-spring-boot-starter</artifactId>-->
+<!--      <version>${knife4j.version}</version>-->
+<!--    </dependency>-->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-boot-starter</artifactId>
+      <version>3.0.0</version>
     </dependency>
 
     <!--整合 mybatis -->
