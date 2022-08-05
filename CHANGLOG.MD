@@ -20,3 +20,12 @@
     <version>3.0.3</version>
   </dependency>
   ```
+## 20220805
+* 增加resttemplate调用
+  * 代码：sys-user -> EurekaController.restUserLists()
+  * RestTemplateConfig 增加 @LoadBalanced
+    ``` 
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate
+     ```

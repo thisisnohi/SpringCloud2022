@@ -4,4 +4,5 @@ Just demo for Spring Cloud
 
 ## EUREKA
 
-
+## knife4j
+* http://127.0.0.1:8001/doc.html

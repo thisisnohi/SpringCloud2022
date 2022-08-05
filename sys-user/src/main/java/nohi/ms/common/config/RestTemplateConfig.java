@@ -3,6 +3,7 @@ package nohi.ms.common.config;
 import nohi.ms.common.interceptor.log.LoggingRequestInterceptor;
 import nohi.ms.common.utils.HttpRequestUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
@@ -42,6 +43,7 @@ public class RestTemplateConfig {
      * @return
      */
     @Bean
+    @LoadBalanced
     public RestTemplate restTemplate(ClientHttpRequestFactory simpleClientHttpRequestFactory,@Qualifier("loggingRequestInterceptor") LoggingRequestInterceptor loggingRequestInterceptor){
 
         RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(simpleClientHttpRequestFactory));

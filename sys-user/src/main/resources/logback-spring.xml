@@ -6,16 +6,24 @@
 <configuration>
     <jmxConfigurator/>
 
+    <!-- 引入spirng boot默认的logback配置文件 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
     <springProperty scope="context" name="logging.path" source="logging.file.path" defaultValue="${HOME}/logs"/>
     <springProperty scope="context" name="filename" source="spring.application.name"/>
 
     <!-- 文件输出格式 -->
     <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}[%line] - %msg%n"/>
+    <!-- 也可以自定义控制台输出模板
+        CONSOLE_LOG_PATTERN: 默认自带模板
+     -->
+    <property name="CONSOLE_LOG"
+              value="%red(%date{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %red([%thread]) %boldMagenta(%logger{50}) %cyan(%msg%n)"/>
 
     <!--控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%thread]%logger{56}.%method:%L -%msg%n</Pattern>
+            <Pattern>${CONSOLE_LOG}</Pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>

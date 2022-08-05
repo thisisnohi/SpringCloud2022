@@ -28,6 +28,7 @@ public class UserController {
     @ApiOperation(value = "lists", notes = "用户列表")
     @GetMapping(value = "/lists")
     public List<UserDTO> lists() {
+        log.info("users.lists...");
         List<UserDTO> list = Lists.newArrayList();
         for (int i = 0; i < 10; i++) {
             UserDTO dto = UserDTO.builder().userId("U_" + i).userNo("" + i).userName("NAME_" + i).build();
