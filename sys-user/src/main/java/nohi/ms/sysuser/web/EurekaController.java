@@ -64,21 +64,17 @@ public class EurekaController {
     @GetMapping(value = "/rest/user/lists")
     public List<UserDTO> restUserLists() {
         log.debug("====userLists start======");
-        String serviceUrl = "http://sys-user";
+        String serviceUrl = "http://SYS-USER";
         String urlPath = serviceUrl + "/users/lists";
 
         log.debug("urlPath:{}", urlPath);
-        // ResponseEntity<List> res1 =  restTemplate.getForEntity(urlPath, List.class);
         String resp1 = restTemplate.getForObject(urlPath, String.class);
         log.debug("response:{}",  resp1);
         log.info("================");
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         ResponseEntity<List> response = restTemplate.exchange(urlPath, HttpMethod.GET, new HttpEntity<>(headers), List.class);
-        log.debug("response:{}", null == response ? "null" : response.getBody());
-        if (response == null) {
-            return null;
-        }
+        log.debug("response:{}", response.getBody());
         return response.getBody();
     }
 }

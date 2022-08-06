@@ -52,5 +52,6 @@ feign:
         readTimeout: 5000                           # 读超时时间设置
 # 日志
 logging:
-  file:
-    path: ${HOME}/logs/${spring.application.name}
+  level:
+     nohi.ms.common: INFO
+  path: ${HOME}/logs/${spring.application.name}
