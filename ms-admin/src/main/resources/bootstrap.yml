@@ -5,4 +5,4 @@ info:
   version: @project.version@
 spring:
   application:
-    name: sys-user  # 微服务名称，对外暴漏的微服务名称，十分重要
+    name: ms-admin

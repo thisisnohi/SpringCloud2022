@@ -12,13 +12,16 @@
   <artifactId>sys-user</artifactId>
 
   <properties>
-    <maven.compiler.source>8</maven.compiler.source>
-    <maven.compiler.target>8</maven.compiler.target>
   </properties>
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <!-- 优先加载bootstrap.yml -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-bootstrap</artifactId>
     </dependency>
     <!--为服务注册中心引入 Eureka Server 的依赖-->
     <dependency>
@@ -61,6 +64,13 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <!-- SpringBoot Admin -->
+    <dependency>
+      <groupId>de.codecentric</groupId>
+      <artifactId>spring-boot-admin-starter-client</artifactId>
+      <version>2.6.6</version>
     </dependency>
 
     <!--&lt;!&ndash;devtools 和 lombok 均为开发辅助模块，根据需求适当选择&ndash;&gt;
@@ -165,10 +175,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>9</source>
-          <target>9</target>
-        </configuration>
       </plugin>
     </plugins>
   </build>

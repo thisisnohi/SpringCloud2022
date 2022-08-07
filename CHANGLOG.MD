@@ -29,3 +29,17 @@
     @LoadBalanced
     public RestTemplate restTemplate
      ```
+## 20200807
+* 熔断降级 sentinel 使用。
+  （hystrix 2018 年 netflix 已经不维护。spring cloud 2021 默认已经移除 hystrix）
+   参见：SentinelResourceController
+* 修复优先加载bootstram.yml
+
+  ```yaml
+    <!-- 优先加载bootstrap.yml -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-bootstrap</artifactId>
+    </dependency>
+   ```
+* 集成 SpringBootAdmin

@@ -7,7 +7,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <modules>
     <module>ms-eureka</module>
-    <module>ms-eureka2</module>
+    <module>ms-admin</module>
     <module>sys-user</module>
     <module>ms-api</module>
   </modules>
