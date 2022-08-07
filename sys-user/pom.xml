@@ -30,6 +30,39 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <!-- Spring Boot 监控模块-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <!--feign依赖-->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+
+    <!--hyshystrix 依赖
+      springcloud 2021 移除 hystrix
+    -->
+    <!--<dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+    </dependency>-->
+    <!-- Sentinel 是面向分布式服务架构的流量控制组件，
+         主要以流量为切入点，从限流、流量整形、熔断降级、系统负载保护、热点防护等多个维度来帮助开发者保障微服务的稳定性。 -->
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+      <version>2021.0.1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
     <!--&lt;!&ndash;devtools 和 lombok 均为开发辅助模块，根据需求适当选择&ndash;&gt;
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -67,17 +100,7 @@
       <artifactId>springloaded</artifactId>
       <version>1.2.8.RELEASE</version>
     </dependency>
-    <!-- Spring Boot 监控模块-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
 
-    <!--feign依赖-->
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-openfeign</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>com.alibaba</groupId>
@@ -93,7 +116,8 @@
       <artifactId>knife4j-spring-boot-starter</artifactId>
       <version>3.0.3</version>
     </dependency>
-<!--    <dependency>-->
+
+    <!--    <dependency>-->
 <!--      <groupId>io.springfox</groupId>-->
 <!--      <artifactId>springfox-boot-starter</artifactId>-->
 <!--      <version>3.0.0</version>-->
@@ -137,6 +161,14 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>9</source>
+          <target>9</target>
+        </configuration>
       </plugin>
     </plugins>
   </build>

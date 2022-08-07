@@ -1,6 +1,6 @@
 info:
-  app.name: ${spring.application.name}
-  company.name: nohi.online
+  appName: ${spring.application.name}
+  groupName: nohi.online
   aetifactId: @project.artifactId@
   version: @project.version@
 server:
@@ -12,6 +12,12 @@ spring:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
   # 集成knife4j，Failed to start bean ‘documentationPluginsBootstrapper‘；导致系统不能正常启动
+  cloud:
+    sentinel:
+      transport:
+        port: 8719
+#        dashboard: 127.0.0.1:8080
+        dashboard: 10.0.0.210:7004
 eureka:
   instance:
 #    hostname: localhost
@@ -50,8 +56,22 @@ feign:
       default:
         connectTimeout: 5000                        # 连接超时时间
         readTimeout: 5000                           # 读超时时间设置
+  sentinel:
+    enabled: true
+    # sentinel 降级配置 feign.sentinel.degrade
+    degrade:
+        rules:
+          - resource: POST:http://localhost:8001/users/lists
+            coutnt: 10
+            degradeGrad: 2
+            timeWindow: 1
+            minRequestAmount: 5
 # 日志
 logging:
   level:
      nohi.ms.common: INFO
   path: ${HOME}/logs/${spring.application.name}
+
+
+
+
