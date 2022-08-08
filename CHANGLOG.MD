@@ -43,3 +43,9 @@
     </dependency>
    ```
 * 集成 SpringBootAdmin
+
+## 20220808
+* 增加gateway功能
+* 全局过滤器，请求url必须凌驾uname参数
+* 路由：http://127.0.0.1:7006/apps?sleep=2&uname=11
+* 路由：http://127.0.0.1:7006/user/lists-sleep?sleep=2&uname=11

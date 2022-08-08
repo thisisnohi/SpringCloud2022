@@ -1,0 +1,8 @@
+info:
+  appName: ${spring.application.name}
+  groupName: nohi.online
+  aetifactId: @project.artifactId@
+  version: @project.version@
+spring:
+  application:
+    name: ms-geteway  # 微服务名称，对外暴漏的微服务名称，十分重要

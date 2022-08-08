@@ -8,6 +8,7 @@
   <modules>
     <module>ms-eureka</module>
     <module>ms-admin</module>
+    <module>ms-gateway</module>
     <module>sys-user</module>
     <module>ms-api</module>
   </modules>
