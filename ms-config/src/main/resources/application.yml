@@ -1,0 +1,41 @@
+server:
+  port: 7007  #该 Module 的端口号
+eureka:
+  instance:
+    #eureka服务端的实例名称，
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    should-enforce-registration-at-init: false # client 在初始化阶段是否强行注册到注册中心
+    register-with-eureka: true #false表示不向注册中心注册自己。
+    fetch-registry: true #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    healthcheck:
+      enabled: true  # 开启健康检查（需要spring-boot-starter-actuator依赖）
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+# Spring Boot 2.50对 actuator 监控屏蔽了大多数的节点，只暴露了 heath 节点，本段配置（*）就是为了开启所有的节点
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          default-label: master
+          uri: https://gitee.com/nohi-ms/springcloud2022-config.git
+          #仓库名
+          search-paths:
+            - springcloud2022-config
+          force-pull: true
+          # 如果Git仓库为公开仓库，可以不填写用户名和密码，如果是私有仓库需要填写
+          # username: ********
+          # password: ********
+       #分支名
+      label: master
+

@@ -1,5 +1,5 @@
 server:
-  port: 8001  #该 Module 的端口号
+  port: 8080  #该 Module 的端口号
 spring:
   mvc:
     pathmatch:
