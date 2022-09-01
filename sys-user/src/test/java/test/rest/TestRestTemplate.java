@@ -7,6 +7,8 @@ import com.netflix.appinfo.InstanceInfo;
 import com.netflix.appinfo.LeaseInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -39,5 +41,26 @@ public class TestRestTemplate {
 
 
 
+    }
+
+    /**
+    * 单独设置并使用RestTemplate
+    * @author NOHI
+    * @date 2022/8/25 21:51
+    */
+    @Test
+    public void template(){
+        RestTemplate restTemplate = new RestTemplate();
+        String url="http://www.baidu.com";
+        String id = "11";
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("id",id);
+        HttpHeaders header = new HttpHeaders();
+        // 需求需要传参为form-data格式
+        header.setContentType(MediaType.MULTIPART_FORM_DATA);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map, header);
+//        JSONObject response = restTemplate.postForObject(url, httpEntity, JSONObject.class);
+        ResponseEntity<String> strbody = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
+        System.out.println(strbody.getBody());
     }
 }
