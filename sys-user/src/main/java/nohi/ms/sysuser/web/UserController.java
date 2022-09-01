@@ -23,12 +23,14 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
+    private int demoCount = 10;
+
     @ApiOperation(value = "lists", notes = "用户列表")
     @GetMapping(value = "/lists")
     public List<UserDTO> lists() {
         log.info("users.lists...");
         List<UserDTO> list = Lists.newArrayList();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < demoCount; i++) {
             UserDTO dto = UserDTO.builder().userId("U_" + i).userNo("" + i).userName("NAME_" + i).build();
             list.add(dto);
         }
@@ -40,7 +42,7 @@ public class UserController {
         log.debug("用户列表:{}", JSONObject.toJSONString(req));
 
         List<UserDTO> list = Lists.newArrayList();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < demoCount; i++) {
             UserDTO dto = UserDTO.builder().userId("U_" + i).userNo("" + i).userNo("NAME_" + i).build();
             list.add(dto);
         }

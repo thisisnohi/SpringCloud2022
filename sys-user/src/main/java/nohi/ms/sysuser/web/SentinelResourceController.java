@@ -42,6 +42,8 @@ public class SentinelResourceController {
     public static final String RESOURCE_LISTS = "/sentinel/lists";
     public static final String RESOURCE_LISTS_SLEEP = "/sentinel/lists-sleep";
 
+    private int demoCount = 10;
+
     @Autowired
     private SentinelService sentinelService;
 
@@ -110,7 +112,7 @@ public class SentinelResourceController {
     public List<UserDTO> lists() {
         log.info("sentinel.lists...");
         List<UserDTO> list = Lists.newArrayList();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < demoCount; i++) {
             UserDTO dto = UserDTO.builder().userId("U_" + i).userNo("" + i).userName("NAME_" + i).address(LocalDateTime.now().toString()).build();
             list.add(dto);
         }

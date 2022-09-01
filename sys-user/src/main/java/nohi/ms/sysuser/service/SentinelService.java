@@ -28,6 +28,7 @@ public class SentinelService {
     public static final String RESOURCE_LISTS = "/sentinel/service/lists";
     public static final String RESOURCE_LISTS_SLEEP = "/sentinel/service/lists-sleep";
     public static final String RESOURCE_SYNC_METHOD = "/sentinel/service/sync";
+    private int demoCount = 10;
 
     @PostConstruct
     public void initRule() {
@@ -58,7 +59,7 @@ public class SentinelService {
     public List<UserDTO> lists() {
         log.info("sentinel.lists...");
         List<UserDTO> list = Lists.newArrayList();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < demoCount; i++) {
             UserDTO dto = UserDTO.builder().userId("U_" + i).userNo("" + i).userName("NAME_" + i).address(LocalDateTime.now().toString()).build();
             list.add(dto);
         }

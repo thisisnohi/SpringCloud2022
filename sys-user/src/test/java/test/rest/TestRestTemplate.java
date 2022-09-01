@@ -1,17 +1,12 @@
 package test.rest;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.netflix.appinfo.DataCenterInfo;
 import com.netflix.appinfo.InstanceInfo;
-import com.netflix.appinfo.LeaseInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
 
 /**
  * @author NOHI

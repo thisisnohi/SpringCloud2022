@@ -15,11 +15,15 @@ import java.util.List;
  **/
 @FeignClient(value = "SYS-USER", fallback = UserFeignFallback.class)
 public interface UserFeignApi {
+    /**
+     * 获取用户列表
+     * @return
+     */
     @RequestMapping(value = "/user/lists", method = RequestMethod.GET)
     List<UserDTO> lists();
 
     /**
-     *
+     * 用户列表，增加sleep时间
      * @param sleep
      * @return
      */
