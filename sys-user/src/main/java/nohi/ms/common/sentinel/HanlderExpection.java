@@ -16,7 +16,7 @@ public class HanlderExpection {
     /**
      *   返回类型和参数必须与原函数返回类型和参数一致
      */
-    public static List<UserDTO> AllHandlerExpection(BlockException exception) {
+    public static List<UserDTO> allHandlerExpection(BlockException exception) {
         log.warn("===========AllHandlerExpection==========");
         return Lists.newArrayList();
     }

@@ -18,39 +18,43 @@ public class HttpRequestUtils {
     }
 
     /**
-     * @param : url
-     * @description: post请求 get
+     * get请求
+     * @param url 请求地址
+     * @return 返回结果
      */
-    public String sendGetRequest(String url) throws IOException {
+    public String sendGetRequest(String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity httpEntity = new HttpEntity(headers);//请求体，包括请求数据 body 和 请求头 headers
+        // 请求体，包括请求数据 body 和 请求头 headers
+        HttpEntity httpEntity = new HttpEntity(headers);
         ResponseEntity<String> strbody = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
         return strbody.getBody();
     }
 
     /**
-     * @param : url
-     * @param : data
-     * @description: post请求 json
+     * @param  url 请求地址
+     * @param  data 数据
+     * post请求 json
      */
-    public String sendPostRequest(String url, JSONObject data) throws IOException {
+    public String sendPostRequest(String url, JSONObject data) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity httpEntity = new HttpEntity(data, headers);//请求体，包括请求数据 body 和 请求头 headers
+        // 请求体，包括请求数据 body 和 请求头 headers
+        HttpEntity httpEntity = new HttpEntity(data, headers);
         ResponseEntity<String> strbody = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
         return strbody.getBody();
     }
 
     /**
-     * @param : url
-     * @param : data
-     * @description: post请求 json
+     * @param url 请求地址
+     * @param data 数据
+     * post请求 json
      */
-    public String sendPostRequest(String url, String data) throws IOException {
+    public String sendPostRequest(String url, String data) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity httpEntity = new HttpEntity(data, headers); // 请求体，包括请求数据 body 和 请求头 headers
+        // 请求体，包括请求数据 body 和 请求头 headers
+        HttpEntity httpEntity = new HttpEntity(data, headers);
         ResponseEntity<String> strbody = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
         return strbody.getBody();
     }
