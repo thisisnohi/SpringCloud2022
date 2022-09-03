@@ -1,6 +1,5 @@
 package nohi.ms.sysuser.feign;
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import nohi.ms.sys.user.dto.userquery.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +16,15 @@ import java.util.List;
 public interface UserFeignApi {
     /**
      * 获取用户列表
-     * @return
+     * @return 返回列表
      */
     @RequestMapping(value = "/user/lists", method = RequestMethod.GET)
     List<UserDTO> lists();
 
     /**
      * 用户列表，增加sleep时间
-     * @param sleep
-     * @return
+     * @param sleep 睡眠时间
+     * @return 返回列表
      */
     @RequestMapping(value = "/user/lists-sleep", method = RequestMethod.GET)
     List<UserDTO> listsSleep(@RequestParam("sleep") Integer sleep);
