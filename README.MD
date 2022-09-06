@@ -35,7 +35,7 @@ Spring Cloud 包括 Spring Cloud Gateway、Spring Cloud Config、Spring Cloud Bu
 
 
 
-## Ribbo
+## Ribbon
 
 > Spring Cloud Ribbon 是一套基于 Netflix Ribbon 实现的客户端负载均衡和服务调用工具
 >
