@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Servlet
+ * springboot-webservice
  * @author NOHI
- * @program: springboot-webservice
- * @description:
- * @create 2020-05-17 10:09
+ * @date 2020-05-17 10:09
  **/
 @WebServlet(name = "firstServlet", urlPatterns = "/proxy/*")  //标记为servlet，以便启动器扫描。
 @Slf4j

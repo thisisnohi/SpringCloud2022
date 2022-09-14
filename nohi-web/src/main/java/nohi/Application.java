@@ -5,14 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
+ * nohi-web 启动程序
  * @author NOHI
- * @program: springboot-webservice
- * @description:
- * @create 2020-04-08 08:59
- **/
+ * @date 2022/9/14 15:05
+ */
 @SpringBootApplication
 @ServletComponentScan
 @EnableFeignClients

@@ -1,6 +1,7 @@
 package nohi.common.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,13 @@ import springfox.documentation.spring.web.plugins.WebFluxRequestHandlerProvider;
 import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * @author NOHI
  * 2022-07-21 13:20
- * @ConditionalOnExpression("${knife4j.enable}") 开启访问接口文档的权限
+ * <p>@ConditionalOnExpression("${knife4j.enable}") 开启访问接口文档的权限</p>
  * **knife4j.enable是在yml配置文件中配置为true**
  **/
 @Configuration
@@ -44,7 +44,10 @@ public class Knife4jConfig {
         Profiles profiles = Profiles.of("dev", "test");
         // 判断是否处在自己设定的环境当中
         boolean flag = environment.acceptsProfiles(profiles);
-        log.info("docket flag:{}", flag);
+        log.info("[只有dev test环境启用swagger]docket flag:{}", flag);
+        if (flag) {
+            log.info("==== 未开启 swagger ====");
+        }
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 // 配置api文档的分组
@@ -61,8 +64,6 @@ public class Knife4jConfig {
 
     /**
      * api基本信息
-     *
-     * @return
      */
     private ApiInfo apiInfo() {
         return new ApiInfo("NOHI SpringCloud",
@@ -72,7 +73,7 @@ public class Knife4jConfig {
                 // 作者信息
                 new Contact("NOHI", "http://nohi.online", "thisisnohi@163.com"),
                 "MIT License", "http://opensource.org/licenses/MIT",
-                new ArrayList());
+                Lists.newArrayList());
     }
 
     /**
