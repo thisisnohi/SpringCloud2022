@@ -24,11 +24,13 @@ import java.util.List;
  * @author NOHI
  * 2022-07-11 13:46
  **/
+@SuppressWarnings("deprecation")
 @RestController
 @RequestMapping("/eureka")
 @Slf4j
 @Api(tags = "Eureka")
 public class EurekaController {
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserFeignApi userFeignApi;
     @Autowired

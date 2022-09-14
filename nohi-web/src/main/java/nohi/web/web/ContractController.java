@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.security.PrivateKey;
@@ -34,26 +35,25 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by nohi on 2018/10/16.
+ * ContractController
+ * @author NOHI
+ * @date 2022/9/14 15:32
  */
+@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/cont")
 @Slf4j
 public class ContractController {
+    private final static String DEFAULT_CHARSET = "UTF-8";
+    private static final String DATA_PATTERN = "yyyy-MM-dd";
 
-//    @Autowired
-//    private Encoder encoder;
-//    @Autowired
-//    private Decoder decoder;
     @Autowired
     private feign.Logger logger;
 
-    private static final String DATA_PATTERN = "yyyy-MM-dd";
-
     @PostMapping(value = {"/save4"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String save4(@RequestBody String req) {
+    public String save4(@RequestBody String req) throws UnsupportedEncodingException {
         log.info("合同数据保存.REQ:{}", req);
-        req = URLDecoder.decode(req);
+        req = URLDecoder.decode(req, DEFAULT_CHARSET);
         log.info("合同数据保存.REQ:{}", req);
         return null;
     }
@@ -63,14 +63,14 @@ public class ContractController {
         log.info("合同数据保存.REQ:{}", req);
         return null;
     }
+
     @PostMapping(value = {"/save"})
     public RsaMesage save(@RequestBody RsaMesage reqMsg) {
         log.info("合同数据保存.REQ:{}", reqMsg);
 
         String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+yLyxg2xb6LkkWnWZF+XXjkZN0Fhne1eJTA3EmOlMyD5fhOfs9Ri0qwWqRW9s4m4k4tgJX5tcGRwCd7x6PEyJXr3/YgcR81zFqMjsnCYdB24Ii3bLdGhcokwJ/cW2yTWwa7ujpjemEROv5JasFJwXKdJVz+uSJDYmOsylL1MvNwIDAQAB";
-        String localPriKeyStr = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALdpZLBuQeoVgYl6hWipnR9i2PtOjpBlBn9PughATgAURoju3i9ExgE/UFx2beAh/xBimQ8/xCPUynbW2t8BwM9VPv2gSJ7tp4b21VgVaK8cdTwTMkVarhtpOgnz8xgEoCmF3g/xmrm0gZuNFwXdtDQztB4zwR4EOUu0lyg8SgEXAgEDAoGAHpGQyBJgUa5AQZRrkXGaL+XO1I0XwruBFTf0VrViVVi2bCfPsot2VYqNZL5npVr/2BBu19/2BfjMaSPPJSr1d5sjTQxOFZ9c50JSQsKCygvlkNLmw+c59U93gwkaelCWhqoj4cVMeEwlVhXH0ukBROzcYTEy+YomQDbcMsxNuD8CQQDoQm0ctEjSbTSXHGXBE27u88cOuyhVnEB4hOQG3CqB2VGIFKKMdXJw5wvyqAuujRew/Rnk2s1XYRogqJopGFf9AkEAyijCOb/UXwzm0cthxUSD5iAQEw6FmbYbE+gTtngPnz+wAPIixVp1erqLF8AIuR9+9Yy9J7R3b/KwSsVdSV9XowJBAJrW82h4MIxIzboS7oC3n0n32gnSGuO9gFBYmASSxwE7i7ANwbL49vXvXUxwB8mzZSCou+3nM4+WEWsbEXC65VMCQQCGxdbRKo2Us0SL3OvY2FfuwAq3XwO7zry38A0kUApqKnVV9sHY5vj8fFy6gAXQv6n5CH4aeE+f9yAx2OjblOUXAkAY8fMi78MLIOaUIcktWJDp3ENGQe+hkjXTIKsiDl4sqs7c5dCOZi1cCgX+I8VPSEQXcNm1+QcX6BX53+YRxW2R";
-
-        String localPubStr = "MIGdMA0GCSqGSIb3DQEBAQUAA4GLADCBhwKBgQC3aWSwbkHqFYGJeoVoqZ0fYtj7To6QZQZ/T7oIQE4AFEaI7t4vRMYBP1Bcdm3gIf8QYpkPP8Qj1Mp21trfAcDPVT79oEie7aeG9tVYFWivHHU8EzJFWq4baToJ8/MYBKAphd4P8Zq5tIGbjRcF3bQ0M7QeM8EeBDlLtJcoPEoBFwIBAw==";
+        String localPriKeyStr;
+        String localPubStr;
 
         // 20200709 本地密钥
         localPriKeyStr = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDIA7ltUuLQ2olV7UoJe8gDKID/n1Zu1JE8rIZVhXFhfgb3R4vhN9QV30ZqNZr9Eq++oFGG457zmYC4NfJx1ne3javckYK7tR/N2ldlUkKdcXFDI34gBd97OYeOxvWnAxdo2H0Adujz6HPdsc3l47xPZLsPNhlMH55I8CyaJWqYcPtfPjOYSUHxjlJLIocwwusvt5PoCbo1xgH3KiLPkR0QhXc/8VvbRropY7gQcx7hjKhd92YrkrrMp6L3Iq8uE0ov5NuRqCoe2hswRubfsYjJHh9pCdvfz9TNqEaAPsTC6YOcg4Tn7MWOl/el1G8mxtzpGRniL9wC/WixHMGjAguPAgMBAAECggEAQSGdVzE/dN1FDXsYud/Z8NVWtGbRgYOsy8IueFjc4+9jG1DsBunkIT80sc9E6hYUrpGMGs2ybAbXeKTwjwtUrqvuhAPKO4+ujJ0GCpNv588SH9fF8W2YKYtBTkgRpFIIZHbita0DDLHsUQveTXcMUhouI7TtJfHB3GSBUazPelX0eWcGpkcaB/jCtqblfflWkp+AMsWP5jb3DMH1oUOyiOPJxjsbqdzCl9fSFODP9b1GEJELj9guYTfqnbgAFt57jGidz+nFs1UjGvEdLtFfboqXJ2sFkJvHscUHpusuRHs82iSeECsCPsqMYYuxCdcY2oUXImSjRmFPbUzrz5YIKQKBgQDyso8lpvrwy/jypf+IHwctlJXNasHTDVgsoJNe/MRbdKZOERfi4pUHrGlCfxdp5WF4FjM0JneWmMJ5mUfnRk7IDBVbvyBM7GEulLaLAos73URh2B0fb+AvhJ0f63gBWeJSZG2TbL56q6gKSfjygiC1GwuyKz9y7nLO6HzewOXdZQKBgQDS+kEBYSUMUI32zDw+3SiF4u/vdqBKiGuQIF5I2lpqcO9uWZRd3I8k6GgjAU2jUh1xooAeSdIGZo+34TlYXvlSA7VGKi0b+zjfv1IHGmepeBRzd/i7YtUq4v/htusMTNUIxuy8UaB8jRADek0y8n/bX3oN4pUIAsryqhdiz6mf4wKBgFgk1ax9GsJ9siqec1ICwt6hCk8SqNZ4EEAVCbED6GS21vefaadzV2D0Ez6dXemN73pnxaz5E5HUZT04mE680DwDd3Zc0eReLWV3iVyvTdYuJHnMvbb/MNLRPSeso2cKOBJoewuCASQYV+10tD+PV0WvTu4kmuSpCXVwJnnYYSOpAoGAc5Ktm5DY17clHaZh9ln2gemAYKCOTGYQ7mIc5DHhR9/X+Y5O7WAOdjxuF4b2PdqU0JQhNPZhfCog3q0dWeClGZ14Zxhhn6tuS3ul9sgrMzXZliuJcTVB6v1xCPfIKPPJ28YFF2Br1u77b7xGn/shuU3DMeoGk93byTUOHI3/sNsCgYEApKVpGs0QOABXV4BJs0gst12/cqxp3loBEmg6xZCl534cGr6uaWkUuzEz8ArxnxjrZBvg4yvVh3a+Penqa/NcvgmxGNCf1Vs0RKx4iwZWscT2ft3FEGgEmVBembsrZGN3XYeOz7w+l1x9ufxtB2+D4noTELcnD6Gwe6kDNBB9PSM=";
@@ -97,28 +97,27 @@ public class ContractController {
             boolean singRs = RSAUtils.verify2(resMsg.getData(), publicKey, resMsg.getSign());
             log.info("验签:{}", singRs);
 
-            ContractDataReq req = null;
+            ContractDataReq req;
             req = objectMapper.readValue(respMsgStr, ContractDataReq.class);
-//            req = JSON.parseObject(respMsgStr, ContractDataReq.class);
             resp.setFwxh(req.getFwxh());
             resp.setQyxh(req.getQyxh());
             resp.setJszt("SUC");
             StringBuffer msg = new StringBuffer();
             msg.append(this.validateStr(req.getYwlb(), "业务类别"));
             msg.append(this.validateStr(req.getHtbh(), "合同编号"));
-            msg.append(this.validateDate(req.getQyrq(), DATA_PATTERN,"签约日期"));
-            msg.append(this.validateDate(req.getZlqsrq(), DATA_PATTERN,"租赁起始日期"));
-            msg.append(this.validateDate(req.getZlzzrq(), DATA_PATTERN,"租赁终止日期"));
-            msg.append(this.validateAmt(req.getZj(),"月租金"));
-            msg.append(this.validateAmt(req.getRent(),"合同总金额"));
-            msg.append(this.validateStr(req.getZjjszq(),"租金计费周期"));
+            msg.append(this.validateDate(req.getQyrq(), DATA_PATTERN, "签约日期"));
+            msg.append(this.validateDate(req.getZlqsrq(), DATA_PATTERN, "租赁起始日期"));
+            msg.append(this.validateDate(req.getZlzzrq(), DATA_PATTERN, "租赁终止日期"));
+            msg.append(this.validateAmt(req.getZj(), "月租金"));
+            msg.append(this.validateAmt(req.getRent(), "合同总金额"));
+            msg.append(this.validateStr(req.getZjjszq(), "租金计费周期"));
 
             if (!StringUtils.isBlank(msg.toString().trim())) {
                 resp.setJszt("ERROR");
                 resp.setMsg(msg.toString().trim());
             }
             log.info("合同数据保存.RESP:{}", JsonUtils.toString(resp));
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             resp.setJszt("ERROR");
             resp.setMsg(e.getMessage());
@@ -141,7 +140,7 @@ public class ContractController {
             // 加密数据
             respMsg.setData(encryptStr);
             respMsg.setSign(sign);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
         return respMsg;
@@ -154,15 +153,15 @@ public class ContractController {
         resp.setFwxh(req.getFwxh());
         resp.setQyxh(req.getQyxh());
         resp.setJszt("SUC");
-        StringBuffer msg = new StringBuffer();
+        StringBuilder msg = new StringBuilder();
         msg.append(this.validateStr(req.getYwlb(), "业务类别"));
         msg.append(this.validateStr(req.getHtbh(), "合同编号"));
-        msg.append(this.validateDate(req.getQyrq(), DATA_PATTERN,"签约日期"));
-        msg.append(this.validateDate(req.getZlqsrq(), DATA_PATTERN,"租赁起始日期"));
-        msg.append(this.validateDate(req.getZlzzrq(), DATA_PATTERN,"租赁终止日期"));
-        msg.append(this.validateAmt(req.getZj(),"月租金"));
-        msg.append(this.validateAmt(req.getRent(),"合同总金额"));
-        msg.append(this.validateStr(req.getZjjszq(),"租金计费周期"));
+        msg.append(this.validateDate(req.getQyrq(), DATA_PATTERN, "签约日期"));
+        msg.append(this.validateDate(req.getZlqsrq(), DATA_PATTERN, "租赁起始日期"));
+        msg.append(this.validateDate(req.getZlzzrq(), DATA_PATTERN, "租赁终止日期"));
+        msg.append(this.validateAmt(req.getZj(), "月租金"));
+        msg.append(this.validateAmt(req.getRent(), "合同总金额"));
+        msg.append(this.validateStr(req.getZjjszq(), "租金计费周期"));
 
 
         if (!StringUtils.isBlank(msg.toString().trim())) {
@@ -175,7 +174,7 @@ public class ContractController {
         return resp;
     }
 
-    public java.lang.String validateAmt(BigDecimal value, String msg){
+    public java.lang.String validateAmt(BigDecimal value, String msg) {
         if (null == value) {
             return " " + msg + "不能为空";
         } else if (value.compareTo(BigDecimal.ZERO) <= 0) {
@@ -183,20 +182,21 @@ public class ContractController {
         }
         return "";
     }
-    public java.lang.String validateStr(String value, String msg){
+
+    public java.lang.String validateStr(String value, String msg) {
         if (StringUtils.isBlank(value)) {
             return " " + msg + "不能为空";
         }
         return "";
     }
 
-    public java.lang.String validateDate(String value, String pattern, String msg){
+    public java.lang.String validateDate(String value, String pattern, String msg) {
         if (StringUtils.isBlank(value)) {
             return " " + msg + "不能为空";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         try {
-            Date date = sdf.parse(value);
+            sdf.parse(value);
         } catch (ParseException e) {
             return " " + msg + value + "格式不正确[" + pattern + "]";
         }
@@ -217,14 +217,14 @@ public class ContractController {
         log.info("模拟合同查询.REQ:{}", JsonUtils.toString(resp));
         return resp;
     }
+
     @PostMapping(value = {"/contDemoStr"})
-    public String contDemoStr(@RequestBody String req) {
+    public String contDemoStr(@RequestBody String req) throws UnsupportedEncodingException {
         log.info("模拟合同查询.REQ:{}", req);
-        req = URLDecoder.decode(req);
+        req = URLDecoder.decode(req, DEFAULT_CHARSET);
         log.info("模拟合同查询.REQ.decode:{}", req);
         return req;
     }
-
 
 
     @PostMapping(value = {"/query"})
@@ -242,7 +242,7 @@ public class ContractController {
                 .logLevel(Logger.Level.FULL)
                 .target(ContractFeign.class, "http://curbwv.natappfree.cc/")
 //                .target(ContractFeign.class, "http://127.0.0.1:8099")
-        ;
+                ;
         Date date = new Date();
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
@@ -252,8 +252,6 @@ public class ContractController {
         head.setRequestDate(sdfDate.format(date));
         head.setRequestTime(sdfTime.format(date));
         head.setSystemId("SYSID");
-//        resp = feign.contDemo(req);
-//        resp = feign.contDemo2(req);
 
         String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+yLyxg2xb6LkkWnWZF+XXjkZN0Fhne1eJTA3EmOlMyD5fhOfs9Ri0qwWqRW9s4m4k4tgJX5tcGRwCd7x6PEyJXr3/YgcR81zFqMjsnCYdB24Ii3bLdGhcokwJ/cW2yTWwa7ujpjemEROv5JasFJwXKdJVz+uSJDYmOsylL1MvNwIDAQAB";
         String priKey = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALdpZLBuQeoVgYl6hWipnR9i2PtOjpBlBn9PughATgAURoju3i9ExgE/UFx2beAh/xBimQ8/xCPUynbW2t8BwM9VPv2gSJ7tp4b21VgVaK8cdTwTMkVarhtpOgnz8xgEoCmF3g/xmrm0gZuNFwXdtDQztB4zwR4EOUu0lyg8SgEXAgEDAoGAHpGQyBJgUa5AQZRrkXGaL+XO1I0XwruBFTf0VrViVVi2bCfPsot2VYqNZL5npVr/2BBu19/2BfjMaSPPJSr1d5sjTQxOFZ9c50JSQsKCygvlkNLmw+c59U93gwkaelCWhqoj4cVMeEwlVhXH0ukBROzcYTEy+YomQDbcMsxNuD8CQQDoQm0ctEjSbTSXHGXBE27u88cOuyhVnEB4hOQG3CqB2VGIFKKMdXJw5wvyqAuujRew/Rnk2s1XYRogqJopGFf9AkEAyijCOb/UXwzm0cthxUSD5iAQEw6FmbYbE+gTtngPnz+wAPIixVp1erqLF8AIuR9+9Yy9J7R3b/KwSsVdSV9XowJBAJrW82h4MIxIzboS7oC3n0n32gnSGuO9gFBYmASSxwE7i7ANwbL49vXvXUxwB8mzZSCou+3nM4+WEWsbEXC65VMCQQCGxdbRKo2Us0SL3OvY2FfuwAq3XwO7zry38A0kUApqKnVV9sHY5vj8fFy6gAXQv6n5CH4aeE+f9yAx2OjblOUXAkAY8fMi78MLIOaUIcktWJDp3ENGQe+hkjXTIKsiDl4sqs7c5dCOZi1cCgX+I8VPSEQXcNm1+QcX6BX53+YRxW2R";
@@ -284,13 +282,8 @@ public class ContractController {
             RsaMesage rsaMesage = new RsaMesage();
             rsaMesage.setData(encryptStr);
             rsaMesage.setSign(sign);
-//            rsaMesage = feign.contDemo5(rsaMesage);
             data = JsonUtils.toString(rsaMesage);
             log.info("data:" + data);
-//            data = URLEncoder.encode(data);
-//            log.info("data:" + data);
-//            log.info("data:{}", URLDecoder.decode(data));
-            String respMesage = null;
             rsaMesage = feign.contDemo5(rsaMesage);
             log.info("返回:{}", rsaMesage);
             // 解密
@@ -298,16 +291,13 @@ public class ContractController {
             log.info("返回解密:{}", respMsg);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            ContractQueryResp contract = null;
-             contract = objectMapper.readValue(respMsg, ContractQueryResp.class);
-//            contract = JSON.parseObject(respMsg, ContractQueryResp.class);
-
-            log.info("contract:{}", objectMapper.writeValueAsString(contract));
+            resp = objectMapper.readValue(respMsg, ContractQueryResp.class);
+            log.info("contract:{}", objectMapper.writeValueAsString(resp));
 
             boolean singRs = RSAUtils.verify2(rsaMesage.getData(), publicKey, rsaMesage.getSign());
             log.info("singRs:{}", singRs);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
