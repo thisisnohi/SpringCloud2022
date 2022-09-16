@@ -30,7 +30,7 @@
         <File>${logging.path}/${filename}_error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${logging.path}/%d{yyyyMMdd}/${filename}_error.-%i.log</FileNamePattern>
-            <MaxHistory>${log.maxhistory}</MaxHistory>
+            <MaxHistory>5</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <MaxFileSize>50MB</MaxFileSize>
@@ -64,14 +64,16 @@
 
     <logger name="springfox" level="WARN"/>
     <logger name="org" level="WARN"/>
+    <logger name="org.apache" level="ERROR" />
+    <logger name="httpclient" level="ERROR" />
     <!--
     -->
     <!--<logger name="httpclient.wire.header" level="info"/>
     <logger name="httpclient.wire.content" level="info"/>-->
 
-    <root level="debug">>
+    <root level="INFO">>
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="INFO_FILE"/>
-        <appender-ref ref="ERROR_FILE"/>
+<!--        <appender-ref ref="INFO_FILE"/>-->
+<!--        <appender-ref ref="ERROR_FILE"/>-->
     </root>
 </configuration>

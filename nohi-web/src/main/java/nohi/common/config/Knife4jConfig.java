@@ -45,7 +45,7 @@ public class Knife4jConfig {
         // 判断是否处在自己设定的环境当中
         boolean flag = environment.acceptsProfiles(profiles);
         log.info("[只有dev test环境启用swagger]docket flag:{}", flag);
-        if (flag) {
+        if (!flag) {
             log.info("==== 未开启 swagger ====");
         }
         return new Docket(DocumentationType.SWAGGER_2)

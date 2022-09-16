@@ -10,7 +10,7 @@ spring:
 # 日志相关
 logging:
   level:
-    root: DEBUG
+    root: INFO
   file:
     path: ${HOME}/tmp/logs
 
