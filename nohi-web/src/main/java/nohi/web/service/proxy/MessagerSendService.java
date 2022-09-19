@@ -1,10 +1,10 @@
 package nohi.web.service.proxy;
 
 import lombok.extern.slf4j.Slf4j;
-import nohi.web.utils.HttpClientUtils;
-import org.apache.commons.httpclient.methods.PostMethod;
+import nohi.web.utils.HttpClientPoolUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +28,7 @@ public class MessagerSendService {
 
     @Value("${target.url}")
     private String targetUrl;
+
     public void msgSend(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         log.info("======MessagerSendService.msgSend=======");
         String contextPath = req.getContextPath();
@@ -64,16 +65,14 @@ public class MessagerSendService {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             StringBuffer sb = new StringBuffer();
             String line = null;
-            while ( (line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
             log.info("转发地址:{}", targetUrl + uri);
             log.info("请求报文:{}", sb.toString());
-            HttpClientUtils hu = new HttpClientUtils();
-            PostMethod postMethod = hu.postJson(targetUrl + uri, properties, sb.toString());
-            msg = postMethod.getResponseBodyAsString();
+            msg = HttpClientPoolUtils.post(targetUrl + uri, properties, sb.toString(), MediaType.APPLICATION_JSON_VALUE);
             log.info("响应报文：{}", msg);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             msg = e.getMessage();
         } finally {

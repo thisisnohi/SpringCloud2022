@@ -1,20 +1,30 @@
 package nohi.http;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
+import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
+import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
+import org.apache.hc.client5.http.impl.async.HttpAsyncClients;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.concurrent.FutureCallback;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 
-import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * <h3>nohi-web</h3>
@@ -23,8 +33,12 @@ import java.util.List;
  * @description <p>测试apache http client</p>
  * @date 2022/09/14 17:13
  **/
+@Slf4j
 public class TestApacheHttpClient {
 
+    /**
+     * 同步Get请求
+     */
     @Test
     public void testGet() {
         // 创建 HttpClient 客户端
@@ -44,8 +58,8 @@ public class TestApacheHttpClient {
             httpResponse = httpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();
             // 输出请求结果
-            System.out.println(EntityUtils.toString(httpEntity));
-        } catch (IOException e) {
+            log.info(EntityUtils.toString(httpEntity));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // 无论如何必须关闭连接
@@ -55,6 +69,9 @@ public class TestApacheHttpClient {
         }
     }
 
+    /**
+     * 同步POST请求
+     */
     @Test
     public void post() {
         // 创建 HttpClient 客户端
@@ -78,7 +95,7 @@ public class TestApacheHttpClient {
         CloseableHttpResponse httpResponse = null;
         try {
             // 设置 HttpPost 参数
-            httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+            httpPost.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
             httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
             // 输出请求结果
@@ -92,5 +109,88 @@ public class TestApacheHttpClient {
             IOUtils.closeQuietly(httpClient);
         }
     }
+
+
+    /**
+     * 异步HTTP Client
+     * httpclient5 提供
+     */
+    @Test
+    public void testGetSync() {
+        String url = "http://127.0.0.1:8099/mock/1.json";
+        try (CloseableHttpAsyncClient client = HttpAsyncClients.createDefault()) {
+            client.start();
+            final SimpleHttpRequest request = SimpleRequestBuilder.get().setUri(url).build();
+            Future<SimpleHttpResponse> future = client.execute(request, new FutureCallback<SimpleHttpResponse>() {
+                @Override
+                public void completed(SimpleHttpResponse simpleHttpResponse) {
+                    log.info("...SimpleHttpRequest.completed");
+                    String msg = simpleHttpResponse.getBodyText();
+                    log.debug("msg:{}", msg);
+                }
+
+                @Override
+                public void failed(Exception e) {
+                    log.error("...SimpleHttpRequest.failed:{}", e.getMessage());
+                }
+
+                @Override
+                public void cancelled() {
+                    log.info("...SimpleHttpRequest.cancelled");
+                }
+            });
+
+            SimpleHttpResponse response = future.get();
+
+            log.info("response.status[{}]", response.getCode());
+            log.info("response.reasonPhrase[{}]", response.getReasonPhrase());
+
+        } catch (Exception e) {
+            log.error("{} 异常:{}", e.getMessage());
+        }
+    }
+
+    /**
+     * 异步HTTP Client
+     * httpclient5 提供
+     */
+    @Test
+    public void testPostSync() {
+        String url = "http://127.0.0.1:8888/mock/http?sleep=1000";
+        String reqMsg = "{\n" + "\"retCode\": \"\",\n" + "\"retMsg\": \"\",\n" + "\"data\": {\n" + "\"a\": \"这是请求\",\n" + "\"b\": \"2\",\n" + "\"c\": \"3\"\n" + "},\n" + "\"traceId\": \"202209162226011001\",\n" + "\"traceTime\": \"20220916222601\",\n" + "\"txCode\": \"POST\"\n" + "}";
+        try (CloseableHttpAsyncClient client = HttpAsyncClients.createDefault()) {
+            client.start();
+            final SimpleHttpRequest request = SimpleRequestBuilder.post(url).addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).build();
+            request.setBody(reqMsg, ContentType.APPLICATION_JSON);
+
+            Future<SimpleHttpResponse> future = client.execute(request, new FutureCallback<SimpleHttpResponse>() {
+                @Override
+                public void completed(SimpleHttpResponse simpleHttpResponse) {
+                    log.info("...SimpleHttpRequest.completed");
+                    String msg = simpleHttpResponse.getBodyText();
+                    log.debug("msg:{}", msg);
+                }
+
+                @Override
+                public void failed(Exception e) {
+                    log.error("...SimpleHttpRequest.failed:{}", e.getMessage());
+                }
+
+                @Override
+                public void cancelled() {
+                    log.info("...SimpleHttpRequest.cancelled");
+                }
+            });
+
+            SimpleHttpResponse response = future.get();
+
+            log.info("response.status[{}]", response.getCode());
+            log.info("response.reasonPhrase[{}]", response.getReasonPhrase());
+
+        } catch (Exception e) {
+            log.error("{} 异常:{}", e.getMessage());
+        }
+    }
 }
+
 
