@@ -1,16 +1,16 @@
 package nohi.http;
 
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,17 +49,16 @@ public class HttpUtil {
             Charset charset = Charset.forName("utf-8");
             fileEntity.setCharset(charset);
             // 追加要发送的文本信息并设置编码格式
-            fileEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+//            fileEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
             fileEntity.addPart("file", new FileBody(file, ContentType.APPLICATION_OCTET_STREAM));
             HttpEntity httpEntity = fileEntity.build();
             httppost.setEntity(httpEntity);
             // 执行httppost对象并获得response
             HttpResponse response = httpclient.execute(httppost);
             // 状态码
-            int statusCode = response.getStatusLine().getStatusCode();
-            HttpEntity resEntity = response.getEntity();
+            int statusCode = response.getCode();
             // 获得返回来的信息，转化为字符串string
-            String respopnse = EntityUtils.toString(resEntity);
+            String respopnse = response.toString();
             log.info("respopnse body: " + respopnse);
         } catch (Exception e) {
             log.error("doPost occur a exception", e);

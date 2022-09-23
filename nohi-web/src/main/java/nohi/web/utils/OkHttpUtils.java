@@ -1,20 +1,17 @@
 package nohi.web.utils;
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.apache.http.client.utils.URIBuilder;
 
 import javax.net.ssl.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -54,7 +51,7 @@ public class OkHttpUtils {
         });
 
         //添加拦截器
-        clientBuilder.addInterceptor(new HttpLogInterceptor());
+        clientBuilder.addInterceptor(new OkHttpLogInterceptor());
         mOkHttpClient = clientBuilder.build();
     }
 
@@ -254,7 +251,7 @@ public class OkHttpUtils {
             return buildRequestBodyByMap(strBodyParamMap);
         } else {
             //json
-            return buildRequestBodyByJson(com.alibaba.fastjson.JSON.toJSONString(bodyParams));
+            return buildRequestBodyByJson(JSONObject.toJSONString(bodyParams));
         }
 
     }
@@ -358,27 +355,6 @@ public class OkHttpUtils {
 
         void failed(Call call, IOException e);
     }
-
-    /**
-     * 构建http get请求，将参数拼接到url后面
-     *
-     * @param url
-     * @param para
-     * @return
-     * @throws URISyntaxException
-     * @throws MalformedURLException
-     */
-    public static String buildHttpGet(String url, Map<String, Object> para) throws URISyntaxException, MalformedURLException {
-        URIBuilder builder = new URIBuilder(url);
-        if (null != para && !para.keySet().isEmpty()) {
-            Set<String> set = para.keySet();
-            for (String key : set) {
-                builder.setParameter(key, String.valueOf(para.get(key)));
-            }
-        }
-        return builder.build().toURL().toString();
-    }
-
 
     /**
      * 添加header信息

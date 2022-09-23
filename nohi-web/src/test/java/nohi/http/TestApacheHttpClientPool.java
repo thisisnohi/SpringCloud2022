@@ -3,7 +3,7 @@ package nohi.http;
 import ch.qos.logback.classic.LoggerContext;
 import lombok.extern.slf4j.Slf4j;
 import nohi.web.utils.HttpClientPoolUtils;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +52,7 @@ public class TestApacheHttpClientPool {
     @Test
     public void testHttpClientPool() throws InterruptedException {
         int totalThread = 20;
-        int total = 1;
+        int total = 10;
 
         CountDownLatch cd = new CountDownLatch(total);
         ExecutorService es = Executors.newFixedThreadPool(totalThread);

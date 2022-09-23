@@ -1,7 +1,7 @@
 package nohi.web.service.proxy;
 
 import lombok.extern.slf4j.Slf4j;
-import nohi.web.utils.HttpClientPoolUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -70,7 +70,7 @@ public class MessagerSendService {
             }
             log.info("转发地址:{}", targetUrl + uri);
             log.info("请求报文:{}", sb.toString());
-            msg = HttpClientPoolUtils.post(targetUrl + uri, properties, sb.toString(), MediaType.APPLICATION_JSON_VALUE);
+            // msg = HttpClientPoolUtils.post(targetUrl + uri, properties, sb.toString(), MediaType.APPLICATION_JSON_VALUE);
             log.info("响应报文：{}", msg);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

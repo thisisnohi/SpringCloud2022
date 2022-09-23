@@ -1,5 +1,8 @@
 package nohi.web.utils;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author NOHI
  * 2022-04-28 14:27
@@ -8,12 +11,15 @@ public class HttpClientConfig {
     /**
      * 从连接池获取连接超时时间
      */
-    static int httpConnectTimeout = 10000;
+    static int httpConnectTimeout = 5000;
     /**
      * 连接后，获取响应时间
      */
-    static int httpSocketTimeout = 30000;
-
+    static int httpRequestTimeout = 5000;
+    /**
+     * 连接后，获取响应时间
+     */
+    static int httpResponseTimeout = 30000;
 
     /**
      * 连接超时时间
@@ -38,6 +44,7 @@ public class HttpClientConfig {
      */
     static int httpPoolIdelTimeout = 2000;
     static String charSet = "UTF-8";
+    static Charset standardCharsets = StandardCharsets.UTF_8;
 
     static {
         /*

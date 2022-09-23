@@ -80,10 +80,10 @@
     </dependency>
 
     <!-- httpclient -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.httpcomponents</groupId>-->
-<!--      <artifactId>httpmime</artifactId>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+    </dependency>
 
     <!-- Httpclient5 -->
     <dependency>
@@ -142,9 +142,9 @@
     </dependency>
 
     <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>2.0.12</version>
+      <groupId>com.alibaba.fastjson2</groupId>
+      <artifactId>fastjson2</artifactId>
+      <version>2.0.13</version>
     </dependency>
 
 

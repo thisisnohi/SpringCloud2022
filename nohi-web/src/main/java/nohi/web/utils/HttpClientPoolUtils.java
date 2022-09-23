@@ -3,28 +3,27 @@ package nohi.web.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.*;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.util.TimeValue;
 
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLHandshakeException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InterruptedIOException;
-import java.io.UnsupportedEncodingException;
-import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -46,11 +45,8 @@ public class HttpClientPoolUtils {
     /**
      * 默认字符集
      */
-    private static final String DEFAULT_CHARSET = HttpClientConfig.charSet;
-    /**
-     * 连接超时时间
-     */
-    private final static int HTTP_POOL_TIME_TO_LIVE = HttpClientConfig.httpPoolTimeToLive;
+    private static final Charset DEFAULT_CHARSET = HttpClientConfig.standardCharsets;
+
     /**
      * 最大连接数
      */
@@ -72,9 +68,9 @@ public class HttpClientPoolUtils {
      * 线程池监控
      */
     private static ScheduledExecutorService monitorExecutor;
-    private final static int CONNECTION_REQUEST_TIMEOUT = 3000;
-    private final static int CONNECT_TIMEOUT = 5000;
-    private final static int SOCKET_TIMEOUT = 10 * 1000;
+    private final static int CONNECT_TIMEOUT = HttpClientConfig.httpConnectTimeout;
+    private final static int CONNECTION_REQUEST_TIMEOUT = HttpClientConfig.httpRequestTimeout;
+    private final static int RESPONSE_TIMEOUT = HttpClientConfig.httpResponseTimeout;
     /**
      * HTTP 状态码 200 正常
      */
@@ -99,7 +95,7 @@ public class HttpClientPoolUtils {
      */
     static {
         // 创建httpClient连接池 指定连接超时时间 单位毫秒
-        CM = new PoolingHttpClientConnectionManager(HTTP_POOL_TIME_TO_LIVE, TimeUnit.MILLISECONDS);
+        CM = new PoolingHttpClientConnectionManager();
         // 最大连接数
         CM.setMaxTotal(HTTP_POOL_MAX_TOTAL);
         // 单路由最大连接数
@@ -113,66 +109,9 @@ public class HttpClientPoolUtils {
         // manager.setMaxPerRoute(new HttpRoute(httpHost), MAX_ROUTE);
 
         // 设置请求参数配置，创建连接时间、从连接池获取连接时间、数据传输时间、是否测试连接可用、构建配置对象
-        DEFAULT_REQUEST_CONFIG = RequestConfig.custom().setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT).setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
+        DEFAULT_REQUEST_CONFIG = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS).setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT, TimeUnit.MILLISECONDS).setResponseTimeout(RESPONSE_TIMEOUT, TimeUnit.MILLISECONDS).build();
         // 创建默认 http client连接
         DEFAULT_HTTP_CLIENT = getHttpClient();
-    }
-
-    /**
-     * 失败处理
-     *
-     * @return 返回失败处理类
-     */
-    public HttpRequestRetryHandler retryHandler() {
-        //请求失败时,进行请求重试
-        HttpRequestRetryHandler handler = new HttpRequestRetryHandler() {
-            @Override
-            public boolean retryRequest(IOException e, int i, HttpContext httpContext) {
-                if (i > 3) {
-                    //重试超过3次,放弃请求
-                    log.error("retry has more than 3 time, give up request");
-                    return false;
-                }
-                if (e instanceof NoHttpResponseException) {
-                    //服务器没有响应,可能是服务器断开了连接,应该重试
-                    log.error("receive no response from server, retry");
-                    return true;
-                }
-                if (e instanceof SSLHandshakeException) {
-                    // SSL握手异常
-                    log.error("SSL hand shake exception");
-                    return false;
-                }
-                if (e instanceof InterruptedIOException) {
-                    //超时
-                    log.error("InterruptedIOException");
-                    return false;
-                }
-                if (e instanceof UnknownHostException) {
-                    // 服务器不可达
-                    log.error("server host unknown");
-                    return false;
-                }
-                if (e instanceof ConnectTimeoutException) {
-                    // 连接超时
-                    log.error("Connection Time out");
-                    return false;
-                }
-                if (e instanceof SSLException) {
-                    log.error("SSLException");
-                    return false;
-                }
-
-                HttpClientContext context = HttpClientContext.adapt(httpContext);
-                HttpRequest request = context.getRequest();
-                if (!(request instanceof HttpEntityEnclosingRequest)) {
-                    //如果请求不是关闭连接的请求
-                    return true;
-                }
-                return false;
-            }
-        };
-        return handler;
     }
 
     /**
@@ -202,7 +141,7 @@ public class HttpClientPoolUtils {
      */
     public static CloseableHttpClient getHttpClient(int connectionRequestTimeout, int connectTimeout, int socketTimeout) {
         // 设置请求参数配置，创建连接时间、从连接池获取连接时间、数据传输时间、是否测试连接可用、构建配置对象
-        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout).setConnectTimeout(connectTimeout).setSocketTimeout(socketTimeout).build();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout, TimeUnit.MILLISECONDS).setConnectTimeout(connectTimeout, TimeUnit.MILLISECONDS).setResponseTimeout(socketTimeout, TimeUnit.MILLISECONDS).build();
         return getHttpClient(CM, requestConfig);
     }
 
@@ -228,9 +167,9 @@ public class HttpClientPoolUtils {
             public void run() {
                 i[0]++;
                 //关闭异常连接
-                CM.closeExpiredConnections();
+                CM.closeExpired();
                 //关闭5s空闲的连接
-                CM.closeIdleConnections(HTTP_POOL_IDEL_TIMEOUT, TimeUnit.MILLISECONDS);
+                CM.closeIdle(TimeValue.of(HTTP_POOL_IDEL_TIMEOUT, TimeUnit.MILLISECONDS));
                 if (i[0] % 100 == 0) {
                     i[0] = 0;
                     log.info("close expired and idle for over 5s connection,print per 5 * 100 s");
@@ -245,9 +184,8 @@ public class HttpClientPoolUtils {
      *
      * @param httpRequestBase http请求
      */
-    private static void setRequestConfig(HttpRequestBase httpRequestBase) {
-        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(CONNECT_TIMEOUT).setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
-
+    private static void setRequestConfig(HttpUriRequestBase httpRequestBase) {
+        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS).setConnectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS).setResponseTimeout(RESPONSE_TIMEOUT, TimeUnit.MILLISECONDS).build();
         httpRequestBase.setConfig(requestConfig);
     }
 
@@ -258,7 +196,7 @@ public class HttpClientPoolUtils {
      * @param method
      * @param properties
      */
-    private static void setHead(HttpEntityEnclosingRequestBase method, Properties properties) {
+    private static void setHead(HttpUriRequestBase method, Properties properties) {
         if (properties == null || properties.isEmpty()) {
             return;
         }
@@ -285,22 +223,15 @@ public class HttpClientPoolUtils {
         for (String key : params.keySet()) {
             nvps.add(new BasicNameValuePair(key, params.get(key)));
         }
-        try {
-            httpPost.setEntity(new UrlEncodedFormEntity(nvps, DEFAULT_CHARSET));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        httpPost.setEntity(new UrlEncodedFormEntity(nvps, DEFAULT_CHARSET));
     }
 
     private static void setPostMsg(HttpPost httpPost, String postMsg, String contentType, String charSet) {
-        try {
-            if (StringUtils.isNotBlank(postMsg)) {
-                postMsg = postMsg.trim();
-            }
-            httpPost.setEntity(new StringEntity(postMsg, contentType, null == charSet ? DEFAULT_CHARSET : charSet));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if (StringUtils.isNotBlank(postMsg)) {
+            postMsg = postMsg.trim();
         }
+        ContentType ct = ContentType.create(contentType, null == charSet ? DEFAULT_CHARSET : Charset.forName(charSet));
+        httpPost.setEntity(new StringEntity(postMsg, ct, false));
     }
 
     /**
@@ -311,7 +242,7 @@ public class HttpClientPoolUtils {
      * @return
      */
     public static String post(String url, String postMsg) {
-        return post(url, postMsg, null, DEFAULT_CONTENT_TYPE, DEFAULT_CHARSET);
+        return post(url, postMsg, null, DEFAULT_CONTENT_TYPE, DEFAULT_CHARSET.name());
     }
 
     /**
@@ -323,7 +254,7 @@ public class HttpClientPoolUtils {
      * @return 返回报文
      */
     public static String post(String url, String postMsg, String contentType) {
-        return post(url, postMsg, null, contentType, DEFAULT_CHARSET);
+        return post(url, postMsg, null, contentType, DEFAULT_CHARSET.name());
     }
 
     /**
@@ -336,7 +267,7 @@ public class HttpClientPoolUtils {
      * @return 报文
      */
     public static String post(String url, Properties properties, String postMsg, String contentType) {
-        return post(url, postMsg, properties, contentType, DEFAULT_CHARSET);
+        return post(url, postMsg, properties, contentType, DEFAULT_CHARSET.name());
     }
 
     /**
@@ -378,7 +309,7 @@ public class HttpClientPoolUtils {
         try {
             httpResponse = httpClient.execute(http);
             HttpEntity entity = httpResponse.getEntity();
-            log.debug("[{}]响应[{}]", url, httpResponse.getStatusLine().getStatusCode());
+            log.debug("[{}]响应[{}]", url, httpResponse.getCode());
             if (entity != null) {
                 in = entity.getContent();
                 String result = IOUtils.toString(in, charSet);
@@ -418,13 +349,16 @@ public class HttpClientPoolUtils {
         CloseableHttpResponse httpResponse = null;
         try {
             httpResponse = httpClient.execute(httpGet);
-            log.debug("[{}]响应[{}]", url, httpResponse.getStatusLine().getStatusCode());
-            if (HTTP_STATUS_200 == httpResponse.getStatusLine().getStatusCode()) {
+            log.debug("[{}]响应[{}]Phrase[{}]", url, httpResponse.getCode(), httpResponse.getReasonPhrase());
+            if (HTTP_STATUS_200 == httpResponse.getCode()) {
                 return EntityUtils.toString(httpResponse.getEntity());
             } else {
                 return EntityUtils.toString(httpResponse.getEntity());
             }
+
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
             throw new RuntimeException(e);
         } finally {
             if (httpResponse != null) {
