@@ -64,10 +64,6 @@ public class HttpClientPoolUtils {
      * 线程池监控时间间隔
      */
     private final static int HTTP_POOL_IDEL_TIMEOUT = HttpClientConfig.httpPoolIdelTimeout;
-    /**
-     * 线程池监控
-     */
-    private static ScheduledExecutorService monitorExecutor;
     private final static int CONNECT_TIMEOUT = HttpClientConfig.httpConnectTimeout;
     private final static int CONNECTION_REQUEST_TIMEOUT = HttpClientConfig.httpRequestTimeout;
     private final static int RESPONSE_TIMEOUT = HttpClientConfig.httpResponseTimeout;
@@ -104,11 +100,13 @@ public class HttpClientPoolUtils {
         // 当您不知道时使用 setDefaultMaxPerRoute。
         CM.setDefaultMaxPerRoute(HTTP_POOL_MAX_PER_ROUTE);
 
-        // 按路由设置
-        // HttpHost httpHost = new HttpHost(host, port);
-        // manager.setMaxPerRoute(new HttpRoute(httpHost), MAX_ROUTE);
-
-        // 设置请求参数配置，创建连接时间、从连接池获取连接时间、数据传输时间、是否测试连接可用、构建配置对象
+        /*
+         * // 按路由设置
+         * // HttpHost httpHost = new HttpHost(host, port);
+         * // manager.setMaxPerRoute(new HttpRoute(httpHost), MAX_ROUTE);
+         *
+         *设置请求参数配置，创建连接时间、从连接池获取连接时间、数据传输时间、是否测试连接可用、构建配置对象
+         */
         DEFAULT_REQUEST_CONFIG = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS).setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT, TimeUnit.MILLISECONDS).setResponseTimeout(RESPONSE_TIMEOUT, TimeUnit.MILLISECONDS).build();
         // 创建默认 http client连接
         DEFAULT_HTTP_CLIENT = getHttpClient();
@@ -160,7 +158,10 @@ public class HttpClientPoolUtils {
         // 可以设置请求重试方法，这里忽略
         // 开启监控线程,对异常和空闲线程进行关闭
         CloseableHttpClient client = HttpClients.custom().setDefaultRequestConfig(requestConfig).setConnectionManager(cm).disableAutomaticRetries().build();
-        monitorExecutor = newScheduledThreadPool(1);
+        /*
+         * 线程池监控
+         */
+        ScheduledExecutorService monitorExecutor = newScheduledThreadPool(1);
         final int[] i = {0};
         monitorExecutor.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -312,8 +313,7 @@ public class HttpClientPoolUtils {
             log.debug("[{}]响应[{}]", url, httpResponse.getCode());
             if (entity != null) {
                 in = entity.getContent();
-                String result = IOUtils.toString(in, charSet);
-                return result;
+                return IOUtils.toString(in, charSet);
             }
         } catch (IOException e) {
             log.error("请求[{}]交易异常:{}", url, e.getMessage());
