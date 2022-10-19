@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,12 +19,32 @@ import java.util.concurrent.TimeUnit;
 public class TestOkHttpClient {
 
     /**
+     * 仅记录参数
+     */
+    @SuppressWarnings("CommentedOutCode")
+    @Test
+    public void testParam(){
+        // 仅记录参数
+        System.out.println("====仅记录参数=====");
+        /*
+        client = new OkHttpClient.Builder()
+                .dispatcher(new Dispatcher(executorService))
+                .connectionPool(new ConnectionPool(maxIdleConnections, keepAliveDurationMills, TimeUnit.MILLISECONDS))
+                .readTimeout(readTimeoutMills, TimeUnit.MILLISECONDS)
+                .connectTimeout(connectTimeoutMills, TimeUnit.MILLISECONDS)
+                .writeTimeout(writeTimeoutMills, TimeUnit.MILLISECONDS)
+                .protocols(Util.immutableList(Protocol.HTTP_1_1))
+                .connectionSpecs(Arrays.asList(TLS_SPEC, ConnectionSpec.CLEARTEXT))
+                .build();
+         */
+    }
+    /**
      * Get请求
      *
-     * @throws InterruptedException
+     * @throws InterruptedException 异常
      */
     @Test
-    public void testGet() throws InterruptedException, IOException {
+    public void testGet() throws IOException {
         String url = "http://127.0.0.1:8099/mock/1.json";
         // 1.创建okhttp客户端
         OkHttpClient client = new OkHttpClient.Builder().readTimeout(1000, TimeUnit.MILLISECONDS)
@@ -36,7 +57,7 @@ public class TestOkHttpClient {
         Response response = client.newCall(request).execute();
 
         log.info("status:{}", response.code());
-        log.info("响应报文:{}", response.body().string());
+        log.info("响应报文:{}", Objects.requireNonNull(response.body()).string());
     }
 
     /**
@@ -63,7 +84,7 @@ public class TestOkHttpClient {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                log.info("返回信息:{}", response.body().string());
+                log.info("返回信息:{}", Objects.requireNonNull(response.body()).string());
             }
         });
         log.info("================================");
@@ -97,7 +118,7 @@ public class TestOkHttpClient {
         Response response = client.newCall(request).execute();
 
         log.info("status:{}", response.code());
-        log.info("响应报文:{}", response.body().string());
+        log.info("响应报文:{}", Objects.requireNonNull(response.body()).string());
     }
 }
 
