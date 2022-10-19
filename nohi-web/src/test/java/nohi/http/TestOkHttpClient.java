@@ -68,8 +68,10 @@ public class TestOkHttpClient {
     @Test
     public void testGetAsyn() throws InterruptedException {
         String url = "http://127.0.0.1:8888/mock/http?sleep=1000";
+
+        ConnectionPool connectionPool = new ConnectionPool(5,5*60,TimeUnit.SECONDS);
         // 1.创建okhttp客户端
-        OkHttpClient client = new OkHttpClient.Builder().readTimeout(1000, TimeUnit.MILLISECONDS)
+        OkHttpClient client = new OkHttpClient.Builder().connectionPool(connectionPool).readTimeout(1000, TimeUnit.MILLISECONDS)
                 .writeTimeout(1000, TimeUnit.MILLISECONDS)
                 .build();
         // 2.创建请求

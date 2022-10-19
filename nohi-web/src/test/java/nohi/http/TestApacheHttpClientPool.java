@@ -51,19 +51,22 @@ public class TestApacheHttpClientPool {
 
     @Test
     public void testHttpClientPool() throws InterruptedException {
-        int totalThread = 20;
-        int total = 10;
+        int totalThread = 10;
+        int total = 10000;
+        long methodStart = System.currentTimeMillis();
 
         CountDownLatch cd = new CountDownLatch(total);
         ExecutorService es = Executors.newFixedThreadPool(totalThread);
+        // 只需要一个client,如果在循环中创建client，可能出现大量client对象
+        CloseableHttpClient client = HttpClientPoolUtils.getHttpClient();
         for (int i = 0; i < total; i++) {
             int finalI = i;
             es.execute(() -> {
                 String title = String.format("请求[%s]", "" + finalI);
                 long start = System.currentTimeMillis();
-                CloseableHttpClient client = HttpClientPoolUtils.getHttpClient();
                 String url = "http://127.0.0.1:8888/mock/http";
                 try {
+
                     String msg = HttpClientPoolUtils.doGetRequest(client, url);
                     log.info("{} over taketime[{}]", title, (System.currentTimeMillis() - start));
                     log.debug("{} over taketime[{}]", title, msg);
@@ -71,15 +74,14 @@ public class TestApacheHttpClientPool {
                     System.out.println(title + "异常:" + e.getMessage());
                 }
                 cd.countDown();
-                try {
-                    TimeUnit.SECONDS.sleep(10);
-                } catch (InterruptedException e) {
-                    log.error("sleep异常:{}", e.getMessage());
-                }
+//                try {
+//                    TimeUnit.SECONDS.sleep(10);
+//                } catch (InterruptedException e) {
+//                    log.error("sleep异常:{}", e.getMessage());
+//                }
             });
         }
-
         boolean await = cd.await(30, TimeUnit.SECONDS);
-        System.out.println("======= over... ========: " + await);
+        log.info("======= over... ======== await[{}] 耗时[{}]", await, (System.currentTimeMillis() - methodStart));
     }
 }
