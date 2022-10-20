@@ -2,9 +2,9 @@ package nohi.test.nj;
 
 import lombok.extern.slf4j.Slf4j;
 import nohi.socket.njserver.NjMsgUtils;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;

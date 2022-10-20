@@ -1,7 +1,7 @@
 package nohi.web.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -312,10 +312,9 @@ public class HttpClientPoolUtils {
             HttpEntity entity = httpResponse.getEntity();
             log.debug("[{}]响应[{}]", url, httpResponse.getCode());
             if (entity != null) {
-                in = entity.getContent();
-                return IOUtils.toString(in, charSet);
+                return EntityUtils.toString(entity, charSet);
             }
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             log.error("请求[{}]交易异常:{}", url, e.getMessage());
             throw new RuntimeException(e);
         } finally {

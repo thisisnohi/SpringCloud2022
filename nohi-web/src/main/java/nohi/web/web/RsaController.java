@@ -9,6 +9,7 @@ import nohi.web.dto.res.RsaReqVo;
 import nohi.web.dto.res.RsaRespItemVO;
 import nohi.web.dto.res.RsaRespVO;
 import nohi.web.utils.RSAUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,9 @@ public class RsaController {
     public RsaRespVO runTime(@RequestBody RsaReqVo reqVo) {
         long start = System.currentTimeMillis();
         String traceId = reqVo.getTraceId();
+        if (StringUtils.isBlank(traceId)) {
+            traceId = "NULL";
+        }
         RsaRespVO vo = new RsaRespVO();
 
         try {
