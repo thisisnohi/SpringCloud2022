@@ -47,6 +47,8 @@ public class TestThreadPoolExecutor {
             System.out.println("task:" + i);
             try {
                 futureList.add(executor.submit(new TestCallable(i, 2)));
+            } catch (RejectedExecutionException e) {
+                System.err.println("服务拒绝:" + e.getMessage());
             } catch (Exception e) {
                 System.out.println("task:" + i + " 执行异常:" + e.getMessage());
             }
