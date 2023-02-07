@@ -1,7 +1,7 @@
 package nohi.boot.demo.web;
 
 import nohi.boot.demo.service.HelloService;
-import nohi.boot.demo.service.TUserService;
+import nohi.boot.demo.service.TbUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class UserController {
     @Autowired
-    TUserService userService;
+    TbUserService userService;
     @Autowired
     HelloService helloService;
     Logger logger = LoggerFactory.getLogger(this.getClass());

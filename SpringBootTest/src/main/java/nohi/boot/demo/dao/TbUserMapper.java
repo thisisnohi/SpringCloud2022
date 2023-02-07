@@ -1,7 +1,7 @@
 package nohi.boot.demo.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import nohi.boot.demo.entity.TUser;
+import nohi.boot.demo.entity.TbUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -14,6 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2023/01/13 13:03
  **/
 @Mapper
-public interface TUserMapper extends BaseMapper<TUser> {
+public interface TbUserMapper extends BaseMapper<TbUser> {
 
 }

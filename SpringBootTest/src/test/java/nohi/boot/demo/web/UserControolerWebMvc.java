@@ -1,7 +1,7 @@
 package nohi.boot.demo.web;
 
 import nohi.boot.demo.service.HelloService;
-import nohi.boot.demo.service.TUserService;
+import nohi.boot.demo.service.TbUserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -30,7 +30,7 @@ public class UserControolerWebMvc {
     private MockMvc mockMvc;
     @MockBean
     @Autowired
-    private TUserService tUserService;
+    private TbUserService tbUserService;
     @MockBean
     @Autowired
     private HelloService helloService;

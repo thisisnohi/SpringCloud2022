@@ -17,14 +17,14 @@ import java.io.Serializable;
  **/
 @Data
 @Builder
-@TableName(value = "T_USER")//指定表名
-public class TUser implements Serializable {
+@TableName(value = "T_USER")
+public class TbUser implements Serializable {
 
     private static final long serialVersionUID = -5644799954031156649L;
     /**
      * value与数据库主键列名一致，若实体类属性名与表主键列名一致可省略value
      */
-    @TableId(value = "id", type = IdType.AUTO)//指定自增策略
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     private String name;
     private String sex;
