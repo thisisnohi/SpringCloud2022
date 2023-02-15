@@ -6,9 +6,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <h3>SpringBootTest</h3>
@@ -36,6 +40,9 @@ class TbUserServiceTest {
         userService.queryAll().forEach(System.out::println);
     }
 
+    /**
+     * 批量插入数据-不回滚
+     */
     @Test
     public void add() {
         List<TbUser> users = new ArrayList<>();
@@ -45,6 +52,35 @@ class TbUserServiceTest {
         }
         users.forEach(System.out::println);
         userService.add(users);
+    }
+
+    /**
+     * 批量插入数据-回滚
+     */
+    @Test
+    @Transactional
+    public void batchInserAndRollback() {
+        List<TbUser> users = new ArrayList<>();
+        for (int i = 0; i < 1; ++i) {
+            TbUser user = TbUser.builder().id(i + 11).name("test" + i).sex(i % 2 == 0 ? "男" : "女").pwd("aaaa").email("123" + i + "@qq.com").build();
+            users.add(user);
+        }
+        users.forEach(System.out::println);
+        userService.add(users);
+
+        // 打印所有数据
+        userService.queryAll().forEach(System.out::println);
+    }
+
+    @Test
+    public void queryByIds() {
+        userService.queryByIds(Set.of(1, 2, 3));
+        userService.queryByName("test1").forEach(System.out::println);
+        userService.queryByName2("test1").forEach(System.out::println);
+        TbUser user = userService.queryById(TbUser.builder().id(2).build());
+        System.out.println(user);
+        userService.queryByNameMap("test1").forEach(System.out::println);
+        System.out.println(userService.count());
     }
 
     @Test

@@ -6,10 +6,7 @@ import nohi.boot.demo.entity.TbUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <h3>SpringBootTest</h3>
@@ -104,11 +101,8 @@ public class TbUserService {
      *
      * @return
      */
-    public List<TbUser> queryByIds() {
-        List<Integer> idList = new ArrayList<>();
-        idList.add(10);
-        idList.add(11);
-        return userMapper.selectBatchIds(idList);
+    public List<TbUser> queryByIds(Collection ids) {
+        return userMapper.selectBatchIds(ids);
     }
 
     /**
