@@ -53,3 +53,8 @@
 ## 20220908
 * 增加sys-user dev profile
 * 增加nohi-web工程，http挡板程序
+
+## 20230328
+* 升级SpringBoot 3.0
+* 升级SpringCloud 2022.0.x aka Kilburn
+* 计划增加部署K8s内容
