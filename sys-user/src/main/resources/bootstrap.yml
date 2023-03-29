@@ -8,8 +8,10 @@ spring:
     name: sys-user  # 微服务名称，对外暴漏的微服务名称，十分重要
   cloud:
     config:
+      enabled: false
       label: master #分支名称
 #      name: config  #配置文件名称，config-dev.yml 中的 config
       profile: ${spring.profiles.active}  #环境名  config-dev.yml 中的 dev
       #这里不要忘记添加 http:// 否则无法读取
       uri: http://127.0.0.1:7007 #Spring Cloud Config 服务端（配置中心）地址
+

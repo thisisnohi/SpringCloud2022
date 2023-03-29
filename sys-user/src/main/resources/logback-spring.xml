@@ -10,6 +10,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <springProperty scope="context" name="logging.path" source="logging.file.path" defaultValue="${HOME}/logs"/>
+    <springProperty scope="context" name="logging.maxhistory" source="logging.maxhistory" defaultValue="7"/>
     <springProperty scope="context" name="filename" source="spring.application.name"/>
 
     <!-- 文件输出格式 -->
@@ -18,7 +19,7 @@
         CONSOLE_LOG_PATTERN: 默认自带模板
      -->
     <property name="CONSOLE_LOG"
-              value="%red(%date{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %red([%thread]) %boldMagenta(%logger{50}) %cyan(%msg%n)"/>
+              value="%white(%date{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %red([%thread]) %boldMagenta(%logger{50}) %cyan(%msg%n)"/>
 
     <!--控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -38,7 +39,7 @@
         <File>${logging.path}/${filename}_error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${logging.path}/%d{yyyyMMdd}/${filename}_error.-%i.log</FileNamePattern>
-            <MaxHistory>${log.maxhistory}</MaxHistory>
+            <MaxHistory>${logging.maxhistory}</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <MaxFileSize>50MB</MaxFileSize>
@@ -75,6 +76,8 @@
     <logger name="org" level="WARN"/>
     <logger name="_org" level="WARN"/>
     <logger name="com" level="INFO"/>
+    <logger name="ch" level="INFO"/>
+    <logger name="org.apache.hc.client5" level="DEBUG"/>
     <!--
     -->
     <!--<logger name="httpclient.wire.header" level="info"/>

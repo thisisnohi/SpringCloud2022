@@ -9,6 +9,7 @@ eureka:
     fetch-registry: false #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
     service-url:
       defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 #      defaultZone: http://127.0.0.1:7002/eureka
   server:
     enable-self-preservation: false  #（设为false，关闭自我保护主要）

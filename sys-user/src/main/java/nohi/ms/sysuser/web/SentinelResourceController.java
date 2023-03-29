@@ -12,6 +12,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import nohi.ms.common.sentinel.ClientFallBack;
 import nohi.ms.common.sentinel.HanlderExpection;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,11 +104,9 @@ public class SentinelResourceController {
     @GetMapping(value = "/lists")
     @SentinelResource(value = RESOURCE_LISTS,
             // 限流
-            blockHandlerClass = HanlderExpection.class,
-            blockHandler = "AllHandlerExpection",
+            blockHandlerClass = HanlderExpection.class, blockHandler = "AllHandlerExpection",
             // 失败
-            fallbackClass = ClientFallBack.class,
-            fallback = "fallBack")
+            fallbackClass = ClientFallBack.class, fallback = "fallBack")
     public List<UserDTO> lists() {
         log.info("sentinel.lists...");
         List<UserDTO> list = Lists.newArrayList();
