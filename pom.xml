@@ -10,7 +10,6 @@
     <module>ms-admin</module>
     <module>ms-gateway</module>
     <module>ms-config</module>
-    <module>ms-config</module>
     <module>sys-user</module>
     <module>ms-api</module>
   </modules>
