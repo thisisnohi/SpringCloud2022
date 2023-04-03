@@ -1,6 +1,6 @@
 package nohi.ms.sysuser.web;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author NOHI
  * 2022-08-06 20:09
  **/
-@Api(tags = "HystrixClient")
+@Tag(name = "HystrixClient")
 @RestController
 @RequestMapping("/hystrix")
 @Slf4j

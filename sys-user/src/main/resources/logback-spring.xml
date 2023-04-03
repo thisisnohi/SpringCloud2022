@@ -77,7 +77,7 @@
     <logger name="_org" level="WARN"/>
     <logger name="com" level="INFO"/>
     <logger name="ch" level="INFO"/>
-    <logger name="org.apache.hc.client5" level="DEBUG"/>
+    <logger name="org.apache.hc.client5" level="WARN"/>
     <!--
     -->
     <!--<logger name="httpclient.wire.header" level="info"/>

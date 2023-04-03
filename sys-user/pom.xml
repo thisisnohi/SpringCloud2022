@@ -124,20 +124,22 @@
             <version>2.0.8</version>
         </dependency>
 
-        <!-- swagger-ui Knife4j，只需要导入这一个依赖就好了，无需在添加spring-fox的依赖
-          20220721 knife4j 启动异常，改为 swagger3
+        <!--
+            Spring Boot 3 只支持OpenAPI3规范
+            Knife4j提供的starter已经引用springdoc-openapi的jar，开发者需注意避免jar包冲突
+            JDK版本必须 >= 17
         -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>3.0.3</version>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>4.1.0</version>
         </dependency>
 
-        <!--    <dependency>-->
-        <!--      <groupId>io.springfox</groupId>-->
-        <!--      <artifactId>springfox-boot-starter</artifactId>-->
-        <!--      <version>3.0.0</version>-->
-        <!--    </dependency>-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.15</version>
+        </dependency>
 
         <!--整合 mybatis -->
         <!--    <dependency>-->
@@ -148,6 +150,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <!--mybatis自动生成代码插件-->
             <plugin>

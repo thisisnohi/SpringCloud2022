@@ -10,8 +10,8 @@ import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import nohi.ms.common.sentinel.ClientFallBack;
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  * @author NOHI
  * 2022-07-11 13:46
  **/
-@Api(tags = "Sentinel")
+@Tag(name = "Sentinel")
 @RestController
 @RequestMapping("/sentinel")
 @Slf4j
@@ -100,7 +100,7 @@ public class SentinelResourceController {
         FlowRuleManager.loadRules(ruleList);
     }
 
-    @ApiOperation(value = "lists返回列表", notes = "返回列表")
+    @Operation(summary = "lists返回列表", description = "返回列表")
     @GetMapping(value = "/lists")
     @SentinelResource(value = RESOURCE_LISTS,
             // 限流
@@ -117,7 +117,7 @@ public class SentinelResourceController {
         return list;
     }
 
-    @ApiOperation(value = "lists-sleep", notes = "用户列表,服务sleep指定秒")
+    @Operation(summary = "lists-sleep", description = "用户列表,服务sleep指定秒")
     @GetMapping(value = "/lists-sleep")
     @SentinelResource(RESOURCE_LISTS_SLEEP)
     public List<UserDTO> listsWithSleep(Integer sleep) throws InterruptedException {
@@ -136,7 +136,7 @@ public class SentinelResourceController {
         return list;
     }
 
-    @ApiOperation(value = "service方法熔断", notes = "service方法熔断")
+    @Operation(summary = "service方法熔断", description = "service方法熔断")
     @GetMapping(value = "/service")
     public List<UserDTO> serviceSentinel(String type, Integer runTimes) {
         log.info("sentinel.serviceSentinel...type[{}] runTimes[{}]", type, runTimes);
@@ -169,7 +169,7 @@ public class SentinelResourceController {
         return list;
     }
 
-    @ApiOperation(value = "异步方法熔断降级", notes = "异步方法熔断降级")
+    @Operation(summary = "异步方法熔断降级", description = "异步方法熔断降级")
     @GetMapping(value = "/sync-method")
     public String syncMethod() {
         AsyncEntry asyncEntry = null;

@@ -20,9 +20,6 @@ management:
     web:
       exposure:
         include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
-# Swagger3
-swagger:
-  enabled: true
 # feign 配置
 feign:
   sentinel:
@@ -30,7 +27,7 @@ feign:
 # 日志
 logging:
   level:
-     nohi.ms.common: INFO
+    nohi.ms.common: INFO
   path: ${HOME}/logs/${spring.application.name}
 
 
