@@ -2,12 +2,12 @@ server:
   port: ${EUREKA_PORT:8761}  #该 Module 的端口号
 eureka:
   instance:
-    hostname: ${eureka.instance.hostname}:${server.port} #eureka服务端的实例名称，
+    hostname: ${EUREKA.INSTANCE.HOSTNAME:peer1} #eureka服务端的实例名称，
     appname: ${spring.application.name}
     prefer-ip-address: true
   client:
-    register-with-eureka: true #false表示不向注册中心注册自己。
-    fetch-registry: true  #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    register-with-eureka: false #false表示不向注册中心注册自己。
+    fetch-registry: false  #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
     service-url:
       defaultZone: ${EUREKA_SERVER:http://${spring.security.user.name}:${spring.security.user.password}@peer1:7001/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@peer2:7002/eureka/}
       # defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
@@ -16,7 +16,10 @@ eureka:
 #    eviction-interval-timer-in-ms: 60000 # //清理间隔（单位毫秒，默认是60*1000）
 # eureka认证
 spring:
-  security:
-    user:
-      name: ${EUREKA_USER:admin}
-      password: ${EUREKA_PASS:admin}
+  application:
+    name: ms-eureka  # 微服务名称，对外暴漏的微服务名称，十分重要
+# 关闭安全
+#  security:
+#    user:
+#      name: ${EUREKA_USER:admin}
+#      password: ${EUREKA_PASS:admin}

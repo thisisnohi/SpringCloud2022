@@ -13,20 +13,16 @@
   <properties>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-webflux</artifactId>
-    </dependency>
     <!--为服务注册中心引入 Eureka Server 的依赖-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
     </dependency>
     <!-- 安全 -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-security</artifactId>-->
+<!--    </dependency>-->
 
     <!--devtools 和 lombok 均为开发辅助模块，根据需求适当选择-->
     <!--<dependency>

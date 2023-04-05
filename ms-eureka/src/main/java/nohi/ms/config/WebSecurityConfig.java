@@ -18,13 +18,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .formLogin();
+//                .authorizeHttpRequests()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .httpBasic()
+//                .and()
+//                .formLogin()
+                ;
         return http.build();
     }
 }

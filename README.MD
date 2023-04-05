@@ -60,7 +60,7 @@ Just demo for Spring Cloud
     ```
   * 客户端
     * 不在需要@EnableDiscoveryClient、@EnableEurekaClient, 注册已经删除。SpringBoot自动配置，自动发现注册中心
-
+  * 如不需要安全，则删除security依赖、配置文件security部分、http.csrc().disable以后部分
 ## Knife4j
 
 > [参考](https://doc.xiaominfo.com/docs/quick-start)
