@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import nohi.ms.sys.user.dto.userquery.UserDTO;
 import nohi.ms.sys.user.dto.userquery.UserQueryReq;
@@ -59,8 +60,8 @@ public class UserController {
         return list;
     }
 
-    @RequestMapping(value = "/lists")
-    public List<UserDTO> lists(@RequestBody UserQueryReq req) {
+    @PostMapping(value = "/lists")
+    public List<UserDTO> lists(@RequestBody @Valid UserQueryReq req) {
         log.debug("用户列表:{}", JSONObject.toJSONString(req));
 
         List<UserDTO> list = Lists.newArrayList();
