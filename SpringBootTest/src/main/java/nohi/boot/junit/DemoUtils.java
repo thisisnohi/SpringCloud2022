@@ -1,5 +1,7 @@
 package nohi.boot.junit;
 
+import java.util.UUID;
+
 /**
  * <h3>SpringBootTest</h3>
  *
@@ -10,6 +12,30 @@ package nohi.boot.junit;
 public class DemoUtils {
 
     public int intAdd(int a, int b){
+        return add(a, b);
+    }
+
+    private int add(int a, int b){
         return a + b;
+    }
+
+    /**
+     * 无引用私有方法
+     * @return
+     */
+    private int unlinkMethod(){
+        return 0;
+    }
+
+    public int intSub(int a, int b){
+        return a - b;
+    }
+
+    public int intMult(int a, int b){
+        return a * b;
+    }
+
+    public static String uuid(){
+        return UUID.randomUUID().toString();
     }
 }
