@@ -11,31 +11,45 @@ import java.util.UUID;
  **/
 public class DemoUtils {
 
-    public int intAdd(int a, int b){
+    /**
+     * 检查对象是否为空
+     *
+     * @param obj
+     * @return
+     */
+    public Object checkNull(Object obj) {
+        if (obj != null) {
+            return obj;
+        }
+        return null;
+    }
+
+    public int intAdd(int a, int b) {
         return add(a, b);
     }
 
-    private int add(int a, int b){
+    private int add(int a, int b) {
         return a + b;
     }
 
     /**
      * 无引用私有方法
+     *
      * @return
      */
-    private int unlinkMethod(){
+    private int unlinkMethod() {
         return 0;
     }
 
-    public int intSub(int a, int b){
+    public int intSub(int a, int b) {
         return a - b;
     }
 
-    public int intMult(int a, int b){
+    public int intMult(int a, int b) {
         return a * b;
     }
 
-    public static String uuid(){
+    public static String uuid() {
         return UUID.randomUUID().toString();
     }
 }
