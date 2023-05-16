@@ -53,3 +53,7 @@
 ## 20220908
 * 增加sys-user dev profile
 * 增加nohi-web工程，http挡板程序
+
+## 20230516
+* 增加单元测试内容
+* junit、surefire、jacoco

@@ -13,8 +13,9 @@
     <module>ms-config</module>
     <module>sys-user</module>
     <module>ms-api</module>
+    <module>JunitTest</module>
   </modules>
-  <name>springcloud-2022</name>
+  <name>SpringCloud-2022</name>
   <packaging>pom</packaging>
   <description>Demo project for Spring Cloud 2022</description>
 
