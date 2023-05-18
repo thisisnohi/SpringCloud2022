@@ -1,5 +1,7 @@
-package nohi.boot.junit;
+package nohi.demo.junit;
 
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +14,6 @@ import java.util.concurrent.TimeUnit;
  * @description <p>单元测试</p>
  * @date 2023/01/10 21:43
  **/
-import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DemoUtils {
     List list1 = List.of("A", "B", "C");

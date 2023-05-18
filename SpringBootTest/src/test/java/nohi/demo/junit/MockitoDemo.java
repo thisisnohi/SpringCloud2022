@@ -1,4 +1,4 @@
-package nohi.boot.junit;
+package nohi.demo.junit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
