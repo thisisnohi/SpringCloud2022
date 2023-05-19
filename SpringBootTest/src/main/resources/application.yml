@@ -1,4 +1,13 @@
+info:
+  appName: ${spring.application.name}
+  appDesc: 'SrpingBoot Test'
+  groupId: '@project.groupId@'
+  artifactId: '@project.artifactId@'
+  version: '@project.version@'
 
+  #
+  school:
+    name: nohi-demo
 
 mybatis-plus:
   configuration:
