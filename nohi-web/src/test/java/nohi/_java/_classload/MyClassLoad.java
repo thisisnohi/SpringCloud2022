@@ -52,7 +52,7 @@ public class MyClassLoad extends ClassLoader {
         System.out.println("java.class.path:" + System.getProperty("java.class.path"));
 
         System.out.println("============================================================================");
-        URL[] urls = sun.misc.Launcher.getBootstrapClassPath().getURLs();
+        URL[] urls = null; //sun.misc.Launcher.getBootstrapClassPath().getURLs();
         for (URL url : urls) {
             System.out.println(url.toExternalForm());
         }

@@ -1,8 +1,11 @@
 package nohi.boot.demo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import nohi.boot.demo.dao.TbUserMapper;
 import nohi.boot.demo.entity.TbUser;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.*;
  * @description <p>UserServiceImpl</p>
  * @date 2023/01/13 13:05
  **/
+@Slf4j
 @Service
 public class TbUserService {
 
@@ -28,6 +32,39 @@ public class TbUserService {
      */
     public List<TbUser> queryAll() {
         return userMapper.selectList(null);
+    }
+
+
+    /**
+     * 保存用户
+     * ID存在则更新，不存在则新增
+     *
+     * @param user 入参
+     * @return 返回
+     */
+    public TbUser saveUser(TbUser user) {
+        /** 对象检查 **/
+        if (null == user || StringUtils.isBlank(user.getName())) {
+            log.warn("用户信息为空/用户姓名为空");
+            throw new RuntimeException("用户信息不能为空/姓名不能为空");
+        }
+
+        /** 判断是否重复 **/
+        Integer id = user.getId();
+        TbUser old = null;
+        if (null != id) {
+            old = this.queryById(id);
+        }
+
+        if (old != null) {
+            log.info("用户[{}]已存在，更新数据", id);
+            user.setId(id);
+        } else {
+            log.info("新增用户[{}]", user.getName());
+        }
+        id = this.add(user);
+        user.setId(id);
+        return user;
     }
 
     /**
@@ -58,7 +95,11 @@ public class TbUserService {
      * @return
      */
     public TbUser queryById(TbUser user) {
-        return userMapper.selectById(user.getId());
+        return this.queryById(user.getId());
+    }
+
+    public TbUser queryById(Integer id) {
+        return userMapper.selectById(id);
     }
 
     /**
@@ -179,4 +220,5 @@ public class TbUserService {
         int num = userMapper.deleteBatchIds(idList);
         System.out.println("影响行数：" + num);
     }
+
 }
