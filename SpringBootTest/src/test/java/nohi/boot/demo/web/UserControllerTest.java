@@ -37,7 +37,7 @@ class UserControllerTest {
 
     @Test
     void users() {
-        String requestResult = this.restTemplate.getForObject("http://127.0.0.1:" + port + "/users",
+        String requestResult = this.restTemplate.getForObject("http://127.0.0.1:" + port + "/user/hello/1230@qq.com",
                 String.class);
         Assertions.assertThat(requestResult).contains("1230@qq.com");
     }
