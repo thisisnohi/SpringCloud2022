@@ -21,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 @Slf4j
 @SpringBootTest(classes = SpringBootTestApplication.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DisplayName("Mock Bean 和 Exception异常")
 public class MockBeanTest {
     TbUser firstUser;
     @MockBean

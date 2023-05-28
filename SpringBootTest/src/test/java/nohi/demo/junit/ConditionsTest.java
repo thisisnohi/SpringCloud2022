@@ -1,6 +1,7 @@
 package nohi.demo.junit;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.*;
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.condition.*;
  * @description <p>条件测试</p>
  * @date 2023/05/16 21:14
  **/
+@DisplayName("测试条件执行方法")
 public class ConditionsTest {
     @Test
     @Disabled("Don't run until JIRA #123 is resolved")

@@ -1,6 +1,8 @@
 package nohi.boot.models;
 
 public class CollegeStudent implements Student {
+    /**私有属性，不提供get/set**/
+    private Integer id;
     private String firstname;
     private String lastname;
     private String emailAddress;
@@ -65,5 +67,9 @@ public class CollegeStudent implements Student {
     @Override
     public String getFullName() {
         return getFirstname() + " " + getLastname();
+    }
+
+    private String getFirstNameAndId(){
+        return getFirstname() + " " + id;
     }
 }
