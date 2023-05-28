@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+
 /**
  * @author NOHI
  * @program: nohi-web

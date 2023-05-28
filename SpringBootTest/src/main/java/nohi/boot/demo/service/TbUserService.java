@@ -28,10 +28,20 @@ public class TbUserService {
     /**
      * 查询全部
      *
-     * @return
+     * @return 返回列表
      */
     public List<TbUser> queryAll() {
         return userMapper.selectList(null);
+    }
+
+
+    /**
+     * selectByExample
+     *
+     * @return 返回列表
+     */
+    public List<TbUser> selectByExample(Map<String, Object> map) {
+        return userMapper.selectByExample(map);
     }
 
 

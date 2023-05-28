@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    #url: jdbc:h2:mem:test  内存模式，数据不会持久化
+    #    url:jdbc:h2:~/test  嵌入模式，数据文件存储在用户目录test开头的文件中
+    #    url:jdbc:h2:tcp//localhost/〜/test 远程模式，访问远程的h2 数据库
+    # 如果需要数据本地化，则改成 file 方式
+    #jdbc:h2:file: ${HOME}/data/sqlite3/testDB;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:~/data/sqlite3/test
+    username: sa
+    password: 123456
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+  sql:
+    # 初始化表
+    # 初始化数据
+    init:
+      schema-locations: classpath:db/01_ddl.sql
+      data-locations: classpath:db/02_data.sql
+      mode: always
+      continue-on-error: true

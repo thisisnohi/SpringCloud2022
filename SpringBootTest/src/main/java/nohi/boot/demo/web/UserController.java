@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <h3>SpringBootTest</h3>
  *
@@ -36,6 +39,16 @@ public class UserController {
     public Object users() {
         logger.info("===users===");
         return userService.queryAll();
+    }
+
+    @ApiOperationSupport(author = "thisisnohi@163.com")
+    @Operation(summary = "获取所有user")
+    @GetMapping("/list/{idMin}")
+    public Object listUsers(@PathVariable("idMin") Integer idMin) {
+        logger.info("===listUsers===");
+        Map<String, Object> map = new HashMap<>();
+        map.put("idMin", idMin);
+        return userService.selectByExample(map);
     }
 
     @Operation(summary  = "保存用户")

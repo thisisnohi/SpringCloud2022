@@ -14,6 +14,11 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
     map-underscore-to-camel-case: true
     # 该配置就是将带有下划线的表字段映射为驼峰格式的实体类属性
+#  mapper-locations: classpath*:/nohi/boot/demo/**/*.xml
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      property-format: "\"%s\""
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -36,3 +41,7 @@ springdoc:
 
 knife4j:
   enable: true
+
+ogging:
+  level:
+    nohi.boot: debug
