@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import nohi.boot.demo.entity.TbUser;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <h3>SpringBootTest</h3>
  * 表明这是一个Mapper，也可以在启动类上加上包扫描
@@ -16,4 +19,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface TbUserMapper extends BaseMapper<TbUser> {
 
+    List<TbUser> selectByExample(Map<String, Object> map);
 }
