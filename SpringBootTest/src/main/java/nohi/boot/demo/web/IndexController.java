@@ -2,6 +2,7 @@ package nohi.boot.demo.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,15 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @description <p></p>
  * @date 2023/01/12 12:32
  **/
-@RestController
-@RequestMapping("/index")
-
+@Controller
+@RequestMapping("/")
 public class IndexController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @GetMapping("")
-    public Object index() {
+    @GetMapping(value = {"/", "/index"})
+    public String index() {
         logger.info("===index===");
-        return "index";
+        return "/index";
     }
 }

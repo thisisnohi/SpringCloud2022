@@ -129,6 +129,7 @@
           <include>**/*.properties</include>
           <include>**/*.yml</include>
           <include>**/*.xml</include>
+          <include>**/*.html</include>
           <include>**/*.sql</include>
         </includes>
         <filtering>false</filtering>

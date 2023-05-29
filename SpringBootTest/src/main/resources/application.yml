@@ -20,6 +20,12 @@ mybatis-plus:
     db-config:
       property-format: "\"%s\""
 spring:
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    prefix: classpath:/templates
+    servlet:
+      content-type: text/html
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/test_mybatis_plus?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8

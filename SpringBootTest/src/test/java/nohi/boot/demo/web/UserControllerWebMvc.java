@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
  * @date 2023/01/16 21:30
  **/
 @WebMvcTest
-public class UserControolerWebMvc {
+public class UserControllerWebMvc {
 
     @Autowired
     private UserController helloController;
