@@ -52,8 +52,20 @@ public class UserController {
     }
 
     @Operation(summary  = "保存用户")
-    @GetMapping("/save")
+    @PostMapping("/save")
     public TbUser saveUser(@RequestBody TbUser user) {
+        logger.info("保存User:{}", JSONObject.toJSONString(user));
+        return userService.saveUser(user);
+    }
+
+    @Operation(summary  = "保存用户")
+    @PostMapping("/add")
+    public TbUser addUser(String name, String sex, String mail) {
+        TbUser user = TbUser.builder().build();
+        user.setName(name);
+        user.setSex(sex);
+        user.setEmail(mail);
+        user.setPwd("000000");
         logger.info("保存User:{}", JSONObject.toJSONString(user));
         return userService.saveUser(user);
     }
