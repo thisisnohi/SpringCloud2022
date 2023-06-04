@@ -37,7 +37,7 @@ eureka:
     healthcheck:
       enabled: true  # 开启健康检查（需要spring-boot-starter-actuator依赖）
     service-url:
-      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka/}
+      defaultZone: http://localhost:7001/eureka/
 #      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
 #      defaultZone: http://${EUREKA_USER:admin}:${EUREKA_PASS:admin}@127.0.0.1:7001/eureka
 #      defaultZone: http://10.0.0.210:7001/eureka
@@ -75,7 +75,7 @@ feign:
     config:
       # 默认为所有的feign client做配置(注意和上例github-client是同级的)
       default:
-        connectTimeout: 5000                        # 连接超时时间
+        connect-Timeout: 5000                        # 连接超时时间
         readTimeout: 5000                           # 读超时时间设置
   sentinel:
     enabled: true

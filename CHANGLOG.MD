@@ -56,5 +56,9 @@
 
 ## 20230328
 * 升级SpringBoot 3.0
-* 升级SpringCloud 2022.0.x aka Kilburn
+* 升级SpringCloud 2022.0.x aka Kilburn: 2022.0.3
 * 计划增加部署K8s内容
+
+## 20230604
+* 升级SpringBoot 3.07
+* 升级SprignCloud 2023.0.3

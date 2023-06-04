@@ -24,17 +24,16 @@ import java.util.List;
  * @author NOHI
  * 2022-07-11 13:46
  **/
-@SuppressWarnings("deprecation")
 @RestController
 @RequestMapping("/eureka")
 @Tag(name = "Eureka配置获取")
 @Slf4j
 public class EurekaController {
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserFeignApi userFeignApi;
     @Autowired
     private DiscoveryClient discoveryClient;
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -57,6 +56,7 @@ public class EurekaController {
     public void offline() {
         log.debug("====offline======");
         DiscoveryManager.getInstance().shutdownComponent();
+
     }
 
     @Operation(summary = "通过feign获取用户列表", description = "feign获取用户列表")

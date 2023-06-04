@@ -1,15 +1,20 @@
 server:
-  port: ${EUREKA_PORT:8761}  #该 Module 的端口号
+  port: ${EUREKA_PORT:7001}  #该 Module 的端口号
 eureka:
   instance:
+    # hosts文件修改 127.0.0.1 peer1
     hostname: ${EUREKA.INSTANCE.HOSTNAME:peer1} #eureka服务端的实例名称，
-    appname: ${spring.application.name}
+    app-name: ${spring.application.name}
     prefer-ip-address: true
   client:
     register-with-eureka: false #false表示不向注册中心注册自己。
     fetch-registry: false  #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
     service-url:
-      defaultZone: ${EUREKA_SERVER:http://${spring.security.user.name}:${spring.security.user.password}@peer1:7001/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@peer2:7002/eureka/}
+      # 有安全认证
+      # defaultZone: ${EUREKA_SERVER:http://${spring.security.user.name}:${spring.security.user.password}@peer1:7001/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@peer2:7002/eureka/}
+      # 无安全认证
+      # defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
       # defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
   server:
     enable-self-preservation: false  #（设为false，关闭自我保护主要）
@@ -18,8 +23,8 @@ eureka:
 spring:
   application:
     name: ms-eureka  # 微服务名称，对外暴漏的微服务名称，十分重要
-# 关闭安全
-#  security:
-#    user:
-#      name: ${EUREKA_USER:admin}
-#      password: ${EUREKA_PASS:admin}
+  # 安全
+  security:
+    user:
+      name: ${EUREKA_USER:admin}
+      password: ${EUREKA_PASS:admin}

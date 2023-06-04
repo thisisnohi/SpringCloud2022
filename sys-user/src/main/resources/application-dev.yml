@@ -5,7 +5,7 @@ spring:
   boot:
     admin:
       client:
-        enabled: false
+        enabled: true
 eureka:
   client:
     register-with-eureka: true # false表示不向注册中心注册自己。

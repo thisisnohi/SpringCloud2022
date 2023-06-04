@@ -16,8 +16,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 public class SysUserApplication {
     public static void main(String[] args) {
-        System.setProperty("http.proxyHost", "127.0.0.1");
-        System.setProperty("http.proxyPort", "8887");
+//        System.setProperty("http.proxyHost", "127.0.0.1");
+//        System.setProperty("http.proxyPort", "8887");
 
         SpringApplication.run(SysUserApplication.class, args);
     }
