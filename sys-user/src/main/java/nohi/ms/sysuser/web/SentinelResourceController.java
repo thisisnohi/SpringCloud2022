@@ -136,7 +136,7 @@ public class SentinelResourceController {
         return list;
     }
 
-    @ApiOperation(value = "service方法熔断", notes = "service方法熔断")
+    @Operation(summary = "service方法熔断", description = "service方法熔断")
     @GetMapping(value = "/service")
     public List<UserDTO> serviceSentinel(String type, Integer runTimes) {
         log.info("sentinel.serviceSentinel...type[{}] runTimes[{}]", type, runTimes);
