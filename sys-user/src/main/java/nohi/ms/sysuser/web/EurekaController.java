@@ -2,8 +2,8 @@ package nohi.ms.sysuser.web;
 
 import com.netflix.discovery.DiscoveryManager;
 import feign.Param;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import nohi.ms.sys.user.dto.userquery.UserDTO;
 import nohi.ms.sysuser.feign.UserFeignApi;
@@ -24,41 +24,42 @@ import java.util.List;
  * @author NOHI
  * 2022-07-11 13:46
  **/
-@SuppressWarnings("deprecation")
 @RestController
 @RequestMapping("/eureka")
+@Tag(name = "Eureka配置获取")
 @Slf4j
-@Api(tags = "Eureka")
 public class EurekaController {
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserFeignApi userFeignApi;
     @Autowired
     private DiscoveryClient discoveryClient;
+
     @Autowired
     private RestTemplate restTemplate;
 
-    @ApiOperation(value = "获取应用列表", notes = "获取应用列表清单")
+    @Operation(summary = "获取应用列表", description = "获取应用列表")
     @GetMapping(value = "/apps")
     public Object apps() {
         log.debug("====apps======");
         return discoveryClient.getServices();
     }
 
-    @ApiOperation(value = "获取应用地址", notes = "获取应用地址清单")
+    @Operation(summary = "获取应用地址", description = "获取应用地址清单")
     @GetMapping(value = "/apps/{id}")
     public Object instance(@PathVariable("id") String id) {
         log.debug("====instance====== {}", id);
         return discoveryClient.getInstances(id);
     }
 
-    @ApiOperation(value = "应用下线", notes = "应用下线")
+    @Operation(summary = "应用下线", description = "应用下线")
     @GetMapping(value = "/offline")
     public void offline() {
         log.debug("====offline======");
         DiscoveryManager.getInstance().shutdownComponent();
+
     }
-    @ApiOperation(value = "通过feign获取用户列表", notes = "feign获取用户列表")
+
+    @Operation(summary = "通过feign获取用户列表", description = "feign获取用户列表")
     @GetMapping(value = "/feign/user/lists")
     public List<UserDTO> userLists() {
         log.debug("====userLists start======");
@@ -67,7 +68,8 @@ public class EurekaController {
         log.debug("====userLists end======");
         return list;
     }
-    @ApiOperation(value = "通过feign获取用户列表, sleep指定秒", notes = "feign获取用户列表")
+
+    @Operation(summary = "通过feign获取用户列表, sleep指定秒", description = "feign获取用户列表")
     @GetMapping(value = "/feign/user/lists-sleep")
     public List<UserDTO> userListsSleep(@Param("sleep") int sleep) {
         log.debug("====userLists start======sleep[{}]", sleep);
@@ -77,7 +79,7 @@ public class EurekaController {
         return list;
     }
 
-    @ApiOperation(value = "通过RestTemplate获取用户列表", notes = "获取用户列表：RestTemplate ")
+    @Operation(summary = "通过RestTemplate获取用户列表", description = "获取用户列表：RestTemplate ")
     @GetMapping(value = "/rest/user/lists")
     public List<UserDTO> restUserLists() {
         log.debug("====userLists start======");
@@ -86,7 +88,7 @@ public class EurekaController {
 
         log.debug("urlPath:{}", urlPath);
         String resp1 = restTemplate.getForObject(urlPath, String.class);
-        log.debug("response:{}",  resp1);
+        log.debug("response:{}", resp1);
         log.info("================");
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);

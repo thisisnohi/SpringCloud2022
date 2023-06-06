@@ -1,5 +1,7 @@
 package nohi.ms.sys.user.dto.userquery;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -8,6 +10,8 @@ import lombok.Data;
  **/
 @Data
 public class UserQueryReq {
+    @NotBlank(message = "abc不能为空")
+    @NotNull(message = "abc不能为空")
     private String userId;
     private String userNo;
     private String userName;

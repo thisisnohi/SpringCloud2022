@@ -5,11 +5,11 @@ spring:
   boot:
     admin:
       client:
-        enabled: false
+        enabled: true
 eureka:
   client:
-    register-with-eureka: false # false表示不向注册中心注册自己。
-    fetch-registry: false  # 不获取服务列表
+    register-with-eureka: true # false表示不向注册中心注册自己。
+    fetch-registry: true  # 不获取服务列表
 # Spring Boot 2.50对 actuator 监控屏蔽了大多数的节点，只暴露了 heath 节点，本段配置（*）就是为了开启所有的节点
 management:
   info:
@@ -20,9 +20,6 @@ management:
     web:
       exposure:
         include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
-# Swagger3
-swagger:
-  enabled: true
 # feign 配置
 feign:
   sentinel:
@@ -30,7 +27,7 @@ feign:
 # 日志
 logging:
   level:
-     nohi.ms.common: INFO
+    nohi.ms.common: INFO
   path: ${HOME}/logs/${spring.application.name}
 
 

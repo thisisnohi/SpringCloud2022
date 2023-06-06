@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sys-user
+  namespace: {{NAMESPACE}}
+spec:
+  rules:
+    - host: {{INGRESS_USER_SERVICE}}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sys-user
+                port:
+                  number: 8080
+status:
+  loadBalancer: { }
