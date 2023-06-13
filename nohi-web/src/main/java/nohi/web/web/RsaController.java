@@ -2,8 +2,8 @@ package nohi.web.web;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import nohi.web.dto.res.RsaReqVo;
 import nohi.web.dto.res.RsaRespItemVO;
@@ -29,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("rsa")
-@Api(tags = "RSA")
+@Tag(name = "RSA")
 @Slf4j
 public class RsaController {
 
@@ -40,7 +40,7 @@ public class RsaController {
 
 
     @PostMapping(value = "/queryBalance")
-    @ApiOperation("runTime")
+    @Operation(method = "runTime", summary = "测试RSA加密加签", description = "测试RSA加密加签")
     public RsaRespVO runTime(@RequestBody RsaReqVo reqVo) {
         long start = System.currentTimeMillis();
         String traceId = reqVo.getTraceId();

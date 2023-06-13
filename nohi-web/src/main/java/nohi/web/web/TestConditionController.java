@@ -1,7 +1,7 @@
 package nohi.web.web;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import nohi.common.config.BizConfig;
 import nohi.socket.njserver.NjSocketService;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description:
  * @create 2020-07-06 19:16
  **/
-@Api(tags = "TCP服务")
+@Tag(name = "TCP服务")
 @RestController
 @ConditionalOnProperty(prefix = "test", name = "condition.conditioncontroller", havingValue = "true")
 @Slf4j
@@ -35,7 +35,7 @@ public class TestConditionController implements InitializingBean {
         log.debug("====afterPropertiesSet===testStr:{}", testStr);
     }
 
-    @ApiOperation("开启websocket")
+    @Operation(tags = "开启websocket")
     @GetMapping(value = {"startSocket"})
     public String startSocket() {
         int port = testConfig.getZsh().getPort();
@@ -51,7 +51,7 @@ public class TestConditionController implements InitializingBean {
         return "开启socket成功，端口[" + port + "]";
     }
 
-    @ApiOperation("开启NjSocket")
+    @Operation(tags = "开启NjSocket")
     @GetMapping(value = {"开启NjSocket"})
     public String starNjtSocket() {
         int port = testConfig.getNj().getPort();

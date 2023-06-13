@@ -1,8 +1,6 @@
 package nohi.web.dto.contquery;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -11,10 +9,8 @@ import lombok.Data;
  * @description:
  * @create 2020-06-02 11:04
  **/
-@ApiModel( description = "合同查询请求体")
 @Data
 public class ContractQueryRespHead {
-    @ApiModelProperty( value = "合同编号")
     @JsonProperty("trans_seq_no")
     private String transSeqNo;
 

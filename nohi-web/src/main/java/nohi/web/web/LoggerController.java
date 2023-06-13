@@ -4,8 +4,8 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.google.common.collect.Maps;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ import java.util.Map;
  * 2022-07-25 12:11
  **/
 @Slf4j
-@Api(tags = "日志级别")
+@Tag(name = "日志级别")
 @RestController
 @RequestMapping("/logger")
 public class LoggerController {
@@ -48,7 +48,7 @@ public class LoggerController {
         logger.trace("日志级别 TRACE");
     }
 
-    @ApiOperation(value = "获取日志级别列表", notes = "获取日志级别列表")
+    @Operation(summary = "获取日志级别列表", description = "获取日志级别列表")
     @GetMapping("/level")
     public Map<String, String> level() {
         List<Logger> loggerList = loggerContext.getLoggerList();
@@ -61,7 +61,7 @@ public class LoggerController {
         return resultMap;
     }
 
-    @ApiOperation(value = "获取指定name对应日志级别", notes = "获取指定name对应日志级别")
+    @Operation(summary = "获取指定name对应日志级别", description = "获取指定name对应日志级别")
     @GetMapping("/{package}/level")
     public Map<String, String> getLevel(@PathVariable("package") String packageName) {
         Map<String, String> resultMap = Maps.newHashMap();
@@ -77,7 +77,7 @@ public class LoggerController {
         return resultMap;
     }
 
-    @ApiOperation(value = "设置指定name对应日志级别", notes = "package:为指定名称/包路径 level: 日志级别")
+    @Operation(summary = "设置指定name对应日志级别", description = "package:为指定名称/包路径 level: 日志级别")
     @GetMapping("/setLevel/{package}/{level}")
     public Map<String, String> setLevel(@PathVariable("package") String packageName, @PathVariable("level") String level) {
         log.info("set [{}]日志级别[{}]", packageName, level);

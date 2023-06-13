@@ -1,6 +1,8 @@
 package nohi.web.service.proxy;
 
 import com.alibaba.fastjson2.JSONObject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import nohi.common.config.BizConfig;
 import nohi.web.utils.FileUtils;
@@ -8,8 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.Enumeration;

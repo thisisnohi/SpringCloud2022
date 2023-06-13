@@ -1,6 +1,6 @@
 package nohi.web.dto.contquery;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
 /**
@@ -9,7 +9,7 @@ import lombok.Data;
  * @description:
  * @create 2020-06-02 11:04
  **/
-@ApiModel( description = "合同查询请求体")
+@Tag( name = "合同查询请求体")
 @Data
 public class ContractQueryReq {
    private ContractQueryHead head;

@@ -1,7 +1,7 @@
 package nohi.web.web;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import nohi.web.service.enent.DemoEventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @description <p>测试SpringbootEvent</p>
  * @date 2022/10/24 16:16
  **/
-@Api(tags = "SpringBootEvent测试")
+@Tag(name = "SpringBootEvent测试")
 @RestController
 @RequestMapping("/testSpringBootEvent")
 @Slf4j
@@ -27,7 +27,7 @@ public class TestStpringBootEventController {
     @Autowired
     private DemoEventPublisher demoEventPublisher;
 
-    @ApiOperation(value = "发布事件", notes = "发布事件")
+    @Operation(summary = "发布事件", description = "发布事件")
     @GetMapping("/publish")
     public Map<String, String> publish(String msg) {
         demoEventPublisher.publish(System.currentTimeMillis(), msg);

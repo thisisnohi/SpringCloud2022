@@ -40,6 +40,9 @@ management:
       exposure:
         include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
 
+knife4j:
+  enable: true
+
 # 业务属性
 target:
   url: http://127.0.0.1:8089
