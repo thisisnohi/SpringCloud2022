@@ -15,9 +15,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ServletComponentScan
 @EnableFeignClients
 @EnableScheduling
-public class Application {
+public class NohiWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(NohiWebApplication.class, args);
     }
 }
