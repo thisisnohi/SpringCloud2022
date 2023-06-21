@@ -4,12 +4,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * SpringBootNative  启动程序
  * @author NOHI
  * @date 2023/6/18
  */
+@RestController
 @SpringBootApplication
 public class SpringBootNativeApplication {
 
@@ -19,6 +21,6 @@ public class SpringBootNativeApplication {
 
     @GetMapping(path = "/main")
     public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("world");
+        return ResponseEntity.ok("Hello world! SpringBootNative");
     }
 }

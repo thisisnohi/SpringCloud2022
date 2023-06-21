@@ -10,4 +10,4 @@ info:
   version: @project.version@
 spring:
   application:
-    name: nohi-web  # 微服务名称，对外暴漏的微服务名称，十分重
+    name: SpringBootNative  # 微服务名称，对外暴漏的微服务名称，十分重
