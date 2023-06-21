@@ -1,4 +1,4 @@
-package nohi.web.dto.res;
+package nohi.web.dto.rsa;
 
 import lombok.Data;
 
