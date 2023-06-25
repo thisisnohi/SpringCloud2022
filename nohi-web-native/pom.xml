@@ -26,6 +26,10 @@
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
@@ -41,10 +45,10 @@
       <version>2.14.2</version>
     </dependency>
 
-    <!-- <dependency>
-       <groupId>org.projectlombok</groupId>
-       <artifactId>lombok</artifactId>
-     </dependency>-->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.hibernate.validator</groupId>
@@ -113,18 +117,40 @@
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-jackson</artifactId>
       <version>11.10</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>feign-core</artifactId>
+          <groupId>io.github.openfeign</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-httpclient</artifactId>
       <version>11.10</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>httpclient</artifactId>
+          <groupId>org.apache.httpcomponents</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>feign-core</artifactId>
+          <groupId>io.github.openfeign</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-okhttp</artifactId>
       <version>11.9.1</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>feign-core</artifactId>
+          <groupId>io.github.openfeign</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -168,7 +194,7 @@
           <!-- imageName用于设置生成的二进制文件名称 -->
           <imageName>${project.artifactId}</imageName>
           <!-- mainClass用于指定main方法类路径 -->
-          <mainClass>nohi.Application</mainClass>
+          <mainClass>nohi.NohiWebNativeApplication</mainClass>
           <buildArgs>
             --no-fallback
             -Dspring.native.remove-yaml-support=true -Dspring.spel.ignore=true

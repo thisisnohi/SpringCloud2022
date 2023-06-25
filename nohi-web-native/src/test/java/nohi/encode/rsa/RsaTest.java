@@ -1,7 +1,7 @@
 package nohi.encode.rsa;
 
-import nohi.web.utils.FileUtils;
-import nohi.web.utils.RSAUtils;
+import nohi.demo.utils.FileUtils;
+import nohi.demo.utils.RSAUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
