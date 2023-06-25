@@ -2,7 +2,7 @@ package nohi.http;
 
 import ch.qos.logback.classic.LoggerContext;
 import lombok.extern.slf4j.Slf4j;
-import nohi.web.utils.HttpClientPoolUtils;
+import nohi.demo.utils.HttpClientPoolUtils;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;

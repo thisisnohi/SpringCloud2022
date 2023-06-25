@@ -1,6 +1,6 @@
 package nohi.http;
 
-import nohi.web.utils.OkHttpUtils;
+import nohi.demo.utils.OkHttpUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
