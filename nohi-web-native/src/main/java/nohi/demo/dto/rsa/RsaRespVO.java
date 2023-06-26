@@ -1,5 +1,6 @@
 package nohi.demo.dto.rsa;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @author NOHI
  * @date 2022/9/3 13:50
  **/
+@Schema(title = "Rsa响应体")
 @Data
 public class RsaRespVO {
     // 返回码

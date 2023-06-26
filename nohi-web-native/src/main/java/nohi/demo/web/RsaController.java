@@ -55,7 +55,7 @@ public class RsaController {
             PublicKey locaPublicKey = RSAUtils.loadPublicKey(pubKey);
             // 加密
             String acctNo = reqVo.getAcctNo();
-            String encryptStr = RSAUtils.encryptData(acctNo, publicKey);
+            String encryptStr = null;
             vo.setAcctNo(acctNo);
 
             List<RsaRespItemVO> list = Lists.newArrayList();

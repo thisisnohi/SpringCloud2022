@@ -1,7 +1,6 @@
 package nohi.demo.event;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -11,8 +10,7 @@ import org.springframework.context.ApplicationEvent;
  * @description <p>Spring Boot Event</p>
  * @date 2022/10/24 16:09
  **/
-@Getter
-@Setter
+@Data
 public class DemoEvent extends ApplicationEvent {
     private Long id;
     private String message;

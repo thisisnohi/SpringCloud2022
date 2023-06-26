@@ -3,10 +3,9 @@ server:
 spring:
   application:
     name: nohi-web-native
-  mvc:
-    pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
-
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 # 日志相关
 logging:
   level:

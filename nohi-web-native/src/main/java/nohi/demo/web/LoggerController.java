@@ -5,6 +5,8 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.google.common.collect.Maps;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -48,7 +50,7 @@ public class LoggerController {
         logger.trace("日志级别 TRACE");
     }
 
-    @Operation(summary = "获取日志级别列表", description = "获取日志级别列表")
+    @Operation(summary = "日志级别列表", description = "获取日志级别列表")
     @GetMapping("/level")
     public Map<String, String> level() {
         List<Logger> loggerList = loggerContext.getLoggerList();
@@ -78,6 +80,7 @@ public class LoggerController {
     }
 
     @Operation(summary = "设置指定name对应日志级别", description = "package:为指定名称/包路径 level: 日志级别")
+    @Parameters({@Parameter(name = "package", description = "package包路径"), @Parameter(name = "level", description = "日志级别")})
     @GetMapping("/setLevel/{package}/{level}")
     public Map<String, String> setLevel(@PathVariable("package") String packageName, @PathVariable("level") String level) {
         log.info("set [{}]日志级别[{}]", packageName, level);

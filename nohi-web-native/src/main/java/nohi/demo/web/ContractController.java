@@ -10,7 +10,7 @@ import feign.jackson.JacksonEncoder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import nohi.demo.dto.RsaMesage;
+import nohi.demo.dto.rsa.RsaMesage;
 import nohi.demo.dto.cont.ContractDataReq;
 import nohi.demo.dto.cont.ContractDataResp;
 import nohi.demo.dto.contquery.*;

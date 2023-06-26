@@ -1,7 +1,7 @@
 package nohi.demo.feign;
 
 import nohi.common.config.FeignConfiguration;
-import nohi.demo.dto.RsaMesage;
+import nohi.demo.dto.rsa.RsaMesage;
 import nohi.demo.dto.contquery.ContractQueryReq;
 import nohi.demo.dto.contquery.ContractQueryResp;
 import org.springframework.cloud.openfeign.FeignClient;
