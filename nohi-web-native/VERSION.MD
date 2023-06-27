@@ -5,3 +5,6 @@
   * 增加SpringBoot Event
 * 20230625
   * 增加lombok
+* 20230626 
+  * 增加knifedemo
+  * 增加springboot validate
