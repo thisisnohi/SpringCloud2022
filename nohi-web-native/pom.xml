@@ -21,6 +21,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <java.version>17</java.version>
+    <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
   </properties>
 
   <dependencies>
@@ -32,7 +33,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -150,13 +150,18 @@
     <dependency>
       <groupId>com.alibaba.fastjson2</groupId>
       <artifactId>fastjson2</artifactId>
-      <version>2.0.13</version>
+      <version>2.0.34</version>
     </dependency>
 
     <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
       <version>3.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>6.0.9</version>
     </dependency>
 
     <dependency>
@@ -178,7 +183,8 @@
           <mainClass>nohi.NohiWebNativeApplication</mainClass>
           <buildArgs>
             --no-fallback
-            -Dspring.native.remove-yaml-support=true -Dspring.spel.ignore=true
+            -Dspring.native.remove-yaml-support=true
+            -Dspring.spel.ignore=true
             --trace-class-initialization=org.apache.commons.logging.LogFactory
             --initialize-at-build-time=org.apache.commons.logging.LogFactory
           </buildArgs>

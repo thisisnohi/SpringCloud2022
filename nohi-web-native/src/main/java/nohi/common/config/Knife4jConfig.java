@@ -1,6 +1,5 @@
 package nohi.common.config;
 
-import cn.hutool.core.util.RandomUtil;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -38,13 +37,13 @@ public class Knife4jConfig {
             if (openApi.getTags() != null) {
                 openApi.getTags().forEach(tag -> {
                     Map<String, Object> map = new HashMap<>();
-                    map.put("x-order", RandomUtil.randomInt(0, 100));
+                   // map.put("x-order", RandomUtil.randomInt(0, 100));
                     tag.setExtensions(map);
                 });
             }
             if (openApi.getPaths() != null) {
                 openApi.addExtension("x-test123", "333");
-                openApi.getPaths().addExtension("x-abb", RandomUtil.randomInt(1, 100));
+                //openApi.getPaths().addExtension("x-abb", RandomUtil.randomInt(1, 100));
             }
 
         };

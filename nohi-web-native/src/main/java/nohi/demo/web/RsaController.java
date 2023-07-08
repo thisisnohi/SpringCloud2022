@@ -1,5 +1,6 @@
 package nohi.demo.web;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,8 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import nohi.demo.dto.rsa.RsaReqVo;
 import nohi.demo.dto.rsa.RsaRespItemVO;
 import nohi.demo.dto.rsa.RsaRespVO;
+import nohi.demo.service.json.FastJsonService;
+import nohi.demo.utils.JsonUtils;
 import nohi.demo.utils.RSAUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +42,56 @@ public class RsaController {
 
     private static final int TMP_DATA_SIZE = 10;
 
+    @Autowired
+    private FastJsonService fastJsonService;
+
+    @PostMapping(value = "/test1")
+    @Operation(summary = "test1", description = "test1..")
+    public String testJson() {
+        log.info("testJson");
+        return fastJsonService.toJson();
+    }
+
+    @PostMapping(value = "/testJson")
+    @Operation(summary = "testJson", description = "Bean2Json 测试，RSA方法转换List to json异常..")
+    public RsaRespVO testJson(@RequestBody RsaReqVo reqVo) {
+        // 注册JSON reader writer
+        fastJsonService.registerRsaRespItemVO();
+
+        List<RsaRespItemVO> list = Lists.newArrayList();
+        for (int i = 0; i < TMP_DATA_SIZE; i++) {
+            RsaRespItemVO item = new RsaRespItemVO();
+            item.setAcctNo("1");
+            item.setAcctName("2");
+            item.setAmt(new BigDecimal(i));
+            item.setBalance(new BigDecimal(100 - i));
+            item.setDateTime(LocalDateTime.now().toString());
+            list.add(item);
+        }
+        System.out.println("list.size:" + list.size());
+
+        RsaRespVO vo = new RsaRespVO();
+        try {
+            log.info("list:{}", list);
+            log.info("item[0]:{}", JSONObject.toJSONString(list.get(0)));
+        } catch (Exception e) {
+            log.error("异常:{}", e.getMessage());
+        }
+        log.debug("===========2==============");
+        try {
+            String json = JSONObject.toJSONString(list);
+            log.info("json2:{}", json);
+        } catch (Exception e) {
+            log.error("JSONObject.toJSONString异常:{}", e.getMessage());
+        }
+        return vo;
+    }
 
     @PostMapping(value = "/rsa")
-    @Operation(tags="RSA", method = "POST", summary = "测试RSA加密加签", description = "测试RSA加密加签")
+    @Operation(method = "POST", summary = "测试RSA加密加签", description = "测试RSA加密加签,转换json异常，可先调用 testJson() 执行 fastJsonService.registerRsaRespItemVO(); ")
     public RsaRespVO rsa(@RequestBody RsaReqVo reqVo) {
+        log.info("rsa请求:{}", JSONObject.toJSONString(reqVo));
+
         long start = System.currentTimeMillis();
         String traceId = reqVo.getTraceId();
         if (StringUtils.isBlank(traceId)) {
@@ -68,7 +118,10 @@ public class RsaController {
                 item.setDateTime(LocalDateTime.now().toString());
                 list.add(item);
             }
+
+            log.info("list:{}", list.size());
             String json = JSONObject.toJSONString(list);
+            log.info("json:{}", json);
             encryptStr = RSAUtils.encryptData(json, publicKey);
             vo.setData(encryptStr);
             // RSA签名

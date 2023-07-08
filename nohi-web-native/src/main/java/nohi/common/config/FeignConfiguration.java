@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class FeignConfiguration {
     @Bean
     Logger.Level feignLoggerLevel() {
-        System.out.println("======feignLoggerLevel===========");
+        System.out.println("System.out.println======feignLoggerLevel===========");
         //这里记录所有，根据实际情况选择合适的日志level
         return Logger.Level.FULL;
     }

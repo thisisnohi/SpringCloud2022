@@ -4,12 +4,14 @@ spring:
   application:
     name: nohi-web-native
   jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 # 日志相关
 logging:
   level:
-    root: INFO
+    root: DEBUG
   file:
     path: ${HOME}/tmp/logs
 
