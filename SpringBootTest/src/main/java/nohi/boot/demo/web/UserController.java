@@ -51,14 +51,14 @@ public class UserController {
         return userService.selectByExample(map);
     }
 
-    @Operation(summary  = "保存用户")
+    @Operation(summary = "保存用户")
     @PostMapping("/save")
     public TbUser saveUser(@RequestBody TbUser user) {
         logger.info("保存User:{}", JSONObject.toJSONString(user));
         return userService.saveUser(user);
     }
 
-    @Operation(summary  = "保存用户")
+    @Operation(summary = "保存用户")
     @PostMapping("/add")
     public TbUser addUser(String name, String sex, String mail) {
         TbUser user = TbUser.builder().build();
@@ -70,10 +70,24 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    @Operation(summary  = "向用户{user}问好")
+    @Operation(summary = "向用户{user}问好")
     @GetMapping("/hello/{user}")
     public String sayHello(@PathVariable("user") String user) {
         logger.info("===sayHello===");
         return helloService.sayHello(user);
+    }
+
+    @Operation(summary = "测试jakarta事务")
+    @GetMapping("/test-transaction/{id}")
+    public TbUser testTransaction(@PathVariable("id") Integer id) throws Exception {
+        logger.info("===testTransaction===:{}", id);
+        return userService.testTransaction(id);
+    }
+
+    @Operation(summary = "测试spring事务")
+    @GetMapping("/test-transactionspring/{id}")
+    public TbUser testTransactionSpring(@PathVariable("id") Integer id) throws Exception {
+        logger.info("===testTransactionSpring===:{}", id);
+        return userService.testTransaction2(id);
     }
 }

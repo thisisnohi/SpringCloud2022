@@ -20,4 +20,12 @@ import java.util.Map;
 public interface TbUserMapper extends BaseMapper<TbUser> {
 
     List<TbUser> selectByExample(Map<String, Object> map);
+
+    /**
+     * 更新用户
+     *
+     * @param user
+     * @return
+     */
+    TbUser updateTuser(TbUser user);
 }

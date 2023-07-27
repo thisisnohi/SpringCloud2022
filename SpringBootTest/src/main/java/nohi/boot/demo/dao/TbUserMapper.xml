@@ -22,4 +22,23 @@
     </where>
   </select>
 
+  <update id="updateTuser" parameterType="nohi.boot.demo.entity.TbUser">
+    update T_USER
+    <set>
+      <if test="name != null and name != ''">
+        name = #{name, jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null and sex != ''">
+        sex = #{sex, jdbcType=VARCHAR}
+      </if>
+      <if test="pwd != null and pwd != ''">
+        pwd = #{pwd, jdbcType=VARCHAR}
+      </if>
+      <if test="email != null and email != ''">
+        email = #{email, jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
 </mapper>

@@ -1,6 +1,7 @@
 package nohi.boot.demo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import nohi.boot.demo.dao.TbUserMapper;
 import nohi.boot.demo.entity.TbUser;
@@ -8,7 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -24,6 +28,9 @@ public class TbUserService {
 
     @Autowired
     TbUserMapper userMapper;
+
+    @Autowired
+    HelloService helloService;
 
     /**
      * 查询全部
@@ -229,6 +236,60 @@ public class TbUserService {
         idList.add(11);
         int num = userMapper.deleteBatchIds(idList);
         System.out.println("影响行数：" + num);
+    }
+
+    /**
+     * jakarta.transaction注解事务
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    public TbUser testTransaction(Integer id) throws Exception {
+        log.info("测试事务 jakarta.transaction.Transactional");
+        TbUser user = userMapper.selectById(id);
+        log.info("TbUser:{}", user);
+
+        /** 更新用户 **/
+        user.setPwd(LocalDateTime.now().toString());
+        user.setEmail("222");
+        helloService.modifyUser(user);
+
+        user.setEmail("11111");
+        userMapper.updateById(user);
+        if ("1".equals("1")) {
+            throw new Exception("回滚事务");
+        }
+        log.info("测试事务，结束");
+        return userMapper.selectById(id);
+    }
+
+    /**
+     * Spring注解事务
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public TbUser testTransaction2(Integer id) throws Exception {
+        log.info("测试事务 org.springframework.transaction.annotation.Transactional");
+        TbUser user = userMapper.selectById(id);
+        log.info("TbUser:{}", user);
+
+        /** 更新用户 **/
+        user.setPwd(LocalDateTime.now().toString());
+        user.setEmail("第一次提交");
+        helloService.modifyUser(user);
+
+        user.setEmail("第二次修改");
+        userMapper.updateById(user);
+        if ("1".equals("1")) {
+            throw new Exception("回滚事务");
+        }
+        log.info("测试事务，结束");
+        return userMapper.selectById(id);
     }
 
 }
