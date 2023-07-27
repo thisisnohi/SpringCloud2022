@@ -14,3 +14,8 @@
 ### 20230521
 * 增加swagger4
 * 增加单元测试内容
+
+### 20230727
+* 增加事务测试
+  * `@org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)`
+  * `@jakarta.transactionTransactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)`

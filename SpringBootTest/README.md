@@ -13,5 +13,3 @@ SpringBoot 3.0 + JDK 17 测试内容相关
 ### Mybatis-plus 及 数据库测试
 * 脚本
   * [20230113.sql](docs/script/20230113.sql)
-* 
- 
