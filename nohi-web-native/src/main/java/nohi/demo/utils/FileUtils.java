@@ -354,4 +354,29 @@ public class FileUtils {
 		}
 		return list;
 	}
+
+	/**
+	 * 拼接路径
+	 *
+	 * @param path
+	 * @param appendPath
+	 * @return
+	 */
+	public static String appendFilePath(String path, String... appendPath) {
+		if (null == path) {
+			return null;
+		}
+		path = path.replaceAll("\\\\", "/");
+		StringBuilder sb = new StringBuilder(path);
+		if (null != appendPath && appendPath.length > 0) {
+			for (int i = 0; i < appendPath.length; i++) {
+				if (!sb.toString().endsWith("/")) {
+					sb.append("/");
+				}
+				sb.append(appendPath[i]);
+			}
+
+		}
+		return sb.toString();
+	}
 }

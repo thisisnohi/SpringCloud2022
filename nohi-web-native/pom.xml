@@ -169,6 +169,18 @@
       <artifactId>hutool-all</artifactId>
       <version>5.8.20</version>
     </dependency>
+    <!-- sftp -->
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.55</version>
+    </dependency>
+    <!-- commons-pool2 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-pool2</artifactId>
+      <version>2.11.1</version>
+    </dependency>
   </dependencies>
 
   <build>
