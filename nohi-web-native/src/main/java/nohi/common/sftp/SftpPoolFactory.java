@@ -21,8 +21,8 @@ import java.util.Properties;
  * @description <p>SftpFactory</p>
  * @date 2023/07/28 21:02
  **/
-@Data
 @Slf4j
+@Data
 public class SftpPoolFactory extends BasePooledObjectFactory<ChannelSftp> {
     private SftpProperties properties;
 
@@ -61,7 +61,7 @@ public class SftpPoolFactory extends BasePooledObjectFactory<ChannelSftp> {
     /**
      * 销毁对象
      *
-     * @param p
+     * @param p 连接池
      */
     @Override
     public void destroyObject(PooledObject<ChannelSftp> p) {
