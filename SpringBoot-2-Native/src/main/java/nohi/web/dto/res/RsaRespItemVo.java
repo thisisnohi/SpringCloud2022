@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * @author NOHI
  * @date 2022/9/3 13:51
  **/
-public class RsaRespItemVO {
+public class RsaRespItemVo {
     private String acctNo;
     private String acctName;
     private String dateTime;

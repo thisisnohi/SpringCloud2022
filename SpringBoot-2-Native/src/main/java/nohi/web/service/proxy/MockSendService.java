@@ -43,11 +43,11 @@ public class MockSendService {
         if (StringUtils.isBlank(charset)) {
             charset = DEFAULT_CHARSET;
         }
-        StringBuffer URL = req.getRequestURL();
+        StringBuffer url = req.getRequestURL();
         log.info("{} contextPath:{}", title, contextPath);
         log.info("{} queryString:{}", title, queryString);
         log.info("{} uri:{}", title, uri);
-        log.info("{} URL:{}", title, URL);
+        log.info("{} URL:{}", title, url);
         log.info("{} charset:{}", title, charset);
         log.info("{} sleep:{}", title, sleepStr);
         log.info("{} getParameterMap:{}", title, null == req.getParameterMap() ? "IS NULL" : JSONObject.toJSONString(req.getParameterMap()));

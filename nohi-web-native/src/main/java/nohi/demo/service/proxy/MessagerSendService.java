@@ -32,11 +32,11 @@ public class MessagerSendService {
         String contextPath = req.getContextPath();
         String queryString = req.getQueryString();
         String uri = req.getRequestURI();
-        StringBuffer URL = req.getRequestURL();
+        StringBuffer url = req.getRequestURL();
         log.info("contextPath:{}", contextPath);
         log.info("queryString:{}", queryString);
         log.info("uri:{}", uri);
-        log.info("URL:{}", URL);
+        log.info("URL:{}", url);
 
         String contentType = null;
         Properties properties = new Properties();

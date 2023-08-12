@@ -65,9 +65,9 @@ public class RsaTest {
         System.out.println("pubKey:\n" + pubKey);
         System.out.println("localPub:\n" + localPub);
 
-        pubKey = RSAUtils._2Stri(pubKey);
-        priKey = RSAUtils._2Stri(priKey);
-        localPub = RSAUtils._2Stri(localPub);
+        pubKey = RSAUtils.keyConvert(pubKey);
+        priKey = RSAUtils.keyConvert(priKey);
+        localPub = RSAUtils.keyConvert(localPub);
 
         System.out.println("pubKey:\n" + pubKey);
         System.out.println("priKey:\n" + priKey);

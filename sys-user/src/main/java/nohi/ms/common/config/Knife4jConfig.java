@@ -51,7 +51,7 @@ public class Knife4jConfig {
     }
 
     @Bean
-    public OpenAPI customOpenAPI() {
+    public OpenAPI customOpenApi() {
         // 设置显示的swagger环境信息
         Profiles profiles = Profiles.of("dev", "test");
         // 判断是否处在自己设定的环境当中

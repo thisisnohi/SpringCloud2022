@@ -13,5 +13,5 @@ import javax.jws.WebService;
 @WebService()
 public interface HelloWebService {
     @WebMethod
-    public String Hello(@WebParam(name="name") String name);
+    String hello(@WebParam(name="name") String name);
 }

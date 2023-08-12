@@ -3,7 +3,7 @@ package nohi.web.web;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
 import nohi.web.dto.res.RsaReqVo;
-import nohi.web.dto.res.RsaRespItemVO;
+import nohi.web.dto.res.RsaRespItemVo;
 import nohi.web.dto.res.RsaRespVO;
 import nohi.web.utils.RSAUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -53,9 +53,9 @@ public class RsaController {
             String encryptStr = RSAUtils.encryptData(acctNo, publicKey);
             vo.setAcctNo(acctNo);
 
-            List<RsaRespItemVO> list = Lists.newArrayList();
+            List<RsaRespItemVo> list = Lists.newArrayList();
             for (int i = 0; i < TMP_DATA_SIZE; i++) {
-                RsaRespItemVO item = new RsaRespItemVO();
+                RsaRespItemVo item = new RsaRespItemVo();
                 item.setAcctNo(acctNo);
                 item.setAcctName(reqVo.getAcctName());
                 item.setAmt(new BigDecimal(i));

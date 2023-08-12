@@ -284,7 +284,13 @@ public class RSAUtils {
 //        return  result;
 //    }
 
-    public static String _2Stri(String priKey) throws IOException {
+    /**
+     * Key转换
+     * @param priKey key
+     * @return key
+     * @throws IOException 异常
+     */
+    public static String keyConvert(String priKey) throws IOException {
         StringReader read = new StringReader(priKey);
         BufferedReader br = new BufferedReader(read);
         String readLine = null;

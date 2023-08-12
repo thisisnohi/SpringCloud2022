@@ -26,7 +26,7 @@ import javax.jws.WebService;
 public class HelloWebServiceImpl implements HelloWebService {
 
     @Override
-    public String Hello(@WebParam(name="name") String name) {
+    public String hello(@WebParam(name="name") String name) {
         System.out.println("欢迎你"+name);
         return "欢迎你"+name;
     }

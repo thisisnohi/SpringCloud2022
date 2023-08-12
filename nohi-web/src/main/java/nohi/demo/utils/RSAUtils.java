@@ -261,30 +261,14 @@ public class RSAUtils {
         signature.update(data.getBytes());
         return ENCODER_64.encodeToString(signature.sign());
     }
-//    /**
-//     * 签名
-//     * @param plainText 加密后的数据
-//     * @param signatureAlgorithms SHA1withRSA算法
-//     * @return
-//     */
-//    private byte[] sign(byte[] plainText, String signatureAlgorithms){
-//        byte[] result = "".getBytes();
-//        try {
-//            Signature sInstance = Signature.getInstance(signatureAlgorithms);
-//            sInstance.initSign(clientPrivateKey);// 私钥
-//            sInstance.update(plainText);
-//            result = sInstance.sign();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (SignatureException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        }
-//        return  result;
-//    }
 
-    public static String _2Stri(String priKey) throws IOException {
+    /**
+     * Key转换
+     * @param priKey key
+     * @return key
+     * @throws IOException 异常
+     */
+    public static String keyConvert(String priKey) throws IOException {
         StringReader read = new StringReader(priKey);
         BufferedReader br = new BufferedReader(read);
         String readLine = null;

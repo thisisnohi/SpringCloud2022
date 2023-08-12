@@ -43,7 +43,7 @@ public class OkHttpUtils {
         //设置写入超时时间
         clientBuilder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
         //支持HTTPS请求，跳过证书验证
-        clientBuilder.sslSocketFactory(createSSLSocketFactory());
+        clientBuilder.sslSocketFactory(createSslSocketFactory());
         clientBuilder.hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
@@ -295,7 +295,7 @@ public class OkHttpUtils {
      *
      * @return
      */
-    public SSLSocketFactory createSSLSocketFactory() {
+    public SSLSocketFactory createSslSocketFactory() {
         SSLSocketFactory ssfFactory = null;
         try {
             SSLContext sc = SSLContext.getInstance("TLS");
