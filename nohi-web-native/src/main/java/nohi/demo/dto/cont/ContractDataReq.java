@@ -21,7 +21,6 @@ public class ContractDataReq {
 
     // 合同模板类型
     private String htmblx;
-
     // 签约序号
     private String qyxh;
     // 房屋序号

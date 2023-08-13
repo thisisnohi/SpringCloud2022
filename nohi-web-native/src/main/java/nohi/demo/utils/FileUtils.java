@@ -148,7 +148,8 @@ public class FileUtils {
 		createDir(docPath);
 
 		File file = new File(docPath + File.separator + fileName);
-		if (file.exists() && (file.isDirectory() || checkExists )) { //如果文件存在: 文件是目录/需要检查文件是否存在,则报错
+		// 如果文件存在: 文件是目录/需要检查文件是否存在,则报错
+		if (file.exists() && (file.isDirectory() || checkExists )) {
 			throw new Exception("文件已经存在");
 		}
 

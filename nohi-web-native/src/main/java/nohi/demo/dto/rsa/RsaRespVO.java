@@ -17,7 +17,7 @@ public class RsaRespVO {
     // 返回信息
     private String retMsg = "";
     // 耗时
-    private long time;
+    private Long time;
     private String acctNo;
     private String acctName;
     // 加解密后值

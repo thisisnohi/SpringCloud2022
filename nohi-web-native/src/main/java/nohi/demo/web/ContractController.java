@@ -16,7 +16,7 @@ import nohi.demo.dto.cont.ContractDataResp;
 import nohi.demo.dto.contquery.*;
 import nohi.demo.feign.ContractFeign;
 import nohi.demo.utils.JsonUtils;
-import nohi.demo.utils.RSAUtils;
+import nohi.demo.utils.RsaUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
@@ -87,17 +87,17 @@ public class ContractController {
         RsaMesage respMsg = new RsaMesage();
         ContractDataResp resp = new ContractDataResp();
         try {
-            privateKey = RSAUtils.loadPrivateKey(localPriKeyStr);
-            publicKey = RSAUtils.loadPublicKey(pubKey);
-            locaPublicKey = RSAUtils.loadPublicKey(localPubStr);
+            privateKey = RsaUtils.loadPrivateKey(localPriKeyStr);
+            publicKey = RsaUtils.loadPublicKey(pubKey);
+            locaPublicKey = RsaUtils.loadPublicKey(localPubStr);
 
             ObjectMapper objectMapper = new ObjectMapper();
             RsaMesage resMsg = reqMsg;
             // 解密
-            String respMsgStr = RSAUtils.decryptData(resMsg.getData(), privateKey);
+            String respMsgStr = RsaUtils.decryptData(resMsg.getData(), privateKey);
             log.info("解密:{}", respMsgStr);
 
-            boolean singRs = RSAUtils.verify2(resMsg.getData(), publicKey, resMsg.getSign());
+            boolean singRs = RsaUtils.verify2(resMsg.getData(), publicKey, resMsg.getSign());
             log.info("验签:{}", singRs);
 
             ContractDataReq req;
@@ -129,15 +129,15 @@ public class ContractController {
             // 返回数据加密、加签
             String data = JsonUtils.toString(resp);
             log.info("返回数据:{}", data);
-            String encryptStr = RSAUtils.encryptData(data, publicKey);
+            String encryptStr = RsaUtils.encryptData(data, publicKey);
             log.info("返回数据加密:{}", encryptStr);
 
             // RSA签名
-            String sign = RSAUtils.sign2(encryptStr, privateKey);
+            String sign = RsaUtils.sign2(encryptStr, privateKey);
             log.info("返回数据加签:{}", sign);
 
             // 验签
-            boolean result = RSAUtils.verify2(encryptStr, locaPublicKey, sign);
+            boolean result = RsaUtils.verify2(encryptStr, locaPublicKey, sign);
             log.info("验签结果1:" + result);
 
             // 加密数据
@@ -261,24 +261,24 @@ public class ContractController {
         String localPub = "MIGdMA0GCSqGSIb3DQEBAQUAA4GLADCBhwKBgQC3aWSwbkHqFYGJeoVoqZ0fYtj7To6QZQZ/T7oIQE4AFEaI7t4vRMYBP1Bcdm3gIf8QYpkPP8Qj1Mp21trfAcDPVT79oEie7aeG9tVYFWivHHU8EzJFWq4baToJ8/MYBKAphd4P8Zq5tIGbjRcF3bQ0M7QeM8EeBDlLtJcoPEoBFwIBAw==";
 
         try {
-            PrivateKey privateKey = RSAUtils.loadPrivateKey(priKey);
-            PublicKey publicKey = RSAUtils.loadPublicKey(pubKey);
-            PublicKey locaPublicKey = RSAUtils.loadPublicKey(localPub);
+            PrivateKey privateKey = RsaUtils.loadPrivateKey(priKey);
+            PublicKey publicKey = RsaUtils.loadPublicKey(pubKey);
+            PublicKey locaPublicKey = RsaUtils.loadPublicKey(localPub);
 
             log.info("pubKey:{}", pubKey);
             log.info("localPub:{}", localPub);
 
             String data = JsonUtils.toString(req);
             log.info("请求:{}", data);
-            String encryptStr = RSAUtils.encryptData(data, publicKey);
+            String encryptStr = RsaUtils.encryptData(data, publicKey);
             log.info("加密:{}", encryptStr);
 
             // RSA签名
-            String sign = RSAUtils.sign2(encryptStr, privateKey);
+            String sign = RsaUtils.sign2(encryptStr, privateKey);
             log.info("加签:{}", sign);
 
             // 验签
-            boolean result = RSAUtils.verify2(encryptStr, locaPublicKey, sign);
+            boolean result = RsaUtils.verify2(encryptStr, locaPublicKey, sign);
             log.info("验签结果1:" + result);
 
             // 加密数据
@@ -290,14 +290,14 @@ public class ContractController {
             rsaMesage = feign.contDemo5(rsaMesage);
             log.info("返回:{}", rsaMesage);
             // 解密
-            String respMsg = RSAUtils.decryptData(rsaMesage.getData(), privateKey);
+            String respMsg = RsaUtils.decryptData(rsaMesage.getData(), privateKey);
             log.info("返回解密:{}", respMsg);
 
             ObjectMapper objectMapper = new ObjectMapper();
             resp = objectMapper.readValue(respMsg, ContractQueryResp.class);
             log.info("contract:{}", objectMapper.writeValueAsString(resp));
 
-            boolean singRs = RSAUtils.verify2(rsaMesage.getData(), publicKey, rsaMesage.getSign());
+            boolean singRs = RsaUtils.verify2(rsaMesage.getData(), publicKey, rsaMesage.getSign());
             log.info("singRs:{}", singRs);
 
         } catch (Exception e) {

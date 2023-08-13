@@ -1,7 +1,7 @@
 package nohi.encode.rsa;
 
 import nohi.demo.utils.FileUtils;
-import nohi.demo.utils.RSAUtils;
+import nohi.demo.utils.RsaUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -25,26 +25,26 @@ public class RsaTest {
         String priFile = path + "/rsa1024/rsa_private_key_pkcs8.pem";
         String pubFile = path + "/rsa1024/rsa_public_key.pem";
 
-        PublicKey publicKey = RSAUtils.loadPublicKey(new FileInputStream(new File(pubFile)));
-        PrivateKey privateKey = RSAUtils.loadPrivateKey(new FileInputStream(new File(priFile)));
+        PublicKey publicKey = RsaUtils.loadPublicKey(new FileInputStream(new File(pubFile)));
+        PrivateKey privateKey = RsaUtils.loadPrivateKey(new FileInputStream(new File(priFile)));
 
         // 加密
         String data = "{\"e\":\"sign_check_fail\",\"c\":2}";
         System.out.println("明文:" + data);
         // 公钥加密
-        String encryptStr = RSAUtils.encryptData(data, publicKey);
+        String encryptStr = RsaUtils.encryptData(data, publicKey);
         System.out.println("加密数据:" + encryptStr);
 
         // 解密  私钥解密
-        String uncrypt = RSAUtils.decryptData(encryptStr, privateKey);
+        String uncrypt = RsaUtils.decryptData(encryptStr, privateKey);
         System.out.println("解密数据:" + encryptStr);
 
         // 签名 私钥签名
-        String sign = RSAUtils.sign(encryptStr, privateKey);
+        String sign = RsaUtils.sign(encryptStr, privateKey);
         System.out.println("加签:" + sign);
 
         // 验签
-        boolean result = RSAUtils.verify(encryptStr, publicKey, sign);
+        boolean result = RsaUtils.verify(encryptStr, publicKey, sign);
         System.out.println("验签:" + result);
     }
 
@@ -65,32 +65,32 @@ public class RsaTest {
         System.out.println("pubKey:\n" + pubKey);
         System.out.println("localPub:\n" + localPub);
 
-        pubKey = RSAUtils.keyConvert(pubKey);
-        priKey = RSAUtils.keyConvert(priKey);
-        localPub = RSAUtils.keyConvert(localPub);
+        pubKey = RsaUtils.keyConvert(pubKey);
+        priKey = RsaUtils.keyConvert(priKey);
+        localPub = RsaUtils.keyConvert(localPub);
 
         System.out.println("pubKey:\n" + pubKey);
         System.out.println("priKey:\n" + priKey);
 
-        PrivateKey privateKey = RSAUtils.loadPrivateKey(priKey);
-        PublicKey publicKey = RSAUtils.loadPublicKey(pubKey);
-        PublicKey locaPublicKey = RSAUtils.loadPublicKey(localPub);
+        PrivateKey privateKey = RsaUtils.loadPrivateKey(priKey);
+        PublicKey publicKey = RsaUtils.loadPublicKey(pubKey);
+        PublicKey locaPublicKey = RsaUtils.loadPublicKey(localPub);
         // 加密
         String data = "{\"htbh\":\"20200629\"}";
         System.out.println(data);
-        String encryptStr = RSAUtils.encryptData(data, publicKey);
+        String encryptStr = RsaUtils.encryptData(data, publicKey);
         System.out.println("加密数据:" + encryptStr);
 
         // RSA签名
-        String sign = RSAUtils.sign(encryptStr, privateKey);
+        String sign = RsaUtils.sign(encryptStr, privateKey);
         System.out.println("加签:" + sign);
 
         // 验签
-        boolean result = RSAUtils.verify(encryptStr, locaPublicKey, sign);
+        boolean result = RsaUtils.verify(encryptStr, locaPublicKey, sign);
         System.out.println("验签结果1:" + result);
 
         // 解密  私钥解密
-        String uncrypt = RSAUtils.decryptData(encryptStr, privateKey);
+        String uncrypt = RsaUtils.decryptData(encryptStr, privateKey);
         System.out.println("解密数据:" + uncrypt);
     }
 }

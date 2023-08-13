@@ -1,6 +1,5 @@
 package nohi.demo.web;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,8 +9,7 @@ import nohi.demo.dto.rsa.RsaReqVo;
 import nohi.demo.dto.rsa.RsaRespItemVO;
 import nohi.demo.dto.rsa.RsaRespVO;
 import nohi.demo.service.json.FastJsonService;
-import nohi.demo.utils.JsonUtils;
-import nohi.demo.utils.RSAUtils;
+import nohi.demo.utils.RsaUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -100,9 +98,9 @@ public class RsaController {
         RsaRespVO vo = new RsaRespVO();
 
         try {
-            PrivateKey privateKey = RSAUtils.loadPrivateKey(priKey);
-            PublicKey publicKey = RSAUtils.loadPublicKey(pubKey);
-            PublicKey locaPublicKey = RSAUtils.loadPublicKey(pubKey);
+            PrivateKey privateKey = RsaUtils.loadPrivateKey(priKey);
+            PublicKey publicKey = RsaUtils.loadPublicKey(pubKey);
+            PublicKey locaPublicKey = RsaUtils.loadPublicKey(pubKey);
             // 加密
             String acctNo = reqVo.getAcctNo();
             String encryptStr = null;
@@ -122,13 +120,13 @@ public class RsaController {
             log.info("list:{}", list.size());
             String json = JSONObject.toJSONString(list);
             log.info("json:{}", json);
-            encryptStr = RSAUtils.encryptData(json, publicKey);
+            encryptStr = RsaUtils.encryptData(json, publicKey);
             vo.setData(encryptStr);
             // RSA签名
-            String sign = RSAUtils.sign(encryptStr, privateKey);
+            String sign = RsaUtils.sign(encryptStr, privateKey);
             vo.setSign(sign);
             // 验签
-            boolean result = RSAUtils.verify(encryptStr, locaPublicKey, sign);
+            boolean result = RsaUtils.verify(encryptStr, locaPublicKey, sign);
             log.info("[{}]验签[{}]", traceId, result);
         } catch (Exception e) {
             log.error("[{}]异常:{}", traceId, e.getMessage(), e);

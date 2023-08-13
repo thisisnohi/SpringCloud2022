@@ -36,7 +36,7 @@ public class Knife4jConfig {
         return openApi -> {
             if (openApi.getTags() != null) {
                 openApi.getTags().forEach(tag -> {
-                    Map<String, Object> map = new HashMap<>();
+                    Map<String, Object> map = new HashMap<>(8);
                    // map.put("x-order", RandomUtil.randomInt(0, 100));
                     tag.setExtensions(map);
                 });

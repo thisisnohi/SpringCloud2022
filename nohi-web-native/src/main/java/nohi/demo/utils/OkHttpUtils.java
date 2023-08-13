@@ -28,6 +28,11 @@ public class OkHttpUtils {
     public final static int CONNECT_TIMEOUT = 60;
     public final static int WRITE_TIMEOUT = 60;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    /**
+     * FORM 表单
+     */
+    public static final String MEDIA_TYPE_FORM = "application/x-www-form-urlencoded";
+
 
     private static final String CONTENT_TYPE = "Content-Type";
 
@@ -257,10 +262,10 @@ public class OkHttpUtils {
         }
 
         String contentType = headerMap.get(CONTENT_TYPE);
-        if ("application/x-www-form-urlencoded".equals(contentType)) {
+        if (MEDIA_TYPE_FORM.equals(contentType)) {
             //表单提交 就是key-value 都是字符串型
             //转换
-            Map<String, String> strBodyParamMap = new HashMap<>();
+            Map<String, String> strBodyParamMap = new HashMap<>(8);
             if (bodyParams != null && !bodyParams.isEmpty()) {
                 bodyParams.forEach((key, value) -> {
                     if (value != null) {
@@ -305,7 +310,7 @@ public class OkHttpUtils {
      * @return
      */
     private RequestBody buildRequestBodyByJson(String jsonStr) {
-        return RequestBody.create(JSON, jsonStr);
+        return RequestBody.create(jsonStr, JSON);
     }
 
 
@@ -335,7 +340,7 @@ public class OkHttpUtils {
      * @throws IOException
      */
     public String postJson(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
+        RequestBody body = RequestBody.create(json, JSON);
         Request request = new Request.Builder().url(url).post(body).build();
         Response response = mOkHttpClient.newCall(request).execute();
         if (response.isSuccessful()) {
@@ -346,7 +351,7 @@ public class OkHttpUtils {
     }
 
     public void postJsonAsyn(String url, String json, final MyNetCall myNetCall) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
+        RequestBody body = RequestBody.create(json, JSON);
         //2 构造Request
         Request.Builder requestBuilder = new Request.Builder();
         Request request = requestBuilder.post(body).url(url).build();

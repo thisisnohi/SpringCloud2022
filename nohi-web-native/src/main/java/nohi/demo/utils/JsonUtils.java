@@ -12,9 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JsonUtils {
     static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static String toString(Object obj){
+    public static String toString(Object obj) {
         try {
-//            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+            //  return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

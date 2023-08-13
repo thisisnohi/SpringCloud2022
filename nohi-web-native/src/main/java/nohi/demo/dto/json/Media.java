@@ -11,7 +11,6 @@ import java.util.List;
  **/
 
 public class Media implements java.io.Serializable {
-    // Can be unset.
     private int bitrate;
     private long duration;
     private String format;

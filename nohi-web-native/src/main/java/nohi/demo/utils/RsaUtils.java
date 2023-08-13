@@ -1,5 +1,6 @@
 package nohi.demo.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.crypto.Cipher;
@@ -12,11 +13,17 @@ import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
-public class RSAUtils {
+@Slf4j
+public class RsaUtils {
     public static final String SIGN_ALGORITHMS = "SHA1WithRSA";
     private static final String RSA = "RSA";
     private final static Base64.Decoder DECODER_64 = Base64.getDecoder();
     private final static Base64.Encoder ENCODER_64 = Base64.getEncoder();
+    /**
+     * 数值100
+     */
+    private final static int NUM_HUNDRED = 100;
+    private final static int NUM_256 = 256;
 
 
     public static KeyPair generateRsaKeyPair() {
@@ -35,7 +42,7 @@ public class RSAUtils {
     }
 
     public static String encryptData(String data, PublicKey publicKey) {
-        return ENCODER_64.encodeToString(RSAUtils.encryptData(data.getBytes(), publicKey));
+        return ENCODER_64.encodeToString(RsaUtils.encryptData(data.getBytes(), publicKey));
     }
 
     public static byte[] encryptData(byte[] data, PublicKey publicKey) {
@@ -45,13 +52,13 @@ public class RSAUtils {
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
             // 加密时超过117字节就报错。为此采用分段加密的办法来加密
-            for (int i = 0; i < data.length; i += 100) {
-                byte[] doFinal = cipher.doFinal(ArrayUtils.subarray(data, i, i + 100));
+            for (int i = 0; i < data.length; i += NUM_HUNDRED) {
+                byte[] doFinal = cipher.doFinal(ArrayUtils.subarray(data, i, i + NUM_HUNDRED));
                 dataReturn = ArrayUtils.addAll(dataReturn, doFinal);
             }
             return dataReturn;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return null;
         }
     }
@@ -96,7 +103,7 @@ public class RSAUtils {
     }
 
     public static String decryptData(String content, PrivateKey privateKey) {
-        return new String(RSAUtils.decryptData(Base64.getDecoder().decode(content), privateKey));
+        return new String(RsaUtils.decryptData(Base64.getDecoder().decode(content), privateKey));
     }
 
     public static byte[] decryptData(byte[] encryptedData, PrivateKey privateKey) {
@@ -106,8 +113,8 @@ public class RSAUtils {
 
             // 解密时超过128字节就报错。为此采用分段解密的办法来解密
             byte[] dataReturn = new byte[0];
-            for (int i = 0; i < encryptedData.length; i += 256) {
-                byte[] doFinal = cipher.doFinal(ArrayUtils.subarray(encryptedData, i, i + 256));
+            for (int i = 0; i < encryptedData.length; i += NUM_256) {
+                byte[] doFinal = cipher.doFinal(ArrayUtils.subarray(encryptedData, i, i + NUM_256));
                 dataReturn = ArrayUtils.addAll(dataReturn, doFinal);
             }
 

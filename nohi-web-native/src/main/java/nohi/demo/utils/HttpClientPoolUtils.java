@@ -85,6 +85,10 @@ public class HttpClientPoolUtils {
      */
     private final static RequestConfig DEFAULT_REQUEST_CONFIG;
 
+    /**
+     * 数值100
+     */
+    private final static int NUM_HUNDRED = 100;
 
     /*
      * 初始化连接池
@@ -171,7 +175,7 @@ public class HttpClientPoolUtils {
                 CM.closeExpired();
                 //关闭5s空闲的连接
                 CM.closeIdle(TimeValue.of(HTTP_POOL_IDEL_TIMEOUT, TimeUnit.MILLISECONDS));
-                if (i[0] % 100 == 0) {
+                if (i[0] % NUM_HUNDRED == 0) {
                     i[0] = 0;
                     log.info("close expired and idle for over 5s connection,print per 5 * 100 s");
                 }
