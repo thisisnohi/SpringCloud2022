@@ -6,9 +6,13 @@ import okhttp3.*;
 
 import javax.net.ssl.*;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,8 +36,21 @@ public class OkHttpUtils {
     private OkHttpClient mOkHttpClient;
 
 
-    private OkHttpUtils() {
+    private OkHttpUtils() throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         //todo 由于是静态工具类，只会创建client一次，如果以后需要不同请求不同超时时间，不能这样使用
+
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        trustManagerFactory.init((java.security.KeyStore) null);
+        TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+        if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
+            throw new IllegalStateException("Unexpected default trust managers:" + Arrays.toString(trustManagers));
+        }
+        X509TrustManager trustManager = (X509TrustManager) trustManagers[0];
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, new TrustManager[]{trustManager}, new SecureRandom());
+        SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         //设置读取超市时间
         clientBuilder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
@@ -42,7 +59,10 @@ public class OkHttpUtils {
         //设置写入超时时间
         clientBuilder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
         //支持HTTPS请求，跳过证书验证
-        clientBuilder.sslSocketFactory(createSslSocketFactory());
+        // 20230812 jdk9+后不支持此方法
+        // clientBuilder.sslSocketFactory(createSslSocketFactory());
+        clientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
+
         clientBuilder.hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
@@ -60,7 +80,7 @@ public class OkHttpUtils {
      *
      * @return
      */
-    public static OkHttpUtils getInstance() {
+    public static OkHttpUtils getInstance() throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         if (mInstance == null) {
             synchronized (LOCKER) {
                 if (mInstance == null) {

@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * 测试OK http
@@ -14,11 +17,11 @@ import java.net.URISyntaxException;
 public class TestOkHttp {
 
     @Test
-    public void testOkhttp() throws IOException, URISyntaxException {
-        String url = "http://www.baidu.com";
+    public void testOkhttp() throws IOException, URISyntaxException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        String url = "https://www.baidu.com";
         String msg = OkHttpUtils.getInstance().getData(url).body().string();
         System.out.println("msg:" + msg);
-
+        System.out.println("=============================");
         msg = OkHttpUtils.getInstance().postJson(url, "{}");
         System.out.println("msg:" + msg);
     }
