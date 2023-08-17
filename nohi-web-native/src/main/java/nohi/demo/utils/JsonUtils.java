@@ -14,7 +14,6 @@ public class JsonUtils {
 
     public static String toString(Object obj) {
         try {
-            //  return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

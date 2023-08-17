@@ -65,7 +65,6 @@ public class OkHttpUtils {
         clientBuilder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
         //支持HTTPS请求，跳过证书验证
         // 20230812 jdk9+后不支持此方法
-        // clientBuilder.sslSocketFactory(createSslSocketFactory());
         clientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
 
         clientBuilder.hostnameVerifier(new HostnameVerifier() {
@@ -117,16 +116,8 @@ public class OkHttpUtils {
     public Response getData(String url, Map<String, String> headerMap) {
         //1 构造Request
         Request.Builder builder = new Request.Builder().get().url(url);
-        //Request request = builder.get().url(url).build();
-        //builder = builder.get().url(url);
-        /*if (headerMap != null && headerMap.isEmpty()) {
-            for (Map.Entry<String, String> headerEntry : headerMap.entrySet()) {
-                builder.addHeader(headerEntry.getKey(), headerEntry.getValue());
-            }
-        }*/
-        addHeaders(headerMap, builder);
-        Request request = builder.build();
 
+        Request request = builder.build();
 
         //2 将Request封装为Call
         Call call = mOkHttpClient.newCall(request);
@@ -179,10 +170,8 @@ public class OkHttpUtils {
         RequestBody body = setRequestBody(bodyParams, headerMap);
         //2 构造Request
         Request.Builder requestBuilder = new Request.Builder().post(body).url(url);
-        //requestBuilder = requestBuilder.post(body).url(url);
         addHeaders(headerMap, requestBuilder);
         Request request = requestBuilder.build();
-        //Request request = requestBuilder.post(body).addHeader(CONTENT_TYPE, HttpContentTypeEnum.JSON.contentTypeValue).url(url).build();
         //3 将Request封装为Call
         Call call = mOkHttpClient.newCall(request);
         //4 执行Call，得到response

@@ -223,7 +223,6 @@ public class RsaUtils {
         signature.initSign(key);
         signature.update(data.getBytes());
 
-//        return new String(base64Encoder.encodeBuffer(signature.sign()));
         return ENCODER_64.encodeToString(signature.sign());
     }
 
@@ -243,7 +242,6 @@ public class RsaUtils {
         Signature signature = Signature.getInstance(SIGN_ALGORITHMS);
         signature.initVerify(key);
         signature.update(srcData.getBytes());
-//        return signature.verify(base64Decoder.decodeBuffer(sign));
         return signature.verify(DECODER_64.decode(sign));
     }
 

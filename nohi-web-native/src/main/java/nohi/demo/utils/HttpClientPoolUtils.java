@@ -104,13 +104,8 @@ public class HttpClientPoolUtils {
         // 当您不知道时使用 setDefaultMaxPerRoute。
         CM.setDefaultMaxPerRoute(HTTP_POOL_MAX_PER_ROUTE);
 
-        /*
-         * // 按路由设置
-         * // HttpHost httpHost = new HttpHost(host, port);
-         * // manager.setMaxPerRoute(new HttpRoute(httpHost), MAX_ROUTE);
-         *
-         *设置请求参数配置，创建连接时间、从连接池获取连接时间、数据传输时间、是否测试连接可用、构建配置对象
-         */
+
+         // 设置请求参数配置，创建连接时间、从连接池获取连接时间、数据传输时间、是否测试连接可用、构建配置对象
         DEFAULT_REQUEST_CONFIG = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS).setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT, TimeUnit.MILLISECONDS).setResponseTimeout(RESPONSE_TIMEOUT, TimeUnit.MILLISECONDS).build();
         // 创建默认 http client连接
         DEFAULT_HTTP_CLIENT = getHttpClient();
