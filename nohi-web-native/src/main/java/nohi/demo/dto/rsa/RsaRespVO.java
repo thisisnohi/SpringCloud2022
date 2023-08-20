@@ -9,12 +9,15 @@ import lombok.Data;
  * @author NOHI
  * @date 2022/9/3 13:50
  **/
+@SuppressWarnings("AlibabaCommentsMustBeJavadocFormat")
 @Schema(title = "Rsa响应体")
 @Data
 public class RsaRespVO {
     // 返回码
+    @SuppressWarnings("AlibabaPojoNoDefaultValue")
     private String retCode = "SUC";
     // 返回信息
+    @SuppressWarnings("AlibabaPojoNoDefaultValue")
     private String retMsg = "";
     // 耗时
     private Long time;

@@ -17,13 +17,14 @@ import java.net.Socket;
 @Slf4j
 public class OperatorScoketdataThread extends Thread {
 	private Socket socket;
+	public static final int MSG_LENGTH = 4;
 
 	public OperatorScoketdataThread(Socket socket) {
 		this.socket = socket;
 	}
 
+	@Override
 	public void run() {
-		BufferedWriter bw = null;
 		try {
 			// 将输入的字节流转化为高层流
 			String temp = null;
@@ -34,7 +35,7 @@ public class OperatorScoketdataThread extends Thread {
 			log.debug("服务器接收数据 [" + temp + "]");
 
 			String response = null;
-			if (StringUtils.isBlank(temp) || temp.length() < 4) {
+			if (StringUtils.isBlank(temp) || temp.length() < MSG_LENGTH) {
 				response = "";
 			}
 
@@ -48,16 +49,7 @@ public class OperatorScoketdataThread extends Thread {
 			bos.flush();
 			bos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage(), e);
-		}finally{
-			if (null != bw) {
-				try {
-					bw.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 	}
 }

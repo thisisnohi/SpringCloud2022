@@ -165,6 +165,7 @@ public class OkHttpUtils {
      * @return
      * @throws IOException
      */
+    @SuppressWarnings("AlibabaRemoveCommentedCode")
     public Response postData(String url, Map<String, Object> bodyParams, Map<String, String> headerMap) throws Exception {
         //1构造RequestBody
         RequestBody body = setRequestBody(bodyParams, headerMap);
@@ -365,8 +366,19 @@ public class OkHttpUtils {
      * 自定义网络回调接口
      */
     public interface MyNetCall {
+        /**
+         * 成功
+         * @param call 函数
+         * @param response 响应
+         * @throws IOException 异常
+         */
         void success(Call call, Response response) throws IOException;
 
+        /**
+         * 失败
+         * @param call 函数
+         * @param e 异常
+         */
         void failed(Call call, IOException e);
     }
 

@@ -20,6 +20,7 @@ public class NjOperatorScoketdataThread extends Thread {
         this.socket = socket;
     }
 
+    @Override
     public void run() {
         try (InputStream is = socket.getInputStream();
              OutputStream os = socket.getOutputStream();

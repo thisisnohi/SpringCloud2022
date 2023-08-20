@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by nohi on 2018/10/16.
+ * Knife4j
+ * @author NOHI
+ * @date 2023/8/20 09:57
  */
 @Slf4j
 @RestController

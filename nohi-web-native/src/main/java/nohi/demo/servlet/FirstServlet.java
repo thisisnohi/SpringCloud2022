@@ -16,7 +16,7 @@ import java.io.IOException;
  * @author NOHI
  * @date 2020-05-17 10:09
  **/
-@WebServlet(name = "firstServlet", urlPatterns = "/proxy/*")  //标记为servlet，以便启动器扫描。
+@WebServlet(name = "firstServlet", urlPatterns = "/proxy/*")
 @Slf4j
 public class FirstServlet extends HttpServlet {
 

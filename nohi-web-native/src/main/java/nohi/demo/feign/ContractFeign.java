@@ -19,21 +19,47 @@ import org.springframework.web.bind.annotation.RequestParam;
  **/
 @FeignClient(name = "cont", configuration = FeignConfiguration.class)
 public interface ContractFeign {
+    /**
+     * contDemo
+     * @param req 请求
+     * @return 返回
+     */
     @RequestMapping(value = "/cont/contDemo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ContractQueryResp contDemo(@RequestBody ContractQueryReq req);
 
+    /**
+     * rental_zjtg_gethtinfo
+     * @param req 请求
+     * @return 返回
+     */
     @RequestMapping(value = "/bitsADI/rental_zjtg_gethtinfo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ContractQueryResp contDemo2(@RequestBody ContractQueryReq req);
-
+    /**
+     * rental_zjtg_gethtinfo
+     * @param req 请求
+     * @return 返回
+     */
     @RequestMapping(value = "/bitsADI/rental_zjtg_gethtinfo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     RsaMesage contDemo3(@RequestBody RsaMesage req);
-
+    /**
+     * rental_zjtg_gethtinfo
+     * @param req 请求
+     * @return 返回
+     */
     @RequestMapping(value = "/bitsADI/rental_zjtg_gethtinfo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     RsaMesage contDemo5(@RequestBody Object req);
-
+    /**
+     * rental_zjtg_gethtinfo
+     * @return 返回
+     * @param req 请求
+     */
     @RequestMapping(value = "/bitsADI/rental_zjtg_gethtinfo", method = RequestMethod.GET)
     String contDemo7(@RequestParam("requestJSON") String req);
-
+    /**
+     * contDemoStr
+     * @param req 请求
+     * @return 返回
+     */
     @RequestMapping(value = "/cont/contDemoStr", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String contDemo(@RequestBody Object req);
 }

@@ -10,8 +10,10 @@ import lombok.Data;
  **/
 @Data
 public class ContractDataResp {
-    private String qyxh; // 签约序号
-    private String fwxh; // 姓名
+    // 签约序号
+    private String qyxh;
+    // 姓名
+    private String fwxh;
     private String jszt;
     private String msg;
 }

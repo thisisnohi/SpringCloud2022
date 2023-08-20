@@ -14,6 +14,8 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 /**
  * Sftp线程池
+ * @author NOHI
+ * @date 2023/8/20 09:58
  */
 @Data
 public class SftpPool {

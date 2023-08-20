@@ -13,6 +13,11 @@ import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
+/**
+ * RSA
+ * @author NOHI
+ * @date 2023/8/20 09:57
+ */
 @Slf4j
 public class RsaUtils {
     public static final String SIGN_ALGORITHMS = "SHA1WithRSA";
