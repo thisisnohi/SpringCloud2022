@@ -35,23 +35,23 @@ public class TcpClient {
         ) {
             // 发送消息
             byte[] data = (lenStr + msg1).getBytes();
-            log.info("发送消息1[{}]", data.length);
+            log.info("发送消息1[{}][{}]", data.length, (lenStr + msg1));
             os.write(data);
             os.flush();
 
-            TimeUnit.SECONDS.sleep(1);
+//            TimeUnit.SECONDS.sleep(1);
 
             data = msg2.getBytes();
-            log.info("发送消息2[{}]", data.length);
+            log.info("发送消息2[{}][{}]", data.length, msg2);
             os.write(data);
             os.flush();
 
             data = msg3.getBytes();
-            log.info("发送消息3[{}]", data.length);
+            log.info("发送消息3[{}][{}]", data.length, msg3);
             os.write(data);
             os.flush();
 
-//            socket.shutdownOutput();
+            socket.shutdownOutput();
 
             StringBuffer sb = new StringBuffer();
             byte[] bs = new byte[1024];

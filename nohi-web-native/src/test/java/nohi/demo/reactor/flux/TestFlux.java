@@ -37,5 +37,35 @@ public class TestFlux {
         f.subscribe( data -> {
             log.info("111 data:{}", data);
         });
+
+        log.info("=================");
+        // Flux.range(1, 1000).takeWhile(i -> i < 10).subscribe(System.out::println);
+        Flux.range(1, 1000).takeWhile(i -> i < 10).reduce((a,b) -> a+b).subscribe(System.out::println);
+        log.info("=================");
+        Flux.range(1, 1).take(21).reduce((a,b) -> {
+            log.info("a+b= {},{}", a, b);
+            return a+b;
+        }).subscribe(data -> {
+
+            System.out.println(data);
+        })
+        ;
+        log.info("=================");
+        Flux.range(1, 1).reduce((a,b) -> {
+            log.info("a+b= {},{}", a, b);
+            return a+b;
+        }).subscribe(data -> {
+            System.out.println(data);
+        });
+
+
+
+    }
+    @Test
+    public void testMono(){
+        Flux.just(5, 10)
+                .flatMap(x -> Flux.range(x * 10, 100).take(x))
+                .toStream()
+                .forEach(System.out::println);
     }
 }

@@ -46,6 +46,7 @@ public class XiaoNiuApi {
         HashMap<Object, Object> bodyMap = new HashMap<>(2);
         bodyMap.put("pageSize", 2);
         bodyMap.put("pageNum", 1);
+        bodyMap.put("abc", null);
 
         /** 参数排序 **/
         // 请求内容字典排序，转换为String
