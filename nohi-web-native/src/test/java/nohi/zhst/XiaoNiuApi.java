@@ -8,11 +8,14 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -47,6 +50,13 @@ public class XiaoNiuApi {
         bodyMap.put("pageSize", 2);
         bodyMap.put("pageNum", 1);
         bodyMap.put("abc", null);
+        List list = Lists.newArrayList();
+        Map ab = Maps.newHashMap();
+        ab.put("abc", "111");
+        ab.put("lllll", "111");
+        ab.put("bbb", "111");
+        list.add(ab);
+        bodyMap.put("List", list);
 
         /** 参数排序 **/
         // 请求内容字典排序，转换为String

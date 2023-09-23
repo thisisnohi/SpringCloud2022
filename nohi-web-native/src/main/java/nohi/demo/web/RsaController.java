@@ -43,10 +43,10 @@ public class RsaController {
     @Autowired
     private FastJsonService fastJsonService;
 
-    @PostMapping(value = "/test1")
-    @Operation(summary = "test1", description = "test1..")
-    public String testJson() {
-        log.info("testJson");
+    @PostMapping(value = "/returnJson")
+    @Operation(summary = "returnJson", description = "returnJson..")
+    public String returnJson() {
+        log.info("returnJson");
         return fastJsonService.toJson();
     }
 
@@ -79,15 +79,16 @@ public class RsaController {
         try {
             String json = JSONObject.toJSONString(list);
             log.info("json2:{}", json);
+            vo.setData(json);
         } catch (Exception e) {
             log.error("JSONObject.toJSONString异常:{}", e.getMessage());
         }
         return vo;
     }
 
-    @PostMapping(value = "/rsa")
+    @PostMapping(value = "/encode")
     @Operation(method = "POST", summary = "测试RSA加密加签", description = "测试RSA加密加签,转换json异常，可先调用 testJson() 执行 fastJsonService.registerRsaRespItemVO(); ")
-    public RsaRespVO rsa(@RequestBody RsaReqVo reqVo) {
+    public RsaRespVO encode(@RequestBody RsaReqVo reqVo) {
         log.info("rsa请求:{}", JSONObject.toJSONString(reqVo));
 
         long start = System.currentTimeMillis();
@@ -105,24 +106,12 @@ public class RsaController {
             String acctNo = reqVo.getAcctNo();
             String encryptStr = null;
             vo.setAcctNo(acctNo);
-
-            List<RsaRespItemVO> list = Lists.newArrayList();
-            for (int i = 0; i < TMP_DATA_SIZE; i++) {
-                RsaRespItemVO item = new RsaRespItemVO();
-                item.setAcctNo(acctNo);
-                item.setAcctName(reqVo.getAcctName());
-                item.setAmt(new BigDecimal(i));
-                item.setBalance(new BigDecimal(100 - i));
-                item.setDateTime(LocalDateTime.now().toString());
-                list.add(item);
-            }
-
-            log.info("list:{}", list.size());
-            String json = JSONObject.toJSONString(list);
+            // 对账号加签
+            String json = acctNo;
             log.info("json:{}", json);
             encryptStr = RsaUtils.encryptData(json, publicKey);
             vo.setData(encryptStr);
-            // RSA签名
+            // RSA签
             String sign = RsaUtils.sign(encryptStr, privateKey);
             vo.setSign(sign);
             // 验签
