@@ -32,4 +32,12 @@ public class HelloService {
         }
         return userMapper.updateById(user);
     }
+
+    public int modifyUserDefaultTC(TbUser user) throws Exception {
+        log.info("modifyUser:{}", user);
+        if (null == user) {
+            throw new Exception("回滚事务");
+        }
+        return userMapper.updateById(user);
+    }
 }

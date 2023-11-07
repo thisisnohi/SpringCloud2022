@@ -282,14 +282,41 @@ public class TbUserService {
         user.setPwd(LocalDateTime.now().toString());
         user.setEmail("第一次提交");
         helloService.modifyUser(user);
-
+        log.info("第一次提交结束...");
         user.setEmail("第二次修改");
         userMapper.updateById(user);
+        log.info("第二次修改结束...");
         if ("1".equals("1")) {
+            log.warn("准备回滚事务...");
             throw new Exception("回滚事务");
         }
         log.info("测试事务，结束");
         return userMapper.selectById(id);
     }
 
+
+    /**
+     *  测试默认事务
+     */
+    public TbUser testTransactionDefault(Integer id) throws Exception {
+        log.info("测试默认事务 org.springframework.transaction.annotation.Transactional");
+        TbUser user = userMapper.selectById(id);
+        log.info("TbUser:{}", user);
+
+        /** 更新用户 **/
+        user.setPwd(LocalDateTime.now().toString());
+        user.setEmail("第一次提交");
+        helloService.modifyUserDefaultTC(user);
+        log.info("第一次提交结束...");
+
+        user.setEmail("第二次修改");
+        helloService.modifyUserDefaultTC(user);
+        log.info("第二次修改结束...");
+        if ("1".equals("1")) {
+            log.warn("准备回滚事务...");
+            throw new Exception("回滚事务");
+        }
+        log.info("测试事务，结束");
+        return userMapper.selectById(id);
+    }
 }

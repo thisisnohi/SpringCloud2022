@@ -90,4 +90,11 @@ public class UserController {
         logger.info("===testTransactionSpring===:{}", id);
         return userService.testTransaction2(id);
     }
+
+    @Operation(summary = "测试默认事务")
+    @GetMapping("/test-tc-default/{id}")
+    public TbUser testTransactionDefault(@PathVariable("id") Integer id) throws Exception {
+        logger.info("===testTransactionSpring===:{}", id);
+        return userService.testTransactionDefault(id);
+    }
 }
