@@ -267,10 +267,12 @@ public class TbUserService {
 
     /**
      * Spring注解事务
+     * 1. 入口方法有Spring事务注解
+     * 2. 方法内调用其他服务的方法，无注解：  回滚
+     * 3. 方法内调用其他服务的方法，有注解Propagation.REQUIRED   回滚
+     * 4. 方法内调用其他服务的方法，有注解Propagation.REQUIRES_NEW  不回滚
      *
-     * @param id
-     * @return
-     * @throws Exception
+     * @param id id
      */
     @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public TbUser testTransaction2(Integer id) throws Exception {
@@ -280,12 +282,23 @@ public class TbUserService {
 
         /** 更新用户 **/
         user.setPwd(LocalDateTime.now().toString());
+
+        // 第一次提交
         user.setEmail("第一次提交");
-        helloService.modifyUser(user);
-        log.info("第一次提交结束...");
+        int i = helloService.modifyUserDefaultTC(user);
+        log.info("第一次提交结束......修改记录[{}]", i);
+
+        // 第二次修改
         user.setEmail("第二次修改");
-        userMapper.updateById(user);
-        log.info("第二次修改结束...");
+        i = helloService.modifyUserDefaultWithRequired(user);
+        log.info("第二次修改结束......修改记录[{}]", i);
+
+        // 第三次修改
+        user = userMapper.selectById("2");
+        log.info("TbUser:{}", user);
+        user.setEmail("第三次修改");
+        i = helloService.modifyUserDefaultWithRequiredNew(user);
+        log.info("第三次修改结束...修改记录[{}]", i);
         if ("1".equals("1")) {
             log.warn("准备回滚事务...");
             throw new Exception("回滚事务");
@@ -294,11 +307,49 @@ public class TbUserService {
         return userMapper.selectById(id);
     }
 
-
     /**
-     *  测试默认事务
+     * 测试默认事务
      */
     public TbUser testTransactionDefault(Integer id) throws Exception {
+        log.info("测试默认事务 org.springframework.transaction.annotation.Transactional");
+        TbUser user = userMapper.selectById(id);
+        log.info("TbUser:{}", user);
+
+        /**
+         * helloService
+         * 1. 没有Transactional注解： 事务单独提交
+         * 2. Transactional(propagation = Propagation.REQUIRED 事务单独提交
+         * 3. Transactional(propagation = Propagation.REQUIRES_NEW 事务单独提交
+         */
+        /** 更新用户 **/
+        user.setPwd(LocalDateTime.now().toString());
+        user.setEmail("第一次提交");
+        int i = helloService.modifyUserDefaultTC(user);
+        log.info("第一次提交结束......修改记录[{}]", i);
+
+        // 第二次修改
+        user.setEmail("第二次修改");
+        i = helloService.modifyUserDefaultWithRequired(user);
+        log.info("第二次修改结束......修改记录[{}]", i);
+
+        // 第三次修改
+        user = userMapper.selectById("2");
+        log.info("TbUser:{}", user);
+        user.setEmail("第三次修改");
+        i = helloService.modifyUserDefaultWithRequiredNew(user);
+        log.info("第三次修改结束...修改记录[{}]", i);
+        if ("1".equals("1")) {
+            log.warn("准备回滚事务...");
+            throw new RuntimeException("回滚事务");
+        }
+        log.info("测试事务，结束");
+        return userMapper.selectById(id);
+    }
+
+    /**
+     * 测试默认事务
+     */
+    public TbUser testTransactionDefault2(Integer id) throws Exception {
         log.info("测试默认事务 org.springframework.transaction.annotation.Transactional");
         TbUser user = userMapper.selectById(id);
         log.info("TbUser:{}", user);
@@ -306,15 +357,28 @@ public class TbUserService {
         /** 更新用户 **/
         user.setPwd(LocalDateTime.now().toString());
         user.setEmail("第一次提交");
-        helloService.modifyUserDefaultTC(user);
-        log.info("第一次提交结束...");
+        int i = helloService.modifyUserDefaultTC(user);
+        log.info("第一次提交结束......修改记录[{}]", i);
 
+        // 第二次修改
         user.setEmail("第二次修改");
-        helloService.modifyUserDefaultTC(user);
-        log.info("第二次修改结束...");
+        i = helloService.modifyUserDefaultWithRequired(user);
+        log.info("第二次修改结束......修改记录[{}]", i);
+
+        // 第三次修改
+        user = userMapper.selectById("2");
+        log.info("TbUser:{}", user);
+        user.setEmail("第三次修改");
+        i = helloService.modifyUserDefaultWithRequiredNew(user);
+        log.info("第三次修改结束...修改记录[{}]", i);
+
+        // 第四次修改
+        user.setEmail("第四次修改");
+        userMapper.updateById(user);
+
         if ("1".equals("1")) {
             log.warn("准备回滚事务...");
-            throw new Exception("回滚事务");
+            throw new RuntimeException("回滚事务");
         }
         log.info("测试事务，结束");
         return userMapper.selectById(id);

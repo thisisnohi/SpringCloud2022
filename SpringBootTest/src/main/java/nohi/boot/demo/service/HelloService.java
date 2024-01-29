@@ -6,6 +6,7 @@ import nohi.boot.demo.dao.TbUserMapper;
 import nohi.boot.demo.entity.TbUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 /**
  * <h3>SpringBootTest</h3>
@@ -38,6 +39,18 @@ public class HelloService {
         if (null == user) {
             throw new Exception("回滚事务");
         }
+        return userMapper.updateById(user);
+    }
+
+    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public int modifyUserDefaultWithRequired(TbUser user) throws Exception {
+        log.info("modifyUser:{}", user);
+        return userMapper.updateById(user);
+    }
+
+    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    public int modifyUserDefaultWithRequiredNew(TbUser user) {
+        log.info("modifyUser:{}", user);
         return userMapper.updateById(user);
     }
 }

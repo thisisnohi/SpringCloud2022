@@ -84,17 +84,39 @@ public class UserController {
         return userService.testTransaction(id);
     }
 
-    @Operation(summary = "测试spring事务")
+    @Operation(summary = "测试spring事务", description = """
+            * 1. 入口方法有Spring事务注解
+            * 2. 方法内调用其他服务的方法，无注解：  回滚
+            * 3. 方法内调用其他服务的方法，有注解Propagation.REQUIRED   回滚
+            * 4. 方法内调用其他服务的方法，有注解Propagation.REQUIRES_NEW  不回滚
+            """)
     @GetMapping("/test-transactionspring/{id}")
     public TbUser testTransactionSpring(@PathVariable("id") Integer id) throws Exception {
         logger.info("===testTransactionSpring===:{}", id);
         return userService.testTransaction2(id);
     }
 
-    @Operation(summary = "测试默认事务")
+    @Operation(summary = "测试默认事务", description = """
+             * 1. 入口方法有无事务注解，方法内无直接事务
+             * 2. 方法内调用其他服务的方法，无注解：  不回滚
+             * 3. 方法内调用其他服务的方法，有注解Propagation.REQUIRED   不回滚
+             * 4. 方法内调用其他服务的方法，有注解Propagation.REQUIRES_NEW  不回滚
+            """)
     @GetMapping("/test-tc-default/{id}")
     public TbUser testTransactionDefault(@PathVariable("id") Integer id) throws Exception {
         logger.info("===testTransactionSpring===:{}", id);
         return userService.testTransactionDefault(id);
+    }
+
+    @Operation(summary = "测试默认事务2", description = """
+            * 1. 入口方法有Spring事务注解，方法内有mybatis操作
+            * 2. 方法内调用其他服务的方法，无注解：不回滚
+            * 3. 方法内调用其他服务的方法，有注解Propagation.REQUIRED 不回滚
+            * 4. 方法内调用其他服务的方法，有注解Propagation.REQUIRES_NEW 不回滚
+            """)
+    @GetMapping("/testTransactionDefault/{id}")
+    public TbUser testTransactionDefault2(@PathVariable("id") Integer id) throws Exception {
+        logger.info("===testTransactionSpring===:{}", id);
+        return userService.testTransactionDefault2(id);
     }
 }
