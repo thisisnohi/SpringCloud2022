@@ -92,3 +92,8 @@ public void registerRsaRespItemVO() {
 * 20230901
   * 增加reactor netty TcpServer 示例
   * 解决TcpServer 读取指定长度报文问题
+
+* 20240411 
+  * 增加日志脱敏
+    * 方式一： 依赖：logback-desensitization， appender改为：pers.liuchengyin.logbackadvice.LcyConsoleAppender
+    * 方式二：实现： MaskingPatternLayout 修改appender.encoder.layout
