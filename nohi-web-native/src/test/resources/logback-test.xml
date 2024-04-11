@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/base.xml" />
     <logger name="org.springframework" level="OFF"/>
+
+    <property name="logging.path" value="logging.file.path" defaultValue="${HOME}/logs" />
+    <property name="filename" value="spring.application.name"/>
 
     <!-- 文件输出格式 -->
     <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}[%line] - %msg%n"/>
-    <!--控制台输出 -->
+    <!--控制台输出
+        ch.qos.logback.core.ConsoleAppender  to
+        pers.liuchengyin.logbackadvice.LcyConsoleAppender
+    -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <Pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%thread]%logger{56}.%method:%L -%msg%n</Pattern>
+            <layout class="nohi.log.MaskingPatternLayout"> <!-- 自定义layout -->
+                <maskPattern>\"address\"\s*:\s*\"(.*?)\"</maskPattern> <!--json地址格式 -->
+                <maskPattern>((1\d{2})\d{8})</maskPattern> <!-- 手机号格式 -->
+                <maskPattern>(\w+@\w+\.\w+)</maskPattern> <!-- 邮箱格式 -->
+                <Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+            </layout>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
@@ -19,8 +30,28 @@
         <!--<onMismatch>DENY</onMismatch>-->
         <!--</filter>-->
     </appender>
-    <root level="DEBUG">
-        <!--        <appender-ref ref="INFO_FILE"/>-->
-        <!--        <appender-ref ref="ERROR_FILE"/>-->
-    </root>
+
+    <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
+    <appender name="FILE_OUT"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<Encoding>UTF-8</Encoding>-->
+        <File>${logging.path}/${filename}_info.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logging.path}/%d{yyyyMMdd}/${filename}_info.-%i.log</FileNamePattern>
+            <MaxHistory>5</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>50MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${PATTERN}</pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO" />
+
+    <logger name="nohi" level="DEBUG" >
+        <appender-ref ref="STDOUT"/>
+    </logger>
 </configuration>
