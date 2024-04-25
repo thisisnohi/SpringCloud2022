@@ -1,4 +1,4 @@
-package nohi.demo.reactor.flux;
+package nohi.netty.reactor.flux;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,0 +1,7 @@
+GET http://127.0.0.1:8080/get
+Content-Type: application/json
+
+{
+  "a": "aaaa",
+  "b": 11111
+}

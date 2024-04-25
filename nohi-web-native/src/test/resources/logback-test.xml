@@ -50,6 +50,8 @@
     </appender>
 
     <root level="INFO" />
+    <logger name="ch" level="WARN" />
+    <logger name="org" level="WARN" />
 
     <logger name="nohi" level="DEBUG" >
         <appender-ref ref="STDOUT"/>
