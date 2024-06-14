@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import nohi.common.config.BizConfig;
 import nohi.socket.njserver.NjSocketService;
-import nohi.socket.zshserver.SoketService;
+import nohi.socket.zshserver.SocketService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,7 +42,7 @@ public class TestConditionController implements InitializingBean {
         log.debug("port:{}", port);
 
         try {
-            SoketService.getInstanse(port).start();
+            SocketService.getInstance(port).start();
         } catch (Exception e) {
             log.error("开启socket异常:{}", e.getMessage(), e);
             return "开启socket异常" + e.getMessage();

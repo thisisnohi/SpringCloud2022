@@ -8,15 +8,15 @@ import java.net.Socket;
  * @author NOHI
  * @date 2012-11-13
  */
-public class SoketService extends Thread {
-	private static SoketService soketService;
-	private ServerSocket serverScoket = null;
+public class SocketService extends Thread {
+	private static SocketService socketService;
+	private ServerSocket serverSocket = null;
 
-	public static  SoketService getInstanse(int port)throws Exception {
-		if (null == soketService) {
-			soketService = new SoketService(port);
+	public static SocketService getInstance(int port)throws Exception {
+		if (null == socketService) {
+			socketService = new SocketService(port);
 		}
-		return soketService;
+		return socketService;
 	}
 
 	/**
@@ -24,9 +24,9 @@ public class SoketService extends Thread {
 	 *
 	 * @throws Exception
 	 */
-	private SoketService(int port) throws Exception {
+	private SocketService(int port) throws Exception {
 		try {
-			serverScoket = new ServerSocket(port);
+			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new Exception("初始化ServerSocket失败");
@@ -37,7 +37,7 @@ public class SoketService extends Thread {
 	public void run() {
 		while (!this.isInterrupted()) {
 			try {
-				Socket socket = serverScoket.accept();
+				Socket socket = serverSocket.accept();
 				if (null != socket) {
 					new OperatorScoketdataThread(socket).start();
 				}
@@ -49,8 +49,8 @@ public class SoketService extends Thread {
 
 	public void closeSocketServer() {
 		try {
-			if (null != serverScoket && !serverScoket.isClosed()) {
-				serverScoket.close();
+			if (null != serverSocket && !serverSocket.isClosed()) {
+				serverSocket.close();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
