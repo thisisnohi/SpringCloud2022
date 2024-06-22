@@ -33,6 +33,9 @@ public class SftpUtils {
         sshSession.setPassword(password);
         Properties sshConfig = new Properties();
         sshConfig.put("StrictHostKeyChecking", "no");
+        sshConfig.put("kex", "diffie-hellman-group1-sha1");
+        sshSession.setConfig("StrictHostKeyChecking","no");
+        sshSession.setConfig("kex","diffie-hellman-group1-sha1");
         sshSession.setConfig(sshConfig);
         /** 连接 **/
         log.debug("before connect");

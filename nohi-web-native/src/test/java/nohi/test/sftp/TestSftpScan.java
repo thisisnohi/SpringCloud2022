@@ -29,6 +29,34 @@ public class TestSftpScan {
 
     Set<String> fileSuffixSet = Stream.of(".txt", ".zip", ".mp4").collect(Collectors.toSet());
 
+    @Test
+    public void testSftpScanServU() {
+        String host = "10.0.0.60";
+        int port = 2222;
+        String username = "test";
+        String password = "test1234";
+
+        String remoteDir = "/";
+        String localDir = "/Users/nohi/tmp/sftp";
+
+        try {
+            ChannelSftp channelSftp = SftpUtils.getChanel(host, port, username, password);
+
+            Vector<ChannelSftp.LsEntry> vector = SftpUtils.scanDirWithSelector(channelSftp, remoteDir, fileSuffixSet);
+            log.info("目录[{}]下文件数[{}]", remoteDir, vector.size());
+            for (ChannelSftp.LsEntry fileEntry : vector) {
+                String fileName = fileEntry.getFilename();
+                String remoteFilePath = FileUtils.appendFilePath(remoteDir, fileName);
+                String localFilePath = FileUtils.appendFilePath(localDir, fileName);
+                // 文件传输
+                // fileTrans(channelSftp, remoteFilePath, localFilePath);
+            }
+
+        } catch (Exception e) {
+            log.error("异常：{}", e.getMessage(),  e);
+        }
+
+    }
 
     @Test
     public void testSftpScan() {
