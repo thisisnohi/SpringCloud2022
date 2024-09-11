@@ -61,7 +61,7 @@ public class UserController {
     @Operation(summary = "保存用户")
     @PostMapping("/add")
     public TbUser addUser(String name, String sex, String mail) {
-        TbUser user = TbUser.builder().build();
+        TbUser user = new TbUser();
         user.setName(name);
         user.setSex(sex);
         user.setEmail(mail);
@@ -119,4 +119,15 @@ public class UserController {
         logger.info("===testTransactionSpring===:{}", id);
         return userService.testTransactionDefault2(id);
     }
+
+    @Operation(summary = "测试JPA事务", description = """
+            * 1. JPA获取对象后，修改数据值，不调用save 或 update方法。是否更新数据库值
+            """)
+    @GetMapping("/testJpaTransaction/{id}")
+    public TbUser testJpaTransaction(@PathVariable("id") Integer id) throws Exception {
+        logger.info("===testJpaTransaction===:{}", id);
+        return userService.testJpaTransaction(id);
+    }
+
+
 }

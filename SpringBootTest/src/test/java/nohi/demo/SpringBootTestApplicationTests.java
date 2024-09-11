@@ -1,5 +1,6 @@
 package nohi.demo;
 
+import nohi.boot.SpringBootTestApplication;
 import nohi.boot.models.CollegeStudent;
 import nohi.boot.models.Student;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
  * 不同包下的测试
  *  @SpringBootTest(classes = SpringBootTestApplication.class)
  */
-@SpringBootTest
+//@SpringBootTest
+@SpringBootTest(classes = SpringBootTestApplication.class)
 @DisplayName("SrpingBoot单元测试,不同包下运行测试")
 class SpringBootTestApplicationTests {
 	@Autowired

@@ -32,7 +32,7 @@ public class MockDaoTest {
     @BeforeEach
     public void beforeEach() {
         log.info("==>beforeEach");
-        firstUser = TbUser.builder().build();
+        firstUser = new TbUser();
         firstUser.setId(1);
         firstUser.setName("NOHI");
         firstUser.setSex("MAN");

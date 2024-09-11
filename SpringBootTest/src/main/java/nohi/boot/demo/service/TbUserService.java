@@ -1,17 +1,17 @@
 package nohi.boot.demo.service;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import nohi.boot.demo.dao.TbUserMapper;
+import nohi.boot.demo.dao.TbUserRepository;
 import nohi.boot.demo.entity.TbUser;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,6 +31,9 @@ public class TbUserService {
 
     @Autowired
     HelloService helloService;
+
+    @Autowired
+    TbUserRepository tbUserRepository;
 
     /**
      * 查询全部
@@ -382,5 +385,25 @@ public class TbUserService {
         }
         log.info("测试事务，结束");
         return userMapper.selectById(id);
+    }
+
+
+    /**
+     * jakarta.transaction注解事务
+     * JPA 获取对象后，直接修改属性，是否更新属性值到数据库
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    public TbUser testJpaTransaction(Integer id) throws Exception {
+        log.info("测试事务 testJpaTransaction");
+        Optional<TbUser> user = tbUserRepository.findById(id);
+        log.info("TbUser 是否存在:{}", user.isPresent());
+        log.info("更新前:{}", JSONObject.toJSONString(user.get()));
+        /** 更新用户 **/
+        user.get().setEmail(LocalDateTime.now().toLocalTime().toString());
+        log.info("是否更新:{}", JSONObject.toJSONString(user.get()));
+        return user.get();
     }
 }
