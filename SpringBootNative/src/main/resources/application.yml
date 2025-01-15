@@ -1,0 +1,23 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: SpringBootNative
+
+# 日志相关
+logging:
+  level:
+    root: INFO
+  file:
+    path: ${HOME}/tmp/logs
+
+management:
+  info:
+    env:
+      # Spring Boot 2.6 后 默认为false
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
+

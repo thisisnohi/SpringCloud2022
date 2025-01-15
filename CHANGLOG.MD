@@ -59,6 +59,15 @@
 * 升级SpringCloud 2022.0.x aka Kilburn: 2022.0.3
 * 计划增加部署K8s内容
 
+## 20230516
+* 增加单元测试内容
+* junit、surefire、jacoco
+
+## 20230529
+feat 解决jdk17 maven3.8异常
+异常：Unable to compile JDK 17 using Maven 3.8: error: module jdk.compiler does not "opens com.sun.tools.javac.processing" to unnamed module
+方案：升级lombok版本为最新 1.18.24
+
 ## 20230604
 * 升级SpringBoot 3.07
 * 升级SprignCloud 2023.0.3

@@ -1,0 +1,10 @@
+sftp:
+  host: 10.0.0.210 # 服务器ip
+  port: 22 # ssh端口
+  username: nohi # 用户名
+  password: 111111111 # 密码
+  # 连接池参数
+  pool:
+    max-total: 10
+    max-idle: 10
+    min-idle: 5

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nohi.boot.demo.dao.TbUserMapper">
+
+  <resultMap id="BaseResultMap" type="nohi.boot.demo.entity.TbUser">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+  </resultMap>
+
+  <select id="selectByExample" resultMap="BaseResultMap" >
+    SELECT * FROM T_USER
+    <where>
+      <if test="id !=null and id != ''">
+        and id = id
+      </if>
+      <if test="idMin !=null and idMin != ''">
+        and id <![CDATA[ >= ]]> #{idMin}
+      </if>
+    </where>
+  </select>
+
+  <update id="updateTuser" parameterType="nohi.boot.demo.entity.TbUser">
+    update T_USER
+    <set>
+      <if test="name != null and name != ''">
+        name = #{name, jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null and sex != ''">
+        sex = #{sex, jdbcType=VARCHAR}
+      </if>
+      <if test="pwd != null and pwd != ''">
+        pwd = #{pwd, jdbcType=VARCHAR}
+      </if>
+      <if test="email != null and email != ''">
+        email = #{email, jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+</mapper>

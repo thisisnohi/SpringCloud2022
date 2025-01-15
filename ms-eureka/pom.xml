@@ -10,8 +10,6 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ms-eureka</artifactId>
 
-  <properties>
-  </properties>
   <dependencies>
     <!--为服务注册中心引入 Eureka Server 的依赖-->
     <dependency>
