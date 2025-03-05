@@ -97,3 +97,4 @@ public void registerRsaRespItemVO() {
   * 增加日志脱敏
     * 方式一： 依赖：logback-desensitization， appender改为：pers.liuchengyin.logbackadvice.LcyConsoleAppender
     * 方式二：实现： MaskingPatternLayout 修改appender.encoder.layout
+
