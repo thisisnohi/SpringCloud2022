@@ -22,16 +22,20 @@ public class MockServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        log.info("GET /mock");
+        long start = System.currentTimeMillis();
+        log.info("MockGET start /mock");
         MockSendService service = SpringContextUtils.getBean(MockSendService.class);
         service.msgSend(req, resp);
+        log.info("MockGET over /mock 耗时:{}", System.currentTimeMillis() - start);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        log.info("POST /mock");
+        long start = System.currentTimeMillis();
+        log.info("MockPOST start /mock");
         MockSendService service = SpringContextUtils.getBean(MockSendService.class);
         service.msgSend(req, resp);
+        log.info("MockPOST over /mock 耗时:{}", System.currentTimeMillis() - start);
     }
 
 }

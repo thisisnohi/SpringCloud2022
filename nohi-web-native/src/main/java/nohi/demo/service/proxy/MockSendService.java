@@ -87,11 +87,11 @@ public class MockSendService {
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");
             }
-            log.debug("\n{} =========请求报文=====：{}", title, msg);
+            log.debug("{} =========请求报文=====：{}", title, msg);
             if (flag) {
                 String mockFile = mockPath + File.separator + uri + ".mock";
                 msg = FileUtils.readStringfromPath(mockFile);
-                log.debug("\n{} =========响应报文=====：{}", title, msg);
+                log.debug("{} =========响应报文=====：{}", title, msg);
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
