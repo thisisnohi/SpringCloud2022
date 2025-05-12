@@ -2,16 +2,21 @@ package nohi.redis.pubsub;
 
 
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -87,9 +92,14 @@ public class TestRedisTemplatePub {
     @Order(2)
     public void 订阅消息() throws InterruptedException {
         RedisMessageListener listener = new RedisMessageListener(template);
-        PrintMessageReceiver receiver = new PrintMessageReceiver(template);
-        MessageListenerAdapter adapter = new MessageListenerAdapter(receiver, "receiveMessage");
+
+        PrintMessageReceiver receiver = new PrintMessageReceiver();
+        MessageListenerAdapter adapter = new MessageListenerAdapter(receiver);
+        adapter.setDefaultListenerMethod("handleMessage"); // 明确指定方法名
         adapter.setSerializer(RedisSerializer.json());
+        /** adapter必须增加afterPropertiesSet方法调用 **/
+        adapter.afterPropertiesSet();
+
 
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         // 监听所有库的key过期事件
@@ -97,8 +107,19 @@ public class TestRedisTemplatePub {
         // 所有的订阅消息，都需要在这里进行注册绑定,new PatternTopic(TOPIC_NAME1)表示发布的主题信息
         // 可以添加多个 messageListener，配置不同的通道
         container.addMessageListener(listener, new PatternTopic(TOPIC_ONE));
-//        container.addMessageListener(receiveMessage, new PatternTopic(TOPIC_ONE));
-        container.addMessageListener(adapter, new PatternTopic("*"));
+        // new PatternTopic("pattern.*") 模糊匹配
+        container.addMessageListener(adapter, new ChannelTopic(TOPIC_TWO));
+        // 临时添加
+//        container.addMessageListener(new MessageListener() {
+//            @Override
+//            public void onMessage(Message message, byte[] pattern) {
+//                System.out.println("Raw message received: " + new String(message.getBody()));
+//            }
+//        }, new ChannelTopic(TOPIC_ONE));
+//        container.addMessageListener((message, pattern) -> {
+//            System.out.println("==>Raw channel: " + new String(message.getChannel()));
+//            System.out.println("==>Raw body: " + Arrays.toString(message.getBody()));
+//        }, new ChannelTopic(TOPIC_ONE));
 
         // 可选配置
         container.setTaskExecutor(Executors.newFixedThreadPool(4)); // 自定义线程池

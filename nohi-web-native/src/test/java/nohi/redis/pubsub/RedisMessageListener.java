@@ -24,7 +24,7 @@ public class RedisMessageListener implements MessageListener {
     @Override
     public void onMessage(Message message, byte[] pattern) {
         // 接收的topic
-        log.info("channel:{}", new String(pattern));
+        log.info("1 channel:{}", new String(pattern));
 
         //序列化对象（特别注意：发布的时候需要设置序列化；订阅方也需要设置序列化）
         MessageVo messageDto = (MessageVo) redisTemplate.getValueSerializer().deserialize(message.getBody());
