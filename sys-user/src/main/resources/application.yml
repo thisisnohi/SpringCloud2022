@@ -17,8 +17,10 @@ spring:
       client:
         url: http://127.0.0.1:7005
         instance:
-          prefer-ip: true # 必须设置为true，否则可能注册失败，true：server才能端拿到本机IP
-          register-once: false # false：如果有多个server端，都会就行注册，true:只在一个server端注册
+          #
+          # prefer-ip: true # 必须设置为true，否则可能注册失败，true：server才能端拿到本机IP
+          service-host-type: ip
+          # register-once: false # false：如果有多个server端，都会就行注册，true:只在一个server端注册
   security:
     user:
       name: admin
@@ -92,7 +94,8 @@ logging:
   maxhistory: 7
   level:
     nohi.ms.common: INFO
-  path: ${HOME}/logs/${spring.application.name}
+  file:
+    path: ${HOME}/logs/${spring.application.name}
 
 
 

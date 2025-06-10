@@ -71,3 +71,7 @@ feat 解决jdk17 maven3.8异常
 ## 20230604
 * 升级SpringBoot 3.07
 * 升级SprignCloud 2023.0.3
+
+## 20250609
+* 升级SpringCloud 2025.0.0
+* 升级SpringBoot 3.5.0
