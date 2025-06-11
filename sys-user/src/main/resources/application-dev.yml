@@ -28,7 +28,8 @@ feign:
 logging:
   level:
     nohi.ms.common: INFO
-  path: ${HOME}/logs/${spring.application.name}
+  file:
+    path: ${HOME}/logs/${spring.application.name}
 
 
 

@@ -85,17 +85,19 @@ feign:
     degrade:
       rules:
         - resource: POST:http://localhost:8001/users/lists
-          coutnt: 10
+          count: 10
           degradeGrad: 2
           timeWindow: 1
           minRequestAmount: 5
 # 日志
 logging:
-  maxhistory: 7
   level:
     nohi.ms.common: INFO
   file:
     path: ${HOME}/logs/${spring.application.name}
+  logback:
+    rollingpolicy:
+      max-history: 7
 
 
 
