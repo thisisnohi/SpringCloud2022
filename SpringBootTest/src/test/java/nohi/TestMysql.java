@@ -17,8 +17,8 @@ import java.util.List;
 public class TestMysql {
 
     public static void main(String[] args) throws Exception {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "root");
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "root1234");
         con.setAutoCommit(false);
         PreparedStatement stmt = con.prepareStatement("insert into emp(name,hire date,dept id) values(?,?,?)");
         stmt.executeUpdate("insert into dept(name,location) value('R&D','Beijing')");

@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.1</version>
+    <version>3.5.0</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>nohi.boot</groupId>
@@ -26,7 +26,7 @@
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-bootstrap</artifactId>
-      <version>3.1.3</version>
+      <version>4.3.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -91,9 +91,9 @@
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.30</version>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>9.3.0</version>
     </dependency>
     <dependency>
       <groupId>com.baomidou</groupId>
@@ -103,6 +103,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+      <version>1.18.38</version>
     </dependency>
 
     <!-- mock 静态方法 -->
@@ -115,7 +116,7 @@
     <dependency>
       <groupId>cn.hutool</groupId>
       <artifactId>hutool-all</artifactId>
-      <version>5.8.15</version>
+      <version>5.8.24</version>
       <scope>compile</scope>
     </dependency>
 
@@ -175,6 +176,14 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+        <configuration>
+          <argLine>-javaagent:"${settings.localRepository}/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar"</argLine>
+        </configuration>
       </plugin>
     </plugins>
   </build>
