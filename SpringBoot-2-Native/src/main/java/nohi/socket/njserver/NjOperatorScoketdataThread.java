@@ -21,6 +21,12 @@ public class NjOperatorScoketdataThread extends Thread {
         this.socket = socket;
     }
 
+    /**
+     * 运行
+     * @author NOHI
+     * @date 2025/7/23 18:00
+     */
+    @Override
     public void run() {
         try (InputStream is = socket.getInputStream();
              OutputStream os = socket.getOutputStream();
@@ -29,7 +35,7 @@ public class NjOperatorScoketdataThread extends Thread {
             byte[] headLenBytes = NjMsgUtils.readBytesFromInputStream(is, 2);
             byte[] bodyLenBytes = NjMsgUtils.readBytesFromInputStream(is, 4);
             byte[] encode = NjMsgUtils.readBytesFromInputStream(is, 1);
-            log.debug("headLenBytes[{}] bodyLenBytes[{}]", NjMsgUtils.parseByte2HexStr(headLenBytes), NjMsgUtils.parseByte2HexStr(bodyLenBytes), new String(encode));
+            log.debug("headLenBytes[{}] bodyLenBytes[{}] {}", NjMsgUtils.parseByte2HexStr(headLenBytes), NjMsgUtils.parseByte2HexStr(bodyLenBytes), new String(encode));
             // 十六进制转十进制
             int headLen = Integer.parseInt(NjMsgUtils.parseByte2HexStr(headLenBytes), 16);
             int bodyLen = Integer.valueOf(NjMsgUtils.parseByte2HexStr(bodyLenBytes), 16);
@@ -53,7 +59,6 @@ public class NjOperatorScoketdataThread extends Thread {
             NjMsgUtils.writeAndFlush(os, respHead, CHARSET);
             NjMsgUtils.writeAndFlush(os, respBody, CHARSET);
         } catch (Exception e) {
-            e.printStackTrace();
             log.error(e.getMessage(), e);
         }
     }
