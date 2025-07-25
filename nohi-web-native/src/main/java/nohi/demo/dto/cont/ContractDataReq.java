@@ -14,7 +14,6 @@ import java.util.List;
  * @create 2020-06-02 10:29
  **/
 @Data
-
 public class ContractDataReq {
     @NotBlank(message = "业务类别不能为空")
     private String ywlb;

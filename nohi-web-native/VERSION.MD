@@ -98,3 +98,7 @@ public void registerRsaRespItemVO() {
     * 方式一： 依赖：logback-desensitization， appender改为：pers.liuchengyin.logbackadvice.LcyConsoleAppender
     * 方式二：实现： MaskingPatternLayout 修改appender.encoder.layout
 
+* 20250725
+  * 修复`NoSuchMethodError: 'void org.springframework.web.method.ControllerAdviceBean.<init>(java.lang.Object)'`
+  * `GlobalExceptionHandler` 增加`@Hidden`
+  * 

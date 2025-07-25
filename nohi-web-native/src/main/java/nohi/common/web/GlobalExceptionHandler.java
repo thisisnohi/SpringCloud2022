@@ -1,5 +1,6 @@
 package nohi.common.web;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @date 2023/06/27 12:30
  **/
 @Slf4j
+@Hidden
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /**
