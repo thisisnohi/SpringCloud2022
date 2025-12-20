@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NOHI Web Natvie</title>
+</head>
+<body>
+<h1>NOHI</h1>
+<h2>NOHI Web for SpringBoot</h2>
+<p>
+  / or /index.html
+  /index 通过 IndexController/index方法返回 index.html页面
+</p>
+<hr>
+<h3>WebSocket<span id="websocketid"></span></h3>
+<label for="text"></label><input id="text" type="text"/>
+<button onclick="sendMessage()">发送消息</button>
+<button onclick="closeWebSocket()">关闭连接</button>
+<div id="message"></div>
+<hr>
+<h3>SSE</h3>
+<div id="sseMessage"></div>
+</body>
+<script type="text/javascript">
+
+  function sse(){
+    const eventSource = new EventSource('/sse/subscribe');
+    eventSource.onmessage = function(event) {
+      const messagesDiv = document.getElementById('sseMessage');
+      messagesDiv.innerHTML += event.data + '<br/>';
+    };
+
+    eventSource.onerror = function() {
+      console.error('SSE连接出错，正在尝试重连...');
+      eventSource.close();
+    };
+  }
+  // 打开sse
+  sse();
+
+  function uuid() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+      s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+
+    var uuid = s.join("");
+    return uuid;
+  }
+
+  let websocket = null;
+  let id = uuid();
+  console.log(id);
+  //判断当前浏览器是否支持WebSocket
+  if ('WebSocket' in window) {
+    websocket = new WebSocket("ws://localhost:8888/websocket/" + id);
+  } else {
+    alert('Not support websocket');
+  }
+
+  //连接发生错误的回调方法
+  websocket.onerror = function() {
+    showMessage("打开连接失败");
+  };
+
+  //连接成功建立的回调方法
+  websocket.onopen = function(event) {
+    showMessage("打开连接成功");
+  }
+
+  // 接收到消息的回调方法
+  websocket.onmessage = function(event) {
+    console.log("接收消息", JSON.stringify(event.data));
+    showMessage(event.data);
+  }
+
+  //连接关闭的回调方法
+  websocket.onclose = function() {
+    showMessage("关闭连接成功");
+  }
+
+  //监听窗口关闭事件，当窗口关闭时，主动关闭WebSocket连接
+  window.onbeforeunload = function() {
+    websocket.close();
+  }
+
+  function showMessage(message) {
+    document.getElementById('message').innerHTML += message + '<br/>';
+  }
+
+  function closeWebSocket() {
+    websocket.close();
+  }
+
+  //发送消息
+  function sendMessage() {
+    const message = document.getElementById('text').value;
+    websocket.send(message);
+  }
+</script>
+</html>

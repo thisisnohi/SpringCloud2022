@@ -21,3 +21,7 @@ management:
       exposure:
         include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
 
+biz-config:
+  mock:
+    enable: true
+    dir-path: ${HOME}/tmp/nohi-web

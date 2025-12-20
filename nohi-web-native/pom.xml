@@ -211,22 +211,22 @@
   </dependencies>
 
   <!-- native jar -->
-  <!--<build>
+  <build>
     <plugins>
       <plugin>
         <groupId>org.graalvm.buildtools</groupId>
         <artifactId>native-maven-plugin</artifactId>
         <configuration>
-          &lt;!&ndash; imageName用于设置生成的二进制文件名称 &ndash;&gt;
+          <!-- imageName用于设置生成的二进制文件名称 -->
           <imageName>${project.artifactId}</imageName>
-          &lt;!&ndash; mainClass用于指定main方法类路径 &ndash;&gt;
+          <!-- mainClass用于指定main方法类路径 -->
           <mainClass>nohi.NohiWebNativeApplication</mainClass>
           <buildArgs>
-            &#45;&#45;no-fallback
+            --no-fallback
             -Dspring.native.remove-yaml-support=true
             -Dspring.spel.ignore=true
-            &#45;&#45;trace-class-initialization=org.apache.commons.logging.LogFactory
-            &#45;&#45;initialize-at-build-time=org.apache.commons.logging.LogFactory
+            --trace-class-initialization=org.apache.commons.logging.LogFactory
+            --initialize-at-build-time=org.apache.commons.logging.LogFactory
           </buildArgs>
         </configuration>
         <executions>
@@ -244,16 +244,16 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
     </plugins>
-  </build>-->
+  </build>
   <!-- 正常Springboot jar -->
-  <build>
+  <!--<build>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
     </plugins>
-  </build>
+  </build>-->
 
 </project>
 

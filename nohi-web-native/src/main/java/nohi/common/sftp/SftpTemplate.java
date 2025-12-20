@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.jcraft.jsch.ChannelSftp;
 import lombok.extern.slf4j.Slf4j;
 import nohi.common.config.SftpProperties;
-import nohi.demo.utils.SftpUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -47,22 +46,5 @@ public class SftpTemplate {
             sftpPoolMap.put(key, pool);
         }
         return sftpPoolMap.get(key);
-    }
-
-    public void fileTrans(ChannelSftp channelSftp, String remoteFilePath, String localFilePath) {
-        String title = String.format("文件[%s]处理", remoteFilePath);
-        try {
-            // 下载文件
-            SftpUtils.downloadFile(channelSftp, remoteFilePath, localFilePath);
-        } catch (Exception e) {
-            log.error("{} 文件下载异常:{}", title, e.getMessage());
-        }
-
-        try {
-            // 删除文件
-            SftpUtils.rmFile(channelSftp, remoteFilePath);
-        } catch (Exception e) {
-            log.error("{} 文件删除异常:{}", title, e.getMessage());
-        }
     }
 }

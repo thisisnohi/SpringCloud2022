@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<documents>
+    <!--  id 同nohi-doc中doc
+          template 对应excel模板
+          data: 对应数据的存取对象
+          docType:文档类型EXCEL
+    -->
+    <document id="dbScan" name="数据字典"
+              template="doctemplate/excel/db_tables.xlsx"
+              data="nohi.dbscan.dto.excel.ExcelDocVO"
+              docType="EXCEL"
+    >
+
+        <!--
+             sheet
+                 type　目前没有用到
+                 name 对应Excel中sheet的名称，一定要对应，否则找不到相应的sheet
+                 dynamicsheetname　只有在导出sheet时才会用到
+         -->
+        <sheet type="single" name="TABLES">
+            <!-- type：该块类型，field-字段类型  TABLE－列表类型
+                 row：行 , 从0开始   -->
+            <block type="field" row="0" rowpostion="relative">
+                <!--
+                   column: 列，从0开始。合并的单元格算开始位置即可
+                   property: 存取值对应的字段属性，例str1定是nohi.doc.excel.vo.TestDocVO中的字段属性，并有get set方法
+                   dataType:　数据类型 String(默认) int Integer Double BigDecimal date
+                   pattern: 格式化类型，导入时读取的格式，导出数据时，导出的格式
+                               例：日期pattern="yyyy-MM-dd",数值:pattern="#,###.00"
+                   codeType: 代码值类型 CurrencyCd对应nohi_encode_conf.xml中的类型
+                     -->
+                <col column="1" property="tableName">实体英文名称</col>
+                <col column="3" property="comments">中文名称</col>
+            </block>
+            <block type="field" row="1" rowpostion="relative">
+                <col column="1" property="comments">中文名称</col>
+            </block>
+
+            <!-- 列表块
+                 endRow 只有导入时用到，导入数据列表截止行,从０开始
+                 list:　列表对应属性,如　list对应nohi.doc.excel.vo.TestDocVO中的字段属性，并有get set方法
+                 itemClass: list值类型
+            -->
+            <block type="TABLE" row="3" rowpostion="relative" list="indexList" itemClass="nohi.dbscan.dto.db.TabIndexInfo">
+                <col column="0" property="indexName" dataType="String">索引名称</col>
+                <col column="2" property="uk" dataType="String">是否唯一</col>
+                <col column="4" property="indexCols" dataType="String">索引字段</col>
+            </block>
+
+            <block type="TABLE" row="6" rowpostion="relative"
+                   list="tableColumnList" itemClass="nohi.dbscan.dto.db.TabColumnInfo"
+            >
+                <col column="0" property="columnName">字段名称</col>
+                <col column="1" property="columnNameCn">字段中文名称</col>
+                <col column="2" property="dataType">数据类型</col>
+                <col column="3" property="dataLength">长度</col>
+                <col column="4" property="pk">主键</col>
+                <col column="5" property="nullable">非空</col>
+                <col column="6" property="defaultValue">默认值</col>
+                <col column="7" property="comments">备注说明</col>
+                <col column="8" property="codeType">代码类型</col>
+            </block>
+            <block type="field" row="8" rowpostion="relative">
+                <col column="0" property="blank">空值</col>
+            </block>
+        </sheet>
+    </document>
+</documents>
