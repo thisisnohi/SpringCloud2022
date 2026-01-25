@@ -105,3 +105,5 @@ public void registerRsaRespItemVO() {
 * 20251220
   * 添加websocket例子
 
+* 20260124 
+  * kafka示例
