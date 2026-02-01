@@ -18,7 +18,7 @@ import java.util.Properties;
 
 /**
  * <h3>nohi-web</h3>
- *DateUtil
+ *
  * @author NOHI
  * @description <p>Kafka消费-手工连接</p>
  * @date 2026/01/25 10:36
@@ -27,8 +27,8 @@ import java.util.Properties;
 @Slf4j
 public class TestKafkaManualConsumer {
     // Kafka集群地址（单机：localhost:9092；集群：node1:9092,node2:9092,node3:9092）
-//    private static final String BOOTSTRAP_SERVERS = "10.0.0.210:9092";
-    private static final String BOOTSTRAP_SERVERS = "10.0.0.181:9092,10.0.0.182:9092,10.0.0.183:9092";
+    private static final String BOOTSTRAP_SERVERS = "10.0.0.210:9092";
+//    private static final String BOOTSTRAP_SERVERS = "10.0.0.181:9092,10.0.0.182:9092,10.0.0.183:9092";
     // 要发送的Topic名称（需提前创建，或配置自动创建）
     private static final String TOPIC_NAME = "test_topic";
     // 消费者组ID（同一组的消费者会负载均衡消费Topic）

@@ -107,3 +107,7 @@ public void registerRsaRespItemVO() {
 
 * 20260124 
   * kafka示例
+  * 手工连接正常
+* 20260131
+  * kafka springboot3.5连接异常，可能版本问题
+  * 新springboot3.4工程，连接成功, 见: [SpringBootKafka](../SpringBootKafka)

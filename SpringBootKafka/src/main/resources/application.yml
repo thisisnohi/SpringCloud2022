@@ -1,15 +1,19 @@
-sftp:
-  host: 10.0.0.210 # 服务器ip
-  port: 22 # ssh端口
-  username: nohi # 用户名
-  password: 111111111 # 密码
-  # 连接池参数
-  pool:
-    max-total: 10
-    max-idle: 10
-    min-idle: 5
+info:
+  appName: ${spring.application.name}
+  appDesc: 'SrpingBoot Kafka'
+  groupId: '@project.groupId@'
+  artifactId: '@project.artifactId@'
+  version: '@project.version@'
 
 spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    prefix: classpath:/templates
+    servlet:
+      content-type: text/html
   kafka:
     # 1. Kafka集群地址（核心）
     bootstrap-servers: 10.0.0.210:9092
@@ -27,7 +31,6 @@ spring:
       batch-size: 16384
       # 延迟发送（1ms，凑批量）
       linger-ms: 1
-
     # 3. 消费者配置
     consumer:
       # 反序列化方式
@@ -48,4 +51,22 @@ spring:
       # 批量消费的最大消息数（默认1，单条消费）
       batch:
         max-batch-size: 50
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: nohi
+  default-flat-param-object: true
 
+knife4j:
+  enable: true
+
+logging:
+  level:
+    nohi.boot: debug

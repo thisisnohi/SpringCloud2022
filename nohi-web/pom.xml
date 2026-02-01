@@ -207,13 +207,31 @@
       <version>1.0.0</version>
     </dependency>
 
-    <!-- Kafka Java客户端 -->
+    <!-- Kafka Java客户端,手工连接 -->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.kafka</groupId>-->
+<!--      <artifactId>kafka-clients</artifactId>-->
+<!--      <version>4.1.1</version> &lt;!&ndash; 建议与Kafka服务端版本一致 &ndash;&gt;-->
+<!--    </dependency>-->
+
+    <!-- Spring Kafka核心依赖 -->
+    <dependency>
+      <groupId>org.springframework.kafka</groupId>
+      <artifactId>spring-kafka</artifactId>
+      <version>3.3.11</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>kafka-clients</artifactId>
+          <groupId>org.apache.kafka</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka-clients</artifactId>
-      <version>4.1.1</version> <!-- 建议与Kafka服务端版本一致 -->
+      <version>3.8.1</version>
     </dependency>
-
   </dependencies>
 
   <!-- native jar -->
