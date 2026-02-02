@@ -51,6 +51,8 @@ spring:
       # 批量消费的最大消息数（默认1，单条消费）
       batch:
         max-batch-size: 50
+      # # 避免Topic不存在导致消费者启动失败（可选）
+      missing-topics-fatal: false
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -69,4 +71,4 @@ knife4j:
 
 logging:
   level:
-    nohi.boot: debug
+    nohi: debug
