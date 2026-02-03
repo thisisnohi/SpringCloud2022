@@ -65,8 +65,8 @@ public class KafkaMessageProducer {
         String key = null;
         for (int i = 0; i < batchSize; i++) {
             key = start + "_" + i;
-            KafkaTemp.producerMap.put(key, System.currentTimeMillis());
-            kafkaTemplate.send(topic, key, message);
+            // KafkaTemp.producerMap.put(key, System.currentTimeMillis());
+            kafkaTemplate.send(topic, key, "" + System.currentTimeMillis());
         }
         long end = System.currentTimeMillis();
         log.info("{} end 耗时:{}", title, (end - start));
