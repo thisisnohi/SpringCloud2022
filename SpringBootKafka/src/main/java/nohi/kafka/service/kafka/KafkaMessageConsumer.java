@@ -2,6 +2,7 @@ package nohi.kafka.service.kafka;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
@@ -35,15 +36,9 @@ public class KafkaMessageConsumer {
     public void consumeMessageBatchTopic(ConsumerRecord<String, String> record, Acknowledgment ack) {
         try {
             String key = record.key();
-            Long start = KafkaTemp.producerMap.get(key);
-            if (null != start) {
-                Long end = System.currentTimeMillis();
-                KafkaTemp.consumerMap.put(key, System.currentTimeMillis());
-                log.debug("{} 耗时:{}", key, end - start);
-            } else {
-                log.debug("{} 未找到", key);
-            }
-            // 处理消息
+            Long start = StringUtils.isNotBlank(record.value()) ? Long.valueOf(record.value()) : System.currentTimeMillis();
+            Long end = System.currentTimeMillis();
+            log.debug("{} 耗时:{}", key, end - start);
             // log.debug("消费消息：topic={}, partition={}, offset={}, value={}", record.topic(), record.partition(), record.offset(), record.value());
             // 手动提交偏移量（确保消息处理完成后提交，避免重复消费）
         } catch (Exception e) {

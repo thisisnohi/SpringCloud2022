@@ -3,4 +3,6 @@
 POST http://127.0.0.1:8080/kafka/sendFoo
     ?msg=222
 
-###
+### 批量发送消息
+GET http://127.0.0.1:8080/kafka/batchAsyncMessage
+    ?topic=batch_topic&batchSize=1000
